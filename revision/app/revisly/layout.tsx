@@ -25,7 +25,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Notification from "@/components/ui/notification";
 import Loader from "@/components/ui/loader";
-import { opacity } from "pdfkit";
+
 export default function Home({ children }: { children: ReactNode }) {
   let pathname = usePathname();
   const { data: session, status } = useSession();
