@@ -1,5 +1,5 @@
 "use client";
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import TimePicker from "@/components/ui/time";
@@ -14,11 +14,13 @@ import { MaxRangeDatePicker } from "@/components/ui/Daterange";
 import Chip from "@/components/ui/level";
 
 import { SelectDay } from "@/components/ui/days";
-import { tr } from "date-fns/locale";
 import ErrorToast from "@/components/ui/toast";
+import { ApiError } from "@/components/ui/apiError";
+
 
 export default function Home() {
   const [showError, setShowError] = useState<boolean>(false);
+   const [apiError, setApiError] = useState<boolean>(false)
   const router = useRouter()
   const dispatch = useDispatch();
   const sessionData = useSelector((state: RootState) => {
@@ -35,10 +37,15 @@ export default function Home() {
     return data;
   });
   useEffect(()=>{
+     apiError ? setTimeout(() => {
+                        router.push('/revisly/home')
+                      }, 1500):null
+  },[apiError])
+  useEffect(()=>{
     if(showError){
       const timeOut = setTimeout(()=>{
         setShowError(false)
-      },5000)
+      },3000)
       return () =>  clearTimeout(timeOut)
     }
   },[showError])
@@ -46,9 +53,11 @@ export default function Home() {
 
   return (
     <div className=" ">
+     <ApiError open={apiError} setOpen={setApiError}></ApiError>
       {
-        showError ? <ErrorToast view={showError}/>:null
+        showError ? <ErrorToast title="Invalid Input" subtitle="kindly enter corrrct Input"/>:null
       }
+
       {
         
         sendData ? <NotesgeneratorLoader /> : null
@@ -156,17 +165,25 @@ export default function Home() {
                     }
                   }
                    );
-                  if(setRevision.data.message === "ok"){
-                    router.push('/revisly/all');
-                    setSendData(false);
-                    return
-                  }
-                  setSendData(false);
-                  setShowError(false)
+                  
+                   setSendData(false);
+
+                  router.push('/revisly/all');
                 }
-                catch(e){
-                  setShowError(true);
-                  setSendData(false);
+                catch(e: unknown){
+                  if(axios.isAxiosError(e)){
+                    if(e.response?.data.message  === "Not Working"){
+                      setSendData(false)
+                      setApiError(true);
+                  
+                    }
+                    else{
+                      setSendData(false);
+                      setShowError(true); 
+                    }
+                  }
+
+                     
                 }
               
               }}

@@ -90,15 +90,15 @@ export async function POST(req: NextRequest) {
 
   const sessionIntervels = zodValidation.data?.sessionIntervel.map(date => new Date(date).toISOString());
 
-  console.log("fsdf", sessionIntervels)
-  console.log(body)
-  console.log(zodValidation.data);
+  // console.log("fsdf", sessionIntervels)
+  // console.log(body)
+  // console.log(zodValidation.data);
   const daysLenght = zodValidation.data?.days.length;
-  console.log(zodValidation.success);
+  // console.log(zodValidation.success);
   if (!zodValidation.success) {
     return NextResponse.json({ message: 'Invalid Input' }, { status: 400 });
   }
-  console.log("elnghjt",daysLenght);
+  // console.log("elnghjt",daysLenght);
   if(zodValidation.data.difficulty === "medium" && daysLenght !== 3){
     return NextResponse.json({message:"invalid Input"},{status:400} )
   }
@@ -110,13 +110,16 @@ export async function POST(req: NextRequest) {
       id: id
     }));
 
-    const result = await axios.get("http://localhost:3002/notesuploaded");
-    console.log("fsdfa", result)
-    if(result.data.message === "Queue processing error"){
-        
-        redis.del("revision")
-        return NextResponse.json({ message: 'queue processing error' }, { status: 400 });
+      const result = await axios.get("http://localhost:3002/notesuploaded");
+      console.log("data",result)
+    if(!result){
+      console.log("Not found")
     }
+
+    // if(result.data.message === "Queue processing error"){
+    //     redis.del("revision")
+    //     return NextResponse.json({ message: 'queue processing error' }, { status: 400 });
+    // }
 
     const revision = await prisma.revision.create({
       data: {
@@ -155,7 +158,8 @@ export async function POST(req: NextRequest) {
   }
   catch (err) {
     console.log(err)
+    NextResponse.json({ message: 'Something went wrong' }, { status: 400 });
   }
-  return NextResponse.json({ message: 'ok' }, { status: 200 });
+  return NextResponse.json({ message: 'Not Working' }, { status: 400 });
 }
 
