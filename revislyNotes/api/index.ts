@@ -1,4 +1,4 @@
-import express, { Express, Request, } from "express";
+import express, { Express, Request,Response } from "express";
 import dotenv from "dotenv";
 import { Redis } from "@upstash/redis";
 import { Groq } from "groq-sdk";
@@ -115,8 +115,12 @@ setInterval(async()=>{
     return "error"
   }
 },5000)
+app.get('/', (_req: Request, res: Response) => {
+  return res.send('Express TypeScript on Vercel');
+});
 
+app.get('/ping', (_req: Request, res: Response) => {
+  return res.send('pong 🏓');
+});
 
-app.listen(3002, () => {
-  console.log(`listing on port number 3002`)
-})
+export default app;

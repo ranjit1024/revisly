@@ -75,7 +75,7 @@ function GenerateNotesPdf(text) {
     });
     doc.end();
 }
-app.get("/notesuploaded", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const revisionData = yield redis.rpop("revision");
         if (revisionData && revisionData.topic !== null && revisionData.topic.trim() !== '') {
@@ -93,21 +93,21 @@ app.get("/notesuploaded", (req, res) => __awaiter(void 0, void 0, void 0, functi
             const command = new client_s3_1.PutObjectCommand(params);
             const result = yield s3.send(command);
             console.log('Notes uploaded successfully');
-            res.status(200).json({
-                message: "Notes uploaded successfully"
-            });
+            const notesUploaded = yield redis.publish("notes", "Notes uploaded successfully");
+            console.log(notesUploaded);
             return "done with creating notes";
         }
         return "done with creating notes";
     }
     catch (err) {
         console.log('Queue processing error', err);
-        res.status(400).json({
-            message: "Queue processing error"
-        });
         return "error";
     }
-}));
-app.listen(3002, () => {
-    console.log(`listing on port number 3002`);
+}), 5000);
+app.get('/', (_req, res) => {
+    return res.send('Express TypeScript on Vercel');
 });
+app.get('/ping', (_req, res) => {
+    return res.send('pong 🏓');
+});
+exports.default = app;
