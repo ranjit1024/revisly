@@ -1,5 +1,6 @@
 {
     "version": 2,
+    "buildCommand": "npm install && npx tsc -b",
     "rewrites": [
         {
             "source": "/(.*)",
