@@ -1,0 +1,42 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "notes",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-09-05",
+  
+  // "compatibility_flags": [
+  //   "nodejs_compat"
+  // ],
+  "vars": {
+    "UPSTASH_REDIS_REST_URL": "https://better-cricket-26531.upstash.io",
+    "UPSTASH_REDIS_REST_TOKEN": "AWejAAIjcDEyZmQ1YWFlZDhlMmE0YTg3YWQ0Yjc5YTY4NjVmZjRiNHAxMA",
+    "DATABASE_URL": "fsdf"
+  }
+
+  // "kv_namespaces": [
+  //   {
+  //     "binding": "MY_KV_NAMESPACE",
+  //     "id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  //   }
+  // ],
+  // "r2_buckets": [
+  //   {
+  //     "binding": "MY_BUCKET",
+  //     "bucket_name": "my-bucket"
+  //   }
+  // ],
+  // "d1_databases": [
+  //   {
+  //     "binding": "MY_DB",
+  //     "database_name": "my-database",
+  //     "database_id": ""
+  //   }
+  // ],
+  // "ai": {
+  //   "binding": "AI"
+  // },
+  // "observability": {
+  //   "enabled": true,
+  //   "head_sampling_rate": 1
+  // }
+}
