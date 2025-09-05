@@ -119,9 +119,27 @@ export default function Home() {
         className="pt-3   w-[100%]">
           <Retation />
         </motion.div>
-        <div className="mt-2">
+            
+  <motion.div 
+          initial={{
+              x: -20,
+              opacity: 0,
+            }}
+            animate={{
+              x: 0,
+              opacity: 1,
+            }}
+            transition={{
+              duration: 0.6,
+              delay: 0.6,
+            }}
+        className="pt-3   w-[100%]">
+
           <CompletVsFail/>
-        </div>
+
+        </motion.div>
+
+        
        
     
       </div>

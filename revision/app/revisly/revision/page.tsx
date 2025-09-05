@@ -156,10 +156,13 @@ export default function Home() {
                     }
                   }
                    );
-                  console.log(setRevision)
+                  if(setRevision.data.message === "ok"){
+                    router.push('/revisly/all');
+                    setSendData(false);
+                    return
+                  }
                   setSendData(false);
-                  router.push('/revisly/all')
-
+                  setShowError(false)
                 }
                 catch(e){
                   setShowError(true);

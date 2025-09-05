@@ -14,8 +14,25 @@ const ErrorToast = ({view}:{
 
   return (
     <motion.div
-    
-    className={`fixed transition-all top-12 rounded-lg shadow z-100 min-w-[40%] flex gap-2 bg-linear-180 from-white to-white  flex-col py-2 right-2`}>
+    key={"error"}
+
+     initial={{
+              x: 100,
+              opacity: 0,
+            }}
+            animate={{
+              x: 0,
+              opacity: 1,
+            }}
+            transition={{
+              ease:"anticipate",
+              duration:1
+            }}
+              exit={{
+                x:-20,
+                opacity:0
+              }}
+    className={`fixed  top-12 rounded-lg shadow z-100 min-w-[40%] flex gap-2 bg-linear-180 from-white to-white  flex-col py-2 right-2`}>
         <div className="flex gap-2 px-2  items-center-safe">
 
             <div className=" px-[5px] py-[4px] rounded-full bg-red-100/80">

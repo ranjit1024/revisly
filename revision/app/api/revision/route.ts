@@ -113,6 +113,7 @@ export async function POST(req: NextRequest) {
     const result = await axios.get("http://localhost:3002/notesuploaded");
     console.log("fsdfa", result)
     if(result.data.message === "Queue processing error"){
+        
         redis.del("revision")
         return NextResponse.json({ message: 'queue processing error' }, { status: 400 });
     }
