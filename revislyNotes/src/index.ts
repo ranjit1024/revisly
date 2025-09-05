@@ -80,8 +80,7 @@ function GenerateNotesPdf(text: string) {
   doc.end()
 }
 
-
-app.get("/notesuploaded",async(req, res)=>{
+setInterval(async()=>{
   try {
     const revisionData = await redis.rpop("revision") as {
       topic: string
@@ -104,21 +103,18 @@ app.get("/notesuploaded",async(req, res)=>{
       const command = new PutObjectCommand(params)
       const result = await s3.send(command);
       console.log('Notes uploaded successfully');
-      res.status(200).json({
-        message:"Notes uploaded successfully"
-      })
+      const notesUploaded = await redis.publish("notes", "Notes uploaded successfully")
+      console.log(notesUploaded)
       return "done with creating notes"
     }
     return "done with creating notes"
   }
   catch (err) {
     console.log('Queue processing error', err);
-    res.status(400).json({
-       message:"Queue processing error"
-     })
+   
     return "error"
   }
-})
+},5000)
 
 
 app.listen(3002, () => {

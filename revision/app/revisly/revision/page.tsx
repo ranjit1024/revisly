@@ -32,7 +32,6 @@ export default function Home() {
       sessionEnd: state.revision.endDate,
       difficulty: state.revision.difficulty,
       days:state.revision.days,
-    
     };
     return data;
   });
