@@ -110,11 +110,7 @@ export async function POST(req: NextRequest) {
       id: id
     }));
 
-      const result = await axios.get("http://localhost:3002/notesuploaded");
-      console.log("data",result)
-    if(!result){
-      console.log("Not found")
-    }
+     
 
     // if(result.data.message === "Queue processing error"){
     //     redis.del("revision")

@@ -1,19 +1,18 @@
-import express, { Express, Request,Response } from "express";
 import dotenv from "dotenv";
 import { Redis } from "@upstash/redis";
 import { Groq } from "groq-sdk";
-
+import {Request, Response} from "express"
 import multer from "multer"
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3"
 
 import pdfDoc from "pdfkit"
 import fs from "fs"
-import cors from "cors"
 
-dotenv.config();
-const app: Express = express();
-app.use(express.json())
-app.use(cors());
+
+dotenv.config({
+    debug:true
+});
+console.log(process.env.GROQ_API_KEY)
 
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY
@@ -80,7 +79,7 @@ function GenerateNotesPdf(text: string) {
   doc.end()
 }
 
-setInterval(async()=>{
+export default async function  handler (){
   try {
     const revisionData = await redis.rpop("revision") as {
       topic: string
@@ -114,13 +113,6 @@ setInterval(async()=>{
    
     return "error"
   }
-},5000)
-app.get('/', (_req: Request, res: Response) => {
-  return res.send('Express TypeScript on Vercel');
-});
+}
 
-app.get('/ping', (_req: Request, res: Response) => {
-  return res.send('pong 🏓');
-});
-
-export default app;
+console.log("Data")
