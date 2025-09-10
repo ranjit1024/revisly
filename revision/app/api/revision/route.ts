@@ -1,7 +1,7 @@
 "use server"
 import { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import z from "zod";
+import z, { string } from "zod";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOption } from "@/lib/auth";
@@ -104,6 +104,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({message:"invalid Input"},{status:400} )
   }
 
+  const status = await redis.hget(`${id}`,'status');
   // <---- Completing on the revision donrt----->
   try {
     await redis.lpush("revision", JSON.stringify({
