@@ -4,8 +4,9 @@ import dotenv from "dotenv";
 import { Redis } from "@upstash/redis";
 import PDFDocument from "pdfkit";
 import fs from "fs"
-import { stringAt } from "pdfkit/js/data";
+import express from "express"
 //all config
+
 dotenv.config()
 const redis = Redis.fromEnv()
 // llm notes init
@@ -13,6 +14,7 @@ console.log(process.env.GROQ_API_KEY)
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY
 });
+const app = express()
 //  init a s3 client
 const s3Client = new S3Client({
   region: process.env.AWS_REGION ?? "", // e.g., "us-east-1"
@@ -58,11 +60,12 @@ setInterval(async () => {
     } | null;
     if (revisionData && revisionData.topic !== null && revisionData.topic.trim() !== '') {
       console.log(`Processing: ${revisionData.id}`);
+
       //hash sett 
-      redis.hset(revisionData.id, {
-        topic: revisionData.topic,
-        status: "pending"
-      })
+      await redis.hset(revisionData.id, {
+      status: 'pending',
+      topic: revisionData.topic
+    }); 
       const notes = await getAiGeneratedNotes(`generate notes for ${revisionData.topic} in clean string format `);
       const notesPdf = await GenerateNotesPdf(String(notes));
       //reading filecontext
@@ -89,6 +92,11 @@ setInterval(async () => {
   catch (e) {
     console.log(`something went wrong ${e}`)
   }
-}, 2000)
+}, 2000);
+app.get("/status", (req,res)=>{
 
+})
 console.log("Worker started - processing revision jobs...");
+app.listen(5084, ()=>{
+  console.log("Listinging on a port number 5084")
+})

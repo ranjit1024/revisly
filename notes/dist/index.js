@@ -19,6 +19,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const redis_1 = require("@upstash/redis");
 const pdfkit_1 = __importDefault(require("pdfkit"));
 const fs_1 = __importDefault(require("fs"));
+const express_1 = __importDefault(require("express"));
 //all config
 dotenv_1.default.config();
 const redis = redis_1.Redis.fromEnv();
@@ -27,6 +28,7 @@ console.log(process.env.GROQ_API_KEY);
 const groq = new groq_sdk_1.default({
     apiKey: process.env.GROQ_API_KEY
 });
+const app = (0, express_1.default)();
 //  init a s3 client
 const s3Client = new client_s3_1.S3Client({
     region: (_a = process.env.AWS_REGION) !== null && _a !== void 0 ? _a : "", // e.g., "us-east-1"
@@ -71,11 +73,12 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         const revisionData = yield redis.rpop("revision");
         if (revisionData && revisionData.topic !== null && revisionData.topic.trim() !== '') {
             console.log(`Processing: ${revisionData.id}`);
-            const notes = yield getAiGeneratedNotes(`generate notes for ${revisionData.topic} in clean string format `);
+            //hash sett 
             redis.hset(revisionData.id, {
                 topic: revisionData.topic,
                 status: "pending"
             });
+            const notes = yield getAiGeneratedNotes(`generate notes for ${revisionData.topic} in clean string format `);
             const notesPdf = yield GenerateNotesPdf(String(notes));
             //reading filecontext
             const fileContent = yield fs_1.default.promises.readFile("notes.pdf");
@@ -89,6 +92,7 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
             const command = new client_s3_1.PutObjectCommand(params);
             const result = yield s3Client.send(command);
             console.log(result.$metadata.httpStatusCode, "Notes uploaded  succesffuly");
+            //hash updated
             redis.hset(revisionData.id, {
                 topic: revisionData.topic,
                 status: "completed"
@@ -100,4 +104,9 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         console.log(`something went wrong ${e}`);
     }
 }), 2000);
+app.get("/status", (req, res) => {
+});
 console.log("Worker started - processing revision jobs...");
+app.listen(5084, () => {
+    console.log("Listinging on a port number 5084");
+});

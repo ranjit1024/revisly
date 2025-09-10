@@ -6,12 +6,9 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOption } from "@/lib/auth";
 import { Redis } from "@upstash/redis";
-
-
 import { Groq } from "groq-sdk";
 import { uuid } from "uuidv4"
 import axios from "axios";
-import { m } from "framer-motion";
 
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY
@@ -91,39 +88,51 @@ export async function POST(req: NextRequest) {
 
   const sessionIntervels = zodValidation.data?.sessionIntervel.map(date => new Date(date).toISOString());
 
-  console.log("SessionIntervel", sessionIntervels)
-  console.log("Body", body)
-  console.log("validation" ,zodValidation.data);
+
   const daysLenght = zodValidation.data?.days.length;
 
   if (!zodValidation.success) {
     return NextResponse.json({ message: 'Invalid Input' }, { status: 400 });
   }
 
-  if(zodValidation.data.difficulty === "medium" && daysLenght !== 3){
-    return NextResponse.json({message:"invalid Input"},{status:400} )
+  if (zodValidation.data.difficulty === "medium" && daysLenght !== 3) {
+    return NextResponse.json({ message: "invalid Input" }, { status: 400 })
   }
 
-  const status = await redis.hget(`${id}`,'status');
   // <---- Completing on the revision donrt----->
   try {
-    await redis.lpush("revision", JSON.stringify({
-      topic: zodValidation.data?.topic,
-      id: id
-    }));
+    //seting hset
 
-    //  const notesUploaded = await redis.publish("notes", "Notes uploaded successfully")
-    // try{
-    //   const status = await axios.get(`http://localhost:5084/api/job/${id}`)
-    //   if(status.status === 404 ){
-    //     console.log(status.data);
-    //     return NextResponse.json({message:"invalid Input"},{status:400} )
-    //   }
-    // }
-    // catch(e){
-    //   console.log(e)
-    // }
 
+
+      await redis.lpush("revision", JSON.stringify({
+        topic: zodValidation.data?.topic,
+        id: id
+      }));
+    
+    async function check(): Promise<boolean> {
+      return new Promise((resolve) => {
+        const statusCheck = setInterval(async () => {
+          try {
+            const status = await redis.hgetall(id);
+
+            if (status?.status === "completed") {
+              clearInterval(statusCheck);
+              console.log('Status completed!');
+              resolve(true);
+              
+            }
+          } catch (error) {
+            console.error('Error checking status:', error);
+            clearInterval(statusCheck);
+            
+            resolve(false);
+          }
+        }, 2000);
+      });
+    }
+    const result = await check();
+    console.log('Check result:', result);
     const revision = await prisma.revision.create({
       data: {
         id: id,
@@ -138,7 +147,7 @@ export async function POST(req: NextRequest) {
         brif: await gerateBrif(zodValidation.data.topic) ?? "not able to generate",
         sessions: Number(sessionIntervels?.length),
         status: 'PENDING',
-        score:0
+        score: 0
       }
     });
     //  <----- adding revisionSesions -------------------->

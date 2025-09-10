@@ -12,15 +12,16 @@ import { CalendarDays, Layers, Send } from "lucide-react";
 import { Preview } from "@/components/ui/Preview";
 import { MaxRangeDatePicker } from "@/components/ui/Daterange";
 import Chip from "@/components/ui/level";
-
+import { Redis } from "@upstash/redis";
 import { SelectDay } from "@/components/ui/days";
 import ErrorToast from "@/components/ui/toast";
 import { ApiError } from "@/components/ui/apiError";
 
 
 export default function Home() {
+  const redis = Redis.fromEnv()
   const [showError, setShowError] = useState<boolean>(false);
-   const [apiError, setApiError] = useState<boolean>(false)
+  const [apiError, setApiError] = useState<boolean>(false)
   const router = useRouter()
   const dispatch = useDispatch();
   const sessionData = useSelector((state: RootState) => {
@@ -31,40 +32,40 @@ export default function Home() {
       sessionStart: state.revision.startDate,
       sessionEnd: state.revision.endDate,
       difficulty: state.revision.difficulty,
-      days:state.revision.days,
+      days: state.revision.days,
     };
     return data;
   });
-  useEffect(()=>{
-     apiError ? setTimeout(() => {
-                        router.push('/revisly/home')
-                      }, 1500):null
-  },[apiError])
-  useEffect(()=>{
-    if(showError){
-      const timeOut = setTimeout(()=>{
+  useEffect(() => {
+    apiError ? setTimeout(() => {
+      router.push('/revisly/home')
+    }, 1500) : null
+  }, [apiError])
+  useEffect(() => {
+    if (showError) {
+      const timeOut = setTimeout(() => {
         setShowError(false)
-      },3000)
-      return () =>  clearTimeout(timeOut)
+      }, 3000)
+      return () => clearTimeout(timeOut)
     }
-  },[showError])
+  }, [showError])
   const [sendData, setSendData] = useState<boolean>(false);
 
   return (
     <div className=" ">
-     <ApiError open={apiError} setOpen={setApiError}></ApiError>
+      <ApiError open={apiError} setOpen={setApiError}></ApiError>
       {
-        showError ? <ErrorToast title="Invalid Input" subtitle="kindly enter corrrct Input"/>:null
+        showError ? <ErrorToast title="Invalid Input" subtitle="kindly enter corrrct Input" /> : null
       }
 
       {
-        
+
         sendData ? <NotesgeneratorLoader /> : null
       }
 
-     
 
-    
+
+
       <div className="bg-white shadow p-5 rounded-md h-[120vh] ">
         <div className="mb-6 flex items-start justify-between gap-4">
           <div>
@@ -141,50 +142,51 @@ export default function Home() {
 
             </div>
             {
-              sessionData.difficulty  ? sessionData.difficulty === 'hard' ? null: <div className="mt-9 ml-2 transition">
-               <label className="block mb-3 text-sm font-medium text-zinc-700 text-start " htmlFor="topic">
-                Which day of week you want to shedule your revision
-              </label>
-              <SelectDay Limit={sessionData.difficulty === "medium" ? 3 : 1}/>
-            </div>:null
+              sessionData.difficulty ? sessionData.difficulty === 'hard' ? null : <div className="mt-9 ml-2 transition">
+                <label className="block mb-3 text-sm font-medium text-zinc-700 text-start " htmlFor="topic">
+                  Which day of week you want to shedule your revision
+                </label>
+                <SelectDay Limit={sessionData.difficulty === "medium" ? 3 : 1} />
+              </div> : null
             }
-           
+
 
           </div>
 
           <div className="mt-9 flex items-center gap-3">
             <button
               onClick={async () => {
-             
-                try{
+
+                try {
                   setSendData(true);
-                  const setRevision = await axios.post('http://localhost:3000/api/revision',sessionData, {
-                    headers:{
+                  const setRevision = await axios.post('http://localhost:3000/api/revision', sessionData, {
+                    headers: {
                       'Content-Type': 'application/json',
                     }
                   }
-                   );
-                  
-                   setSendData(false);
+
+                  );
+
+                  setSendData(false);
 
                   router.push('/revisly/all');
                 }
-                catch(e: unknown){
-                  if(axios.isAxiosError(e)){
-                    if(e.response?.data.message  === "Not Working"){
+                catch (e: unknown) {
+                  if (axios.isAxiosError(e)) {
+                    if (e.response?.data.message === "Not Working") {
                       setSendData(false)
                       setApiError(true);
-                  
+
                     }
-                    else{
+                    else {
                       setSendData(false);
-                      setShowError(true); 
+                      setShowError(true);
                     }
                   }
 
-                     
+
                 }
-              
+
               }}
               className="inline-flex items-center gap-2 rounded-xl bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-zinc-800 active:translate-y-px"
 

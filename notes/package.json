@@ -10,9 +10,11 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.884.0",
+    "@types/express": "^5.0.3",
     "@types/pdfkit": "^0.17.3",
     "@upstash/redis": "^1.35.3",
     "dotenv": "^17.2.2",
+    "express": "^5.1.0",
     "groq-sdk": "^0.32.0",
     "pdfkit": "^0.17.2"
   },
