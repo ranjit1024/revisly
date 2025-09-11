@@ -11,6 +11,9 @@ async function getData() {
                 reminderDate: true,
                 time: true,
                 revisionid:true
+            },
+            orderBy:{
+                reminderDate:'desc'
             }
         })
         data.forEach(async (reminderTime) => {

@@ -23,6 +23,9 @@ function getData() {
                     reminderDate: true,
                     time: true,
                     revisionid: true
+                },
+                orderBy: {
+                    reminderDate: 'desc'
                 }
             });
             data.forEach((reminderTime) => __awaiter(this, void 0, void 0, function* () {
