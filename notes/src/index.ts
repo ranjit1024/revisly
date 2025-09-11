@@ -63,9 +63,9 @@ setInterval(async () => {
 
       //hash sett 
       await redis.hset(revisionData.id, {
-      status: 'pending',
-      topic: revisionData.topic
-    }); 
+        status: 'pending',
+        topic: revisionData.topic
+      });
       const notes = await getAiGeneratedNotes(`generate notes for ${revisionData.topic} in clean string format `);
       const notesPdf = await GenerateNotesPdf(String(notes));
       //reading filecontext
@@ -78,8 +78,8 @@ setInterval(async () => {
         ContentType: 'application/pdf',
       }
       const command = new PutObjectCommand(params);
-
       const result = await s3Client.send(command);
+      
       console.log(result.$metadata.httpStatusCode, "Notes uploaded  succesffuly");
       //hash updated
       redis.hset(revisionData.id, {
@@ -93,10 +93,10 @@ setInterval(async () => {
     console.log(`something went wrong ${e}`)
   }
 }, 2000);
-app.get("/status", (req,res)=>{
+app.get("/status", (req, res) => {
 
 })
 console.log("Worker started - processing revision jobs...");
-app.listen(5084, ()=>{
+app.listen(5084, () => {
   console.log("Listinging on a port number 5084")
 })

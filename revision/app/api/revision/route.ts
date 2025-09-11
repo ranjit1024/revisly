@@ -101,15 +101,12 @@ export async function POST(req: NextRequest) {
 
   // <---- Completing on the revision donrt----->
   try {
-    //seting hset
-
-
-
+    //pushing in quque
       await redis.lpush("revision", JSON.stringify({
         topic: zodValidation.data?.topic,
         id: id
       }));
-    
+    //check whethre notes process are done or not
     async function check(): Promise<boolean> {
       return new Promise((resolve) => {
         const statusCheck = setInterval(async () => {
@@ -125,14 +122,14 @@ export async function POST(req: NextRequest) {
           } catch (error) {
             console.error('Error checking status:', error);
             clearInterval(statusCheck);
-            
             resolve(false);
           }
-        }, 2000);
+        }, 4000);
       });
     }
     const result = await check();
     console.log('Check result:', result);
+    // cretae db entry
     const revision = await prisma.revision.create({
       data: {
         id: id,

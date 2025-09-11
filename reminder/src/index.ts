@@ -9,7 +9,7 @@ import https from 'https';
 import pdf from "pdf-parse"
 import { Readable } from "node:stream";
 import Groq from "groq-sdk"
-import { CostOptimizationHub } from "aws-sdk";
+import Mail = require("nodemailer/lib/mailer");
 dotenv.config();
 const redis = Redis.fromEnv();
 const prisma = new PrismaClient();
