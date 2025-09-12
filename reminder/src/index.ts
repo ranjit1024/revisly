@@ -9,12 +9,13 @@ import https from 'https';
 import pdf from "pdf-parse"
 import { Readable } from "node:stream";
 import Groq from "groq-sdk"
-import Mail = require("nodemailer/lib/mailer");
 dotenv.config();
 const redis = Redis.fromEnv();
-import nodemailer from "nodemailer"
-import { mainModule } from "node:process";
+import nodemailer from "nodemailer";
+import pdfDocment from "pdfkit"
+import { aw, P } from "@upstash/redis/zmscore-CgRD7oFR";
 const prisma = new PrismaClient();
+
 console.log(process.env.GROQ_API_KEY)
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY
@@ -28,7 +29,35 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASS
   }
 })
-//genrate test
+//push to quque
+async function getData() {
+  try {
+    const data = await prisma.revisionSession.findMany({
+      select: {
+        topic: true,
+        email: true,
+        reminderDate: true,
+        time: true,
+        revisionid: true
+      },
+      orderBy: {
+        reminderDate: 'desc'
+      }
+    })
+    data.forEach(async (reminderTime) => {
+      await redis.lpush('reminder', JSON.stringify({
+        time: reminderTime.time,
+        topic: reminderTime.topic,
+        email: reminderTime.email,
+        id: reminderTime.revisionid
+      }))
+    })
+  }
+  catch (e) {
+    console.log(`something went wrong ${e}`)
+  }
+}
+
 //send mail
 async function sendMail({
   from,
@@ -52,7 +81,7 @@ async function sendMail({
   });
   return mailConbnfg.response;
 }
-async function genrateTest(params: string) {
+async function genarateTest(params: string) {
   const chatCompletion = await groq.chat.completions.create({
     messages: [
       {
@@ -60,7 +89,7 @@ async function genrateTest(params: string) {
         content: params,
       },
     ],
-    model: "qwen/qwen3-32b",
+    model: "llama-3.1-8b-instant",
   });
   return chatCompletion.choices[0]?.message.content;
 }
@@ -84,7 +113,19 @@ const s3Client = new S3Client({
   retryMode: "adaptive",
   maxAttempts: 3,
 });
+//store question in pdf
+function GenerateNotesPdf(notes: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const doc = new pdfDocment(); // Create new instance each time
+    const stream = fs.createWriteStream('./test/question.pdf');
+    doc.pipe(stream);
+    doc.fontSize(18).text(notes);
+    doc.end();
 
+    stream.on('finish', () => resolve());
+    stream.on('error', () => reject());
+  })
+}
 //get notes pdf form s3
 async function getNotes(params: { id: string | undefined, title: string | undefined }) {
   const { id, title } = params
@@ -107,43 +148,87 @@ async function getNotes(params: { id: string | undefined, title: string | undefi
   })
 }
 
-async function reminder() {
+async function generateQuestionAndStore() {
 
-  //pop data from  quque
-  try {
+  //pushing into ququue
+  const push = await getData()
+  setInterval(async () => {
 
 
-    const reminder = await redis.rpop("reminder") as {
-      topic: string
-      id: string,
-      time: string,
-      email: string
-    } | null;
-    console.log("popoed", reminder)
-    //Getting notes from s3
-    const notes = await getNotes({
-      id: reminder?.id,
-      title: reminder?.topic
-    });
+    try {
+      const reminder = await redis.rpop("reminder") as {
+        topic: string
+        id: string,
+        time: string,
+        email: string
+      } | null;
+      //Getting notes from s3
+      if (reminder && reminder.email !== null) {
+        console.log("popoed", reminder)
 
-    //getting pdf in Memory
-    const pdfBuffer = fs.readFileSync('notes.pdf');
-    const data = await pdf(pdfBuffer);
-    const pdfTextContent = data.text;
-    console.log("email", reminder?.email)
-    //send mail
-    const reminderMail = await sendMail({
-      from: 'revislyreminder@gmail.com',
-      to: reminder!.email,
-      text: `this is your reminder for subject ${reminder?.topic}`,
-      subject: reminder!.topic,
-      index: '<h1>Reminder for financail modeling </h1> <Button style={{"bgColor":"red"}}><a href="https://ranjitdas.in">Start Test </a><Button>'
-    });
-    console.log(reminderMail)
-    // console.log(pdfTextContent)
-  }
-  catch (e) {
-    console.log(e)
-  }
+
+        const notes = await getNotes({
+          id: reminder?.id,
+          title: reminder?.topic
+        });
+        //getting pdf in Memory
+        const pdfBuffer = fs.readFileSync('notes.pdf');
+        const data = await pdf(pdfBuffer);
+        const pdfTextContent = data.text;
+        //genrateing question
+        const test: string | null = await genarateTest(`dont add think tag and Generate ${10} ${'esaus'} level multiple choice questions from ${pdfTextContent}. 
+    Return ONLY a valid Javascript format  with this exact structure:
+    
+      export default=[
+        {
+          "id": 1,
+          "question": "Question text here?",
+          "options": ["Option A", "Option B", "Option C", "Option D"],
+          "correctAnswer": 0,
+          "explanation": "Brief explanation of the correct answer"
+        }
+      ]
+   
+    Requirements:
+    - Dont add ${'```javascrip '}  on top and ${'```'} on bottom
+    - Make questions challenging but fair for medium level
+    - Ensure correctAnswer is the index (0-3) of the correct option
+    - Mix up the position of correct answers
+    - Keep questions focused on ${reminder.topic}
+    - Provide clear, concise explanations`)
+        
+          console.log(test)
+        fs.writeFile('questions.js', '', (err) => {
+          if (err) {
+            console.error('Error clearing file:', err);
+            return;
+          }
+          console.log('File content cleared successfully.');
+          // Step 2: Add the new content
+          fs.appendFile('questions.js', String(test), (err) => {
+            if (err) {
+              console.error('Error appending new content:', err);
+              return;
+            }
+            console.log('New content added successfully.');
+          });
+        });
+
+        console.log("email", reminder?.email)
+
+
+        console.log(pdfTextContent.length);
+        return
+      }
+      else {
+        console.log("fsdf")
+        return;
+      }
+
+    }
+    catch (e) {
+      console.log(e)
+    }
+  }, 5000)
 }
-reminder()
+generateQuestionAndStore()
