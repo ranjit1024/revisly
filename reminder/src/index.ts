@@ -37,7 +37,7 @@ async function getData() {
   try {
     const data = await prisma.revisionSession.findMany({
       select: {
-        id:true,
+        id: true,
         topic: true,
         email: true,
         reminderDate: true,
@@ -46,7 +46,8 @@ async function getData() {
       },
       orderBy: {
         reminderDate: 'desc'
-      }
+      }, 
+      
     })
     data.forEach(async (reminderTime) => {
       await redis.lpush('reminder', JSON.stringify({
@@ -54,7 +55,7 @@ async function getData() {
         topic: reminderTime.topic,
         email: reminderTime.email,
         revision_id: reminderTime.revisionid,
-        id:reminderTime.id
+        id: reminderTime.id
       }))
     })
   }
@@ -201,8 +202,8 @@ async function generateQuestionAndStore() {
         remind: string,
         time: string,
         email: string,
-        revision_id:string,
-        id:string,
+        revision_id: string,
+        id: string,
       } | null;
       //Getting notes from s3
       if (reminder && reminder.email !== null) {
@@ -281,7 +282,7 @@ Requirements:
 
 app.post('/api/score/:id', async (req, res) => {
   const id = req.params.id;
-  const {score} = req.body;
+  const { score } = req.body;
   console.log(id)
   console.log(score)
   try {
@@ -320,23 +321,6 @@ app.post('/api/score/:id', async (req, res) => {
     })
   }
 })
-// const htmlContent = '<html><body><h1>Hello World</h1></body></html>';
-// const jsonContent = JSON.stringify({ message: 'Hello', timestamp: Date.now() });
-// async function uploadFiles() {
-//   await upload(
-//     {
-//       content: htmlContent,
-//       key: 'pages/index.html',
-//       contentType: 'text/html'
-//     },
-//     {
-//       content: jsonContent,
-//       key: 'data/response.json',
-//       contentType: 'application/json'
-//     }
-//   )
-// }
-// uploadFiles()
 app.listen(4000, () => {
   console.log('listing on port number 4000')
 })
