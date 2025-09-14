@@ -148,6 +148,19 @@
             min-width: 150px;
         }
 
+        .login-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            min-width: 150px;
+        }
+
         .submit-btn:hover:not(:disabled) {
             background: #0056b3;
         }
@@ -229,7 +242,7 @@
         </div>
 
         <div class="score-display">
-            Progress: <span id="currentScore">0</span> / <span id="totalQuestions">5</span>
+            Progress: <span id="currentScore">0</span> / <span id="totalQuestions">10</span>
         </div>
 
         <form id="quizForm">
@@ -237,92 +250,64 @@
         </form>
 
         <div class="submit-section">
-            <button type="button" class="submit-btn" id="submitBtn" onclick="submitQuiz()" disabled>
+            <button type="button" class="submit-btn" id="submitBtn" onclick="submitQuiz()">
                 Submit Quiz
             </button>
         </div>
 
         <div class="results-section" id="resultsSection">
-            <div class="results-score" id="resultsScore">0/5</div>
+            <div class="results-score" id="resultsScore">0/10</div>
             <p class="results-message" id="resultsMessage">Quiz completed</p>
 
         </div>
     </div>
 
     <script>
-        let data = fetch('questions.json')
-            .then(response => {
+        let quizData;
+
+        async function loadJSONData() {
+            try {
+                const response = await fetch('./questions.json');
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-                return response.json();
-            })
-            .then(data => {
-                // Handle successful data loading
-                console.log('Data loaded successfully:', data);
-            })
-            .catch(error => {
-                // Handle errors
-                console.log(error)
-            });
-            data.then(data=>console.log(data))
-        const quizData = [
-            {
-                question: "What is the capital of France?",
-                options: ["Berlin", "Madrid", "Paris", "Rome"],
-                correct: 2
-            },
-            {
-                question: "Which planet is known as the Red Planet?",
-                options: ["Venus", "Mars", "Jupiter", "Saturn"],
-                correct: 1
-            },
-            {
-                question: "What is the largest mammal in the world?",
-                options: ["African Elephant", "Blue Whale", "Giraffe", "Hippopotamus"],
-                correct: 1
-            },
-            {
-                question: "In which year did World War II end?",
-                options: ["1944", "1945", "1946", "1947"],
-                correct: 1
-            },
-            {
-                question: "What is the chemical symbol for gold?",
-                options: ["Go", "Gd", "Au", "Ag"],
-                correct: 2
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error loading JSON:', error);
+                return null;
             }
-        ];
-
+        }
         let selectedAnswers = {};
-
-        function initializeQuiz() {
+        async function initializeQuiz() {
+            quizData = await loadJSONData();
+            console.log(quizData)
             const form = document.getElementById('quizForm');
             const totalQuestions = document.getElementById('totalQuestions');
 
-            totalQuestions.textContent = quizData.length;
-            form.innerHTML = '';
+
 
             quizData.forEach((question, index) => {
                 const questionCard = document.createElement('div');
                 questionCard.className = 'question-card';
 
                 questionCard.innerHTML = `
-                    <div class="question-number">${index + 1}</div>
-                    <div class="question-text">${question.question}</div>
-                    <div class="options">
-                        ${question.options.map((option, optionIndex) => `
-                            <label class="option-label" data-question="${index}" data-option="${optionIndex}">
-                                <input type="radio" 
-                                       name="question${index}" 
-                                       value="${optionIndex}" 
-                                       class="option-input"
-                                       onchange="handleAnswerSelect(${index}, ${optionIndex})">
-                                <span class="option-text">${option}</span>
-                            </label>
-                        `).join('')}
-                    </div>
-                `;
+                <div class="question-number">${index + 1}</div>
+                <div class="question-text">${question.question}</div>
+                <div class="options">
+                    ${question.options.map((option, optionIndex) => `
+                        <label class="option-label" data-question="${index}" data-option="${optionIndex}">
+                            <input type="radio" 
+                                   name="question${index}" 
+                                   value="${optionIndex}" 
+                                   class="option-input"
+                                   onchange="handleAnswerSelect(${index}, ${optionIndex})">
+                            <span class="option-text">${option}</span>
+                        </label>
+                    `).join('')}
+                </div>
+            `;
+
 
                 form.appendChild(questionCard);
             });
@@ -342,8 +327,9 @@
             updateProgress();
         }
 
+
         function updateProgress() {
-            const totalQuestions = quizData.length;
+            const totalQuestions = 10;
             const answeredQuestions = Object.keys(selectedAnswers).length;
             const progress = (answeredQuestions / totalQuestions) * 100;
 
@@ -356,16 +342,20 @@
             if (answeredQuestions === totalQuestions) {
                 submitBtn.textContent = 'Submit Quiz';
             } else {
+                console.log(selectedAnswers)
                 submitBtn.textContent = `Answer ${totalQuestions - answeredQuestions} more questions`;
             }
         }
 
         function submitQuiz() {
+            console.log(selectedAnswers)
             let score = 0;
             const totalQuestions = quizData.length;
 
             Object.keys(selectedAnswers).forEach(questionIndex => {
-                if (selectedAnswers[questionIndex] === quizData[questionIndex].correct) {
+                if (selectedAnswers[questionIndex] === quizData[questionIndex].correctAnswer) {
+                    console.log(quizData[questionIndex].correctAnswer)
+                    console.log(selectedAnswers)
                     score++;
                 }
             });
@@ -393,31 +383,16 @@
             }
 
             document.getElementById('resultsMessage').textContent = message;
+            document.getElementById('resultsMessage').innerHTML = `<button clsss="">login to revily</button>`;
             document.getElementById('resultsSection').style.display = 'block';
+
         }
 
-        function restartQuiz() {
-            selectedAnswers = {};
-
-            document.getElementById('quizForm').style.display = 'block';
-            document.querySelector('.submit-section').style.display = 'block';
-            document.getElementById('resultsSection').style.display = 'none';
-
-            document.querySelectorAll('input[type="radio"]').forEach(radio => {
-                radio.checked = false;
-            });
-
-            document.querySelectorAll('.option-label').forEach(label => {
-                label.classList.remove('selected');
-            });
-
-            updateProgress();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
 
         // Initialize quiz when page loads
         document.addEventListener('DOMContentLoaded', initializeQuiz);
     </script>
+
 </body>
 
 </html>

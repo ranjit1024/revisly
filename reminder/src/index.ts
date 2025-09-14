@@ -1,7 +1,7 @@
 import { Redis } from "@upstash/redis"
 import dotenv from "dotenv"
 import { PrismaClient } from "@prisma/client";
-import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, GetObjectCommand, PutObjectCommandInput, PutObjectCommand } from "@aws-sdk/client-s3";
 import fs from "fs"
 import { createWriteStream } from "node:fs";
 import { NodeHttpHandler } from "@smithy/node-http-handler";
@@ -13,13 +13,23 @@ dotenv.config();
 const redis = Redis.fromEnv();
 import nodemailer from "nodemailer";
 import pdfDocment from "pdfkit"
-import { aw, P } from "@upstash/redis/zmscore-CgRD7oFR";
+
 const prisma = new PrismaClient();
 
 console.log(process.env.GROQ_API_KEY)
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY
 });
+
+//file type
+interface FileUpload {
+  content: Buffer | string;
+  key: string;
+  contentType: string;
+}
+
+
+
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   port: 587,
@@ -113,6 +123,8 @@ const s3Client = new S3Client({
   retryMode: "adaptive",
   maxAttempts: 3,
 });
+
+
 //store question in pdf
 function GenerateNotesPdf(notes: string): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -126,11 +138,51 @@ function GenerateNotesPdf(notes: string): Promise<void> {
     stream.on('error', () => reject());
   })
 }
+//upload to s3
+const upload = async (
+  htmlfile: FileUpload,
+  jsonfile: FileUpload
+) => {
+  const Bucket_Name = "ranjit-dev-test";
+  try {
+    //upload html file
+    const htmlParams:PutObjectCommandInput = {
+      Bucket:Bucket_Name,
+      Key:htmlfile.key,
+      Body:htmlfile.content,
+      ContentType:htmlfile.contentType
+    }
+    const htmlCommand = new PutObjectCommand(htmlParams);
+    const htmlResponse = await s3Client.send(htmlCommand);
+    console.log('HTML upload successful:', htmlResponse.ETag);
+
+    // json file upload
+    const jsonParams : PutObjectCommandInput = {
+      Bucket:Bucket_Name,
+      Key:jsonfile.key,
+      Body:jsonfile.content,
+      ContentType:jsonfile.contentType
+    }
+
+    const jsonCommand = new PutObjectCommand(jsonParams);
+    const jsonResponse = await s3Client.send(jsonCommand);
+    console.log('JSON upload successful:', jsonResponse.ETag);
+     return {
+      htmlETag: htmlResponse.ETag || '',
+      jsonETag: jsonResponse.ETag || '',
+    };
+
+  } catch (err) {
+    console.error(err)
+     console.error('Upload failed:', err);
+    throw err;
+  }
+}
 //get notes pdf form s3
 async function getNotes(params: { id: string | undefined, title: string | undefined }) {
   const { id, title } = params
   const res = await s3Client.send(new GetObjectCommand({
-    Bucket: process.env.S3_BUCKET,
+    Bucket: "revisly",
     Key: `${id} ${title}/notes/notes.pdf`
   }));
   return new Promise<void>((resolve, reject) => {
@@ -147,6 +199,7 @@ async function getNotes(params: { id: string | undefined, title: string | undefi
       .on("close", resolve)
   })
 }
+
 
 async function generateQuestionAndStore() {
 
@@ -179,7 +232,7 @@ async function generateQuestionAndStore() {
         const test: string | null = await genarateTest(`dont add think tag and Generate ${10} ${'esaus'} level multiple choice questions from ${pdfTextContent}. 
     Return ONLY a valid Javascript format  with this exact structure:
     
-      export default=[
+      export default[
         {
           "id": 1,
           "question": "Question text here?",
@@ -196,16 +249,16 @@ async function generateQuestionAndStore() {
     - Mix up the position of correct answers
     - Keep questions focused on ${reminder.topic}
     - Provide clear, concise explanations`)
-        
-          console.log(test)
-        fs.writeFile('questions.js', '', (err) => {
+
+      
+        fs.writeFile('questions.json', '', (err) => {
           if (err) {
             console.error('Error clearing file:', err);
             return;
           }
           console.log('File content cleared successfully.');
           // Step 2: Add the new content
-          fs.appendFile('questions.js', String(test), (err) => {
+          fs.appendFile('questions.json', String(test), (err) => {
             if (err) {
               console.error('Error appending new content:', err);
               return;
@@ -213,10 +266,6 @@ async function generateQuestionAndStore() {
             console.log('New content added successfully.');
           });
         });
-
-        console.log("email", reminder?.email)
-
-
         console.log(pdfTextContent.length);
         return
       }
@@ -231,4 +280,21 @@ async function generateQuestionAndStore() {
     }
   }, 5000)
 }
-generateQuestionAndStore()
+// generateQuestionAndStore()
+const htmlContent = '<html><body><h1>Hello World</h1></body></html>';
+const jsonContent = JSON.stringify({ message: 'Hello', timestamp: Date.now() });
+async function  uploadFiles() {
+  await upload(
+    {
+      content:htmlContent,
+      key:'pages/index.html',
+      contentType:'text/html'
+    },
+    {
+       content:jsonContent,
+       key:'data/response.json',
+       contentType:'application/json'
+    }
+  )
+}
+uploadFiles()
