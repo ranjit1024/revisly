@@ -347,7 +347,8 @@
             }
         }
 
-        function submitQuiz() {
+        async function submitQuiz() {
+
             console.log(selectedAnswers)
             let score = 0;
             const totalQuestions = quizData.length;
@@ -359,8 +360,26 @@
                     score++;
                 }
             });
-
             showResults(score, totalQuestions);
+            const userData = await fetch("./data.json");
+            console.log(userData.id)
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({"score":Number(score)})
+            };
+            const data = await userData.json();
+            
+            fetch(`http://localhost:4000/api/score/${data.id}`, requestOptions)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new error('Somehting went wrting')
+                    }
+                })
+
+            console.log(data)
         }
 
         function showResults(score, total) {

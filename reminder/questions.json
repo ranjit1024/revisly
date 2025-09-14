@@ -1,72 +1,62 @@
 [
   {
     "id": 1,
-    "question": "What does the `let` keyword do in Rust?",
-    "options": ["Declares a constant", "Declares a variable", "Declares a function", "Declares a module"],
-    "correctAnswer": 1,
-    "explanation": "In Rust, `let` is used to declare a variable. It does not declare a constant, function, or module."
+    "question": "What does the following Rust code achieve? `let b = a;`",
+    "options": ["Transfers ownership of `a` to `b`", "Clones `a` and assigns it to `b`", "Borrows `a` and returns a reference to it", "Drops the value of `a`"],
+    "correctAnswer": 0
   },
   {
     "id": 2,
-    "question": "What is the difference between `Copy` and `Clone` traits in Rust?",
-    "options": ["`Copy` is a part of `Clone`", "`Clone` requires mutable access", "`Copy` is used for primitive types, `Clone` for custom types", "Both `Copy` and `Clone` are used for custom types"],
-    "correctAnswer": 2,
-    "explanation": "In Rust, `Copy` is only implemented for primitive types, while `Clone` is implemented for any type that needs its own behavior. Custom types typically implement `Clone` but not `Copy`."
+    "question": "What is the purpose of the `?` operator in Rust?",
+    "options": ["To create a mutable borrow", "To return an error from a function", "To use an iterator to filter values", "To handle panics in a Rust program"],
+    "correctAnswer": 1
   },
   {
     "id": 3,
-    "question": "How does Rust handle memory safety at compile-time?",
-    "options": ["Using a runtime memory manager", "With explicit pointer arithmetic", "Using memory-safe abstractions and the borrow checker", "Using a garbage collector"],
-    "correctAnswer": 2,
-    "explanation": "Rust uses the concept of ownership and borrows along with the borrow checker to ensure memory safety at compile-time, preventing common errors such as null pointer dereferences and data races."
+    "question": "In Rust, what is the difference between a `Vec` and an `array`?",
+    "options": ["A `Vec` is fixed-size, while an array can grow or shrink", "A `Vec` can hold any type, while an array is limited to primitive types", "A `Vec` is stack-allocated, while an array is heap-allocated", "A `Vec` is mutable, while an array is immutable"],
+    "correctAnswer": 2
   },
   {
     "id": 4,
-    "question": "What is the purpose of the `match` keyword in Rust?",
-    "options": ["To declare an enum", "To implement a trait", "To perform conditional logic based on a value", "To declare a function"],
-    "correctAnswer": 2,
-    "explanation": "In Rust, `match` is used to perform conditional logic based on a value, similar to a switch statement in other languages."
+    "question": "How do you implement a trait in Rust?",
+    "options": ["Using the `impl` keyword in a struct definition", "Using the `trait` keyword in a function definition", "Using the `impl` keyword in a separate file with the same name as the trait", "Using the `trait` keyword followed by a list of methods"],
+    "correctAnswer": 0
   },
   {
     "id": 5,
-    "question": "How do you declare a reference to a value that lives longer than the current scope in Rust?",
-    "options": ["Using the `clone` method", "Using the `Box` type", "Using the `Rc` type", "Using life annotations"],
-    "correctAnswer": 3,
-    "explanation": "In Rust, you can declare a reference to a value that lives longer than the current scope by using the `Rc` type, also known as reference counting."
+    "question": "What does the following Rust code achieve? `fn print_debug<T: std::fmt::Debug>(val: T) { ... }`",
+    "options": ["It defines a function `print_debug` that takes an argument `val` and returns its debug representation", "It defines a trait `Debug` that must be implemented for all types", "It uses the `std::fmt::Debug` trait to implement debug formatting for a specific type", "It defines a macro `debug` that can be used to print debug information"],
+    "correctAnswer": 0
   },
   {
     "id": 6,
-    "question": "What is the difference between a `struct` and a `tuple` in Rust?",
-    "options": ["A `struct` is a single value, a `tuple` is a tuple of values", "A `struct` is a tuple of values, a `tuple` is a single value", "Both `struct` and `tuple` are used for defining custom types", "Both `struct` and `tuple` are used for defining tuples"],
-    "correctAnswer": 1,
-    "explanation": "In Rust, a `struct` is a single value, while a `tuple` is a tuple of values. Both can be used to define custom types."
+    "question": "In Rust, how do you handle errors that may occur during file I/O operations?",
+    "options": ["Using a `try`/`catch` block", "Using the `?` operator to return an error from a function", "Using the `Result` type to represent the outcome of an operation", "Using a `finally` block to perform cleanup after an operation"],
+    "correctAnswer": 2
   },
   {
     "id": 7,
-    "question": "How do you define a trait in Rust?",
-    "options": ["Using the `trait` keyword before the name of the trait", "Using the `trait` keyword after the name of the trait", "Using the `impl` keyword to implement a trait for a type", "Using the `fn` keyword to declare a function with trait bounds"],
-    "correctAnswer": 1,
-    "explanation": "In Rust, you define a trait by using the `trait` keyword before the name of the trait."
+    "question": "What is the purpose of the `Arc` type in Rust?",
+    "options": ["To create a shared reference to a value that can be accessed from multiple threads", "To create a unique reference to a value that can only be accessed from a single thread", "To create a weak reference to a value that can be accessed from multiple threads", "To create a movable reference to a value that can be passed around as an argument"],
+    "correctAnswer": 0
   },
   {
     "id": 8,
-    "question": "What is the difference between `async` and `await` in Rust?",
-    "options": ["`async` is used for functions that return a future, `await` is used for waiting on a future", "`async` is used for waiting on a future, `await` is used for functions that return a future", "Both `async` and `await` are used for functions that return a future", "Both `async` and `await` are used for waiting on a future"],
-    "correctAnswer": 1,
-    "explanation": "In Rust, `async` is used for functions that return a future, while `await` is used for waiting on a future."
+    "question": "How do you implement a closure in Rust?",
+    "options": ["Using the `fn` keyword followed by a list of arguments and a block of code", "Using the `||` operator to define a lambda expression", "Using the `move` keyword followed by a list of arguments and a block of code", "Using the `fn` keyword in a separate file with the same name as the closure"],
+    "correctAnswer": 1
   },
   {
     "id": 9,
-    "question": "How do you declare a module in Rust?",
-    "options": ["Using the `mod` keyword followed by the name of the module", "Using the `extern` keyword to declare a module", "Using the `fn` keyword to declare a function with a module as its return type", "Using the `let` keyword to declare a variable with a module as its value"],
-    "correctAnswer": 1,
-    "explanation": "In Rust, you declare a module by using the `mod` keyword followed by the name of the module."
+    "question": "In Rust, what is the difference between a `HashMap` and a `HashSet`?",
+    "options": ["A `HashMap` is an unordered collection of unique keys, while a `HashSet` is an indexed collection of unique keys", "A `HashMap` is an indexed collection of key-value pairs, while a `HashSet` is an unordered collection of unique keys", "A `HashMap` is an unordered collection of key-value pairs, while a `HashSet` is an indexed collection of unique keys", "A `HashMap` is an indexed collection of unique values, while a `HashSet` is an unordered collection of unique keys"],
+    "correctAnswer": 2
   },
   {
     "id": 10,
-    "question": "What is the purpose of the `Box` type in Rust?",
-    "options": ["To declare a reference to a value that lives on the heap", "To declare a tuple of values", "To declare a custom type with a name", "To declare a trait"],
-    "correctAnswer": 1,
-    "explanation": "In Rust, `Box` is used to declare a reference to a value that lives on the heap."
+    "question": "How do you use the `tokio` runtime to run an asynchronous function in Rust?",
+    "options": ["Using the `tokio::spawn` function to create a new task", "Using the `tokio::runtime::Builder` to create a new runtime and execute the function", "Using the `async` keyword followed by the function body", "Using the `await` keyword followed by an asynchronous expression"],
+    "correctAnswer": 1
   }
 ]
