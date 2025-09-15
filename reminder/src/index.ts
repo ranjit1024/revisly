@@ -11,7 +11,6 @@ import { Readable } from "node:stream";
 import Groq from "groq-sdk"
 import express, { Express } from "express";
 import cors from "cors"
-import { CostExplorer } from "aws-sdk";
 //config
 dotenv.config();
 const redis = Redis.fromEnv();
@@ -44,10 +43,13 @@ async function getData() {
         time: true,
         revisionid: true
       },
+      where:{
+        reminderDate:new Date().toISOString()
+      },
       orderBy: {
         reminderDate: 'desc'
-      }, 
-      
+      },
+
     })
     data.forEach(async (reminderTime) => {
       await redis.lpush('reminder', JSON.stringify({
@@ -276,9 +278,8 @@ Requirements:
     }
   }, 5000)
 }
-// generateQuestionAndStore();
+generateQuestionAndStore();
 //app rout
-
 
 app.post('/api/score/:id', async (req, res) => {
   const id = req.params.id;

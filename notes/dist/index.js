@@ -74,9 +74,9 @@ setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
         if (revisionData && revisionData.topic !== null && revisionData.topic.trim() !== '') {
             console.log(`Processing: ${revisionData.id}`);
             //hash sett 
-            redis.hset(revisionData.id, {
-                topic: revisionData.topic,
-                status: "pending"
+            yield redis.hset(revisionData.id, {
+                status: 'pending',
+                topic: revisionData.topic
             });
             const notes = yield getAiGeneratedNotes(`generate notes for ${revisionData.topic} in clean string format `);
             const notesPdf = yield GenerateNotesPdf(String(notes));
