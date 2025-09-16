@@ -1,62 +1,62 @@
 [
   {
     "id": 1,
-    "question": "What does the following Rust code achieve? `let b = a;`",
-    "options": ["Transfers ownership of `a` to `b`", "Clones `a` and assigns it to `b`", "Borrows `a` and returns a reference to it", "Drops the value of `a`"],
-    "correctAnswer": 0
+    "question": "What is the correct syntax for declaring a package in Go?",
+    "options": ["package myapp", "package main", "import \"package\"", "go init package"],
+    "correctAnswer": 1
   },
   {
     "id": 2,
-    "question": "What is the purpose of the `?` operator in Rust?",
-    "options": ["To create a mutable borrow", "To return an error from a function", "To use an iterator to filter values", "To handle panics in a Rust program"],
+    "question": "What data type in Go is used to store a complex number?",
+    "options": ["float64", "complex64", "rune", "uint8"],
     "correctAnswer": 1
   },
   {
     "id": 3,
-    "question": "In Rust, what is the difference between a `Vec` and an `array`?",
-    "options": ["A `Vec` is fixed-size, while an array can grow or shrink", "A `Vec` can hold any type, while an array is limited to primitive types", "A `Vec` is stack-allocated, while an array is heap-allocated", "A `Vec` is mutable, while an array is immutable"],
-    "correctAnswer": 2
+    "question": "How do you declare a variable in Go with type inference?",
+    "options": ["var x int = 10", "var x = 10", "type x int = 10", "short decl: x := 10"],
+    "correctAnswer": 3
   },
   {
     "id": 4,
-    "question": "How do you implement a trait in Rust?",
-    "options": ["Using the `impl` keyword in a struct definition", "Using the `trait` keyword in a function definition", "Using the `impl` keyword in a separate file with the same name as the trait", "Using the `trait` keyword followed by a list of methods"],
-    "correctAnswer": 0
-  },
-  {
-    "id": 5,
-    "question": "What does the following Rust code achieve? `fn print_debug<T: std::fmt::Debug>(val: T) { ... }`",
-    "options": ["It defines a function `print_debug` that takes an argument `val` and returns its debug representation", "It defines a trait `Debug` that must be implemented for all types", "It uses the `std::fmt::Debug` trait to implement debug formatting for a specific type", "It defines a macro `debug` that can be used to print debug information"],
-    "correctAnswer": 0
-  },
-  {
-    "id": 6,
-    "question": "In Rust, how do you handle errors that may occur during file I/O operations?",
-    "options": ["Using a `try`/`catch` block", "Using the `?` operator to return an error from a function", "Using the `Result` type to represent the outcome of an operation", "Using a `finally` block to perform cleanup after an operation"],
+    "question": "What is the purpose of the `fallthrough` keyword in a switch statement?",
+    "options": ["to break the switch statement", "to skip the current case", "to continue execution with the next case", "to return from the function"],
     "correctAnswer": 2
   },
   {
+    "id": 5,
+    "question": "What is the correct syntax for calling a variadic function in Go?",
+    "options": ["func Add(a int, b int) { return a+b }", "func Sum(nums ...int) { ... }", "func Add(a, b int) { return a+b }", "func Sum(int) { ... }"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 6,
+    "question": "What is the purpose of the `context.WithCancel` function in Go?",
+    "options": ["to create a new context with a deadline", "to create a new context with a cancellation scope", "to create a new context with a timeout", "to create a new context with a value"],
+    "correctAnswer": 1
+  },
+  {
     "id": 7,
-    "question": "What is the purpose of the `Arc` type in Rust?",
-    "options": ["To create a shared reference to a value that can be accessed from multiple threads", "To create a unique reference to a value that can only be accessed from a single thread", "To create a weak reference to a value that can be accessed from multiple threads", "To create a movable reference to a value that can be passed around as an argument"],
+    "question": "How do you run a goroutine in Go?",
+    "options": ["go func() { ... }", "func() { ... }", "go func mygoroutine() { ... }()", "func mygoroutine() { ... }()"],
     "correctAnswer": 0
   },
   {
     "id": 8,
-    "question": "How do you implement a closure in Rust?",
-    "options": ["Using the `fn` keyword followed by a list of arguments and a block of code", "Using the `||` operator to define a lambda expression", "Using the `move` keyword followed by a list of arguments and a block of code", "Using the `fn` keyword in a separate file with the same name as the closure"],
-    "correctAnswer": 1
+    "question": "What is the idiomatic pattern for error handling in Go?",
+    "options": ["if err != nil { return }", "if err != nil { panic(err) }", "if err != nil { log.Fatal(err) }", "if err != nil { return err }"],
+    "correctAnswer": 3
   },
   {
     "id": 9,
-    "question": "In Rust, what is the difference between a `HashMap` and a `HashSet`?",
-    "options": ["A `HashMap` is an unordered collection of unique keys, while a `HashSet` is an indexed collection of unique keys", "A `HashMap` is an indexed collection of key-value pairs, while a `HashSet` is an unordered collection of unique keys", "A `HashMap` is an unordered collection of key-value pairs, while a `HashSet` is an indexed collection of unique keys", "A `HashMap` is an indexed collection of unique values, while a `HashSet` is an unordered collection of unique keys"],
-    "correctAnswer": 2
+    "question": "What is the purpose of the `make` function when creating a channel in Go?",
+    "options": ["to create a new channel with a capacity", "to create a new channel with a buffer", "to create a new channel with a deadline", "to create a new channel with no buffer"],
+    "correctAnswer": 1
   },
   {
     "id": 10,
-    "question": "How do you use the `tokio` runtime to run an asynchronous function in Rust?",
-    "options": ["Using the `tokio::spawn` function to create a new task", "Using the `tokio::runtime::Builder` to create a new runtime and execute the function", "Using the `async` keyword followed by the function body", "Using the `await` keyword followed by an asynchronous expression"],
+    "question": "What is the correct syntax for defining a test function in Go?",
+    "options": ["func TestMytest() { ... }", "func TestMytest(t *testing.T) { ... }", "func Mytest() { ... }", "func Mytest(t *testing.T) { ... }"],
     "correctAnswer": 1
   }
 ]

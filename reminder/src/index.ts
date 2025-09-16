@@ -11,6 +11,16 @@ import { Readable } from "node:stream";
 import Groq from "groq-sdk"
 import express, { Express } from "express";
 import cors from "cors"
+import { aw } from "@upstash/redis/zmscore-CgRD7oFR";
+//type
+interface remindType {
+  topic: string
+  remind: string,
+  time: string,
+  email: string,
+  revision_id: string,
+  id: string,
+}
 //config
 dotenv.config();
 const redis = Redis.fromEnv();
@@ -43,9 +53,7 @@ async function getData() {
         time: true,
         revisionid: true
       },
-      where:{
-        reminderDate:new Date().toISOString()
-      },
+
       orderBy: {
         reminderDate: 'desc'
       },
@@ -103,183 +111,28 @@ const s3Client = new S3Client({
 
 //store question in pdf
 function storeFile(content: string | null, filename: string) {
-  fs.writeFile(filename, '', (err) => {
-    if (err) {
-      console.error('Error clearing file:', err);
-      return;
-    }
-    console.log('File content cleared successfully.');
-    // Step 2: Add the new content
-    fs.appendFile(filename, String(content), (err) => {
-      if (err) {
-        console.error('Error appending new content:', err);
-        return;
-      }
-      console.log('New content added successfully.');
-    });
-  });
+  try {
+    fs.writeFileSync(filename, '', 'utf-8');
+    console.log('file content added successfully');
+
+    fs.appendFileSync(filename, String(content), 'utf-8')
+  } catch (err) {
+    console.error('Error Ducring handing file')
+  }
 }
 //upload to s3
-const upload = async (
-  htmlfile: FileUpload,
-  questions: FileUpload,
-  userdata: FileUpload
-) => {
-  const Bucket_Name = "ranjit-dev-test";
-  try {
-    //upload html file
-    const htmlParams: PutObjectCommandInput = {
-      Bucket: Bucket_Name,
-      Key: htmlfile.key,
-      Body: htmlfile.content,
-      ContentType: htmlfile.contentType
-    }
-    const htmlCommand = new PutObjectCommand(htmlParams);
-    const htmlResponse = await s3Client.send(htmlCommand);
-    console.log('HTML upload successful:', htmlResponse.ETag);
 
-    // json file upload
-    const jsonParams: PutObjectCommandInput = {
-      Bucket: Bucket_Name,
-      Key: questions.key,
-      Body: questions.content,
-      ContentType: questions.contentType
-    }
-
-    const jsonCommand = new PutObjectCommand(jsonParams);
-    const jsonResponse = await s3Client.send(jsonCommand);
-    console.log('JSON upload successful:', jsonResponse.ETag);
-
-    const userdataPramas: PutObjectCommandInput = {
-      Bucket: Bucket_Name,
-      Key: userdata.key,
-      Body: userdata.content,
-      ContentType: userdata.contentType
-    }
-
-    const userCommand = new PutObjectCommand(userdataPramas);
-    const userResponse = await s3Client.send(userCommand);
-    console.log('JSON upload successful:', userResponse.ETag);
-    return {
-      htmlETag: htmlResponse.ETag || '',
-      jsonETag: jsonResponse.ETag || '',
-    };
-
-  } catch (err) {
-    console.error(err)
-    console.error('Upload failed:', err);
-    throw err;
-  }
-}
 //get notes pdf form s3
-async function getNotes(params: { id: string | undefined, title: string | undefined }) {
-  const { id, title } = params
-  const res = await s3Client.send(new GetObjectCommand({
-    Bucket: "revisly",
-    Key: `${id} ${title}/notes/notes.pdf`
-  }));
-  return new Promise<void>((resolve, reject) => {
-    const body = res.Body;
-
-    if (!(body instanceof Readable)) {
-      return reject(new Error("S3 Getobject body is not a Readable stream"));
-    }
-
-    const file = createWriteStream('notes.pdf')
-    body
-      .pipe(file)
-      .on("error", reject)
-      .on("close", resolve)
-  })
-}
 
 
-async function generateQuestionAndStore() {
-  //pushing into ququue
-  const push = await getData()
-  setInterval(async () => {
-    try {
-      const reminder = await redis.rpop("reminder") as {
-        topic: string
-        remind: string,
-        time: string,
-        email: string,
-        revision_id: string,
-        id: string,
-      } | null;
-      //Getting notes from s3
-      if (reminder && reminder.email !== null) {
-        storeFile(JSON.stringify(reminder), 'data.json')
-        console.log("popoed", reminder)
-        const notes = await getNotes({
-          id: reminder?.revision_id,
-          title: reminder?.topic
-        });
-        //getting pdf in Memory
-        const pdfBuffer = fs.readFileSync('notes.pdf');
-        const data = await pdf(pdfBuffer);
-        const pdfTextContent = data.text;
-        //genrateing question
-        const test: string | null = await genarateTest(`
 
-          Generate ${10} ${'medium'} level multiple choice questions from ${pdfTextContent}. 
-Return ONLY a valid Javascript format with this exact structure:
-[
-  {
-    "id": 1,
-    "question": "Question text here?",
-    "options": ["Option A", "Option B", "Option C", "Option D"],
-    "correctAnswer": 0
-  }
-]
 
-Requirements:
-- Dont add ${'```javascrip '}  on top and ${'```'} on bottom
-- Do not add code block markers at the beginning or end
-- Make questions challenging but fair for ${'medium'} level
-- Ensure correctAnswer is the index (0-3) of the correct option
-- Mix up the position of correct answers
-- Keep questions focused on ${reminder.topic}
-- Provide clear, concise questions`
-        );
-        // 
-        storeFile(test, 'questions.json');
-        const html = fs.readFileSync('index.html', 'utf-8');
-        const questions = fs.readFileSync('questions.json', 'utf-8');
 
-        await upload(
-          {
-            content: html,
-            key: `${reminder.id}/index.html`,
-            contentType: 'text/html'
-          },
-          {
-            content: questions,
-            key: `${reminder.id}/questions.json`,
-            contentType: 'application/json'
-          },
-          {
-            content: JSON.stringify(reminder),
-            key: `${reminder.id}/data.json`,
-            contentType: 'application/json'
-          }
-        )
-        return;
+// generateQuestionAndStore();
+// new and better inplementation 
 
-      }
-      else {
-        console.log("fsdf")
-        return;
-      }
 
-    }
-    catch (e) {
-      console.log(e)
-    }
-  }, 5000)
-}
-generateQuestionAndStore();
-//app rout
+
 
 app.post('/api/score/:id', async (req, res) => {
   const id = req.params.id;
@@ -314,7 +167,6 @@ app.post('/api/score/:id', async (req, res) => {
 
       })
     }
-
   }
   catch (e) {
     res.json({
@@ -325,3 +177,222 @@ app.post('/api/score/:id', async (req, res) => {
 app.listen(4000, () => {
   console.log('listing on port number 4000')
 })
+
+class ReminderProceser {
+  private isProcessing: boolean = false;
+  private shouldStop: boolean = false;
+  private pollIntervel: number = 2000;
+
+  async start() {
+    if (this.isProcessing) {
+      console.log(`Reminder queue is processing`);
+      return;
+    }
+    this.isProcessing = true;
+    this.shouldStop = false;
+    console.log('Starting Reminder Queue');
+
+    await this.processQueue();
+  }
+  async stop() {
+    console.log('Stopping Queue processor');
+    this.shouldStop = true;
+  }
+
+private async processQueue() {
+    while (!this.shouldStop) {
+      try {
+        // Use rpop (non-blocking) with Upstash
+        const reminderData:remindType | null = await redis.rpop("reminder");
+        
+        if (reminderData) {
+  
+            
+          await this.processReminder(reminderData);
+        } else {
+          // No items in queue, wait before polling again
+          await this.sleep(this.pollIntervel);
+        }
+        
+      } catch (error) {
+        console.error('Queue processing error:', error);
+        await this.sleep(5000); // Wait longer on error
+      }
+    }
+  };
+  private async processReminder(reminder: remindType | null) {
+    try {
+      console.log('Procesing Reminder');
+
+      if (!reminder?.email.trim() || !reminder.id.trim()) {
+        return;
+      }
+
+      this.storeFile(JSON.stringify(reminder), 'data.json');
+
+      const notes = await this.getNotes({
+        id: reminder?.revision_id,
+        title: reminder?.topic
+      });
+
+      //Get nots pdf
+      const pdfBuffer = fs.readFileSync('notes.pdf');
+      const data = await pdf(pdfBuffer);
+      const pdfTextContent = data.text;
+
+      //generate question
+      const questions = await this.generateTest(pdfTextContent, reminder.topic);
+
+      if (!questions) {
+        console.log('Failed to generate questions for:', reminder.id);
+        return;
+      }
+      this.storeFile(questions, 'questions.json');
+
+      // read html
+      const html = fs.readFileSync('index.html', 'utf-8');
+      await this.upload(
+        {
+          content: html,
+          key: `${reminder.id}/index.html`,
+          contentType: 'text/html'
+        },
+        {
+          content: questions,
+          key: `${reminder.id}/questions.json`,
+          contentType: 'application/json'
+        },
+        {
+          content: JSON.stringify(reminder),
+          key: `${reminder.id}/data.json`,
+          contentType: 'application/json'
+        }
+      );
+      console.log('Successfully processed reminder:', reminder.id);
+    }
+    catch (err) {
+      console.log('Something Went wrong')
+    }
+  };
+
+  private async generateTest(pdfTextContent: string, topic: string): Promise<string | null> {
+    try {
+      const test = await genarateTest(`
+Generate 10 medium level multiple choice questions from ${pdfTextContent}. 
+Return ONLY a valid Javascript format with this exact structure:
+[
+  {
+    "id": 1,
+    "question": "Question text here?",
+    "options": ["Option A", "Option B", "Option C", "Option D"],
+    "correctAnswer": 0
+  }
+]
+
+Requirements:
+- Do not add code block markers at the beginning or end
+- Make questions challenging but fair for medium level
+- Ensure correctAnswer is the index (0-3) of the correct option
+- Mix up the position of correct answers
+- Keep questions focused on ${topic}
+- Provide clear, concise questions
+      `);
+
+      return test;
+    } catch (error) {
+      console.error('Error generating test:', error);
+      return null;
+    }
+  }
+
+  private storeFile(content: string | null, filename: string) {
+    try {
+      fs.writeFileSync(filename, '', 'utf-8');
+      console.log('file content added successfully');
+
+      fs.appendFileSync(filename, String(content), 'utf-8')
+    } catch (err) {
+      console.error('Error Ducring handing file')
+    }
+  }
+
+  private async getNotes(params: { id: string | undefined, title: string | undefined }) {
+    const { id, title } = params
+    const res = await s3Client.send(new GetObjectCommand({
+      Bucket: "revisly",
+      Key: `${id} ${title}/notes/notes.pdf`
+    }));
+    return new Promise<void>((resolve, reject) => {
+      const body = res.Body;
+
+      if (!(body instanceof Readable)) {
+        return reject(new Error("S3 Getobject body is not a Readable stream"));
+      }
+
+      const file = createWriteStream('notes.pdf')
+      body
+        .pipe(file)
+        .on("error", reject)
+        .on("close", resolve)
+    })
+  }
+
+  private upload = async (
+    htmlfile: FileUpload,
+    questions: FileUpload,
+    userdata: FileUpload
+  ) => {
+    const Bucket_Name = "ranjit-dev-test";
+    try {
+      //upload html file
+      const htmlParams: PutObjectCommandInput = {
+        Bucket: Bucket_Name,
+        Key: htmlfile.key,
+        Body: htmlfile.content,
+        ContentType: htmlfile.contentType
+      }
+      const htmlCommand = new PutObjectCommand(htmlParams);
+      const htmlResponse = await s3Client.send(htmlCommand);
+      console.log('HTML upload successful:', htmlResponse.ETag);
+
+      // json file upload
+      const jsonParams: PutObjectCommandInput = {
+        Bucket: Bucket_Name,
+        Key: questions.key,
+        Body: questions.content,
+        ContentType: questions.contentType
+      }
+
+      const jsonCommand = new PutObjectCommand(jsonParams);
+      const jsonResponse = await s3Client.send(jsonCommand);
+      console.log('JSON upload successful:', jsonResponse.ETag);
+
+      const userdataPramas: PutObjectCommandInput = {
+        Bucket: Bucket_Name,
+        Key: userdata.key,
+        Body: userdata.content,
+        ContentType: userdata.contentType
+      }
+
+      const userCommand = new PutObjectCommand(userdataPramas);
+      const userResponse = await s3Client.send(userCommand);
+      console.log('JSON upload successful:', userResponse.ETag);
+      return {
+        htmlETag: htmlResponse.ETag || '',
+        jsonETag: jsonResponse.ETag || '',
+      };
+
+    } catch (err) {
+      console.error(err)
+      console.error('Upload failed:', err);
+      throw err;
+    }
+  }
+  private sleep(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+}
+const processor = new ReminderProceser();
+
+// Start the processor
+processor.start().catch(console.error);
