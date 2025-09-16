@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clean Quiz</title>
+    <title>Quiz</title>
     <style>
         * {
             margin: 0;
@@ -234,7 +234,7 @@
 <body>
     <div class="quiz-container">
         <div class="quiz-header">
-            <h1 class="quiz-title">Quiz</h1>
+            <h1 class="quiz-title" id="title"></h1>
             <p class="quiz-subtitle">Answer all questions below</p>
             <div class="progress-container">
                 <div class="progress-bar" id="progressBar"></div>
@@ -280,8 +280,14 @@
         }
         let selectedAnswers = {};
         async function initializeQuiz() {
+            const userData = await fetch("./data.json");
+            const topic = await userData.json()
+            
+            const title = document.getElementById('title');
+            title.innerText = `${topic.topic} Quiz`
             quizData = await loadJSONData();
-            console.log(quizData)
+            console.log(quizData);
+
             const form = document.getElementById('quizForm');
             const totalQuestions = document.getElementById('totalQuestions');
 
@@ -368,10 +374,10 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({"score":Number(score)})
+                body: JSON.stringify({ "score": Number(score), "selectedAnswer": selectedAnswers })
             };
             const data = await userData.json();
-            
+
             fetch(`http://localhost:4000/api/score/${data.id}`, requestOptions)
                 .then(response => {
                     if (!response.ok) {

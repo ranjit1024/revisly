@@ -2,7 +2,7 @@
 import React from "react";
 import clsx from "clsx";
 
-type Status = 'COMPLETED' | 'PENDING' ;
+type Status = 'COMPLETED' | 'PENDING';
 
 interface RevisionCardProps {
   title?: string;            // e.g., "Revision 1/10"
@@ -82,12 +82,14 @@ export function RevisionCard({
       <div className="mt-auto">
         <button
           type="button"
-          onClick={onViewReport}
-          className={clsx(
-            "inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition",
-            "hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500",
-            "dark:bg-indigo-600 dark:hover:bg-indigo-500 hover:cursor-pointer"
-          )}
+          disabled={status === 'PENDING' ? true : false}
+          onClick={() => {
+            console.log("Data")
+          }}
+
+          className={
+            ` ${status === 'PENDING' ? 'inline-flex w-full items-center justify-center rounded-xl bg-slate-300 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:bg-indigo-600 dark:hover:bg-indigo-500 hover:cursor-pointer' : "inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500dark:bg-indigo-600 dark:hover:bg-indigo-500 hover:cursor-pointer"}`
+          }
           aria-label="View report"
         >
           View Report

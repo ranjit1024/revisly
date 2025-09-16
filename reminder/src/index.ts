@@ -112,8 +112,9 @@ const s3Client = new S3Client({
 app.post('/api/score/:id', async (req, res) => {
   const id = req.params.id;
   const { score } = req.body;
+  const {selectedAnswer} = req.body;
   console.log(id)
-  console.log(score)
+
   try {
     const userId = await prisma.revisionSession.findFirst({
       where: {
@@ -127,9 +128,12 @@ app.post('/api/score/:id', async (req, res) => {
           id: userId.id
         },
         data: {
-          score: score
+          score: score,
+          answer:selectedAnswer,
+          status:'COMPLETED'
         }
       });
+      
       res.json({
         msg: "Score updated",
         data: userUpdate
@@ -241,6 +245,9 @@ private async processQueue() {
         }
       );
       console.log('Successfully processed reminder:', reminder.id);
+      redis.lpush('time', JSON.stringify({
+
+      }))
     }
     catch (err) {
       console.log('Something Went wrong')
@@ -365,7 +372,7 @@ Requirements:
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 }
-const processor = new ReminderProceser();
+// const processor = new ReminderProceser();
 
-// Start the processor
-processor.start().catch(console.error);
+// // Start the processor
+// processor.start().catch(console.error);

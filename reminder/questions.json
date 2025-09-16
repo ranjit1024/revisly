@@ -1,111 +1,64 @@
-[  {
+
+
+[
+  {
     "id": 1,
-    "question": "What happens to variable 'a' after executing 'let b = a;' in Rust?",
-    "options": [
-      "a becomes invalid (ownership is moved)",
-      "a and b share ownership (copy)",
-      "a is automatically cloned",
-      "a and b point to the same location but a remains valid"
-    ],
-    "correctAnswer": 0
+    "question": "In Go, what is the correct syntax for declaring a new string variable?",
+    "options": ["var s string = 'Hello'", "var str := 'Hello'", "var String string = 'Hello'", "var s = 'Hello'"],
+    "correctAnswer": 1
   },
   {
     "id": 2,
-    "question": "Which of these is NOT a valid way to create a new thread in Rust?",
-    "options": [
-      "thread::spawn(move || { ... })",
-      "thread::sleep(Duration::from_secs(1))",
-      "rayon::join(|| { ... }, || { ... })",
-      "std::thread::park()"
-    ],
-    "correctAnswer": 1
+    "question": "What type of variable is declared with the declaration \"m := map[string]int{\"foo\":1}\"?",
+    "options": ["array", "slice", "map", "struct"],
+    "correctAnswer": 2
   },
   {
     "id": 3,
-    "question": "What is the key difference between 'Box<T>' and 'Rc<T>' in Rust?",
-    "options": [
-      "Rc<T> is thread-safe while Box<T> isn't",
-      "Box<T> is for single ownership, Rc<T> for multiple ownership",
-      "Rc<T> stores data on the stack while Box<T> stores it on heap",
-      "Box<T> increases performance while Rc<T> decreases performance"
-    ],
-    "correctAnswer": 1
+    "question": "In Go, how do you declare a new array variable?",
+    "options": ["var a [5]int", "var arr := [5]int", "var Array[]int", "a := []int"],
+    "correctAnswer": 0
   },
   {
     "id": 4,
-    "question": "What does the #[derive(Debug)] attribute do in Rust?",
-    "options": [
-      "Implements the Debug trait for custom types",
-      "Adds debugging capabilities to the entire module",
-      "Generates documentation comments",
-      "Enables unit testing for the struct"
-    ],
-    "correctAnswer": 0
+    "question": "What is the correct usage for a defer statement in Go?",
+    "options": ["defer file.Write()", "defer file.Close()", "defer file.Read()", "defer console.Print()"],
+    "correctAnswer": 1
   },
   {
     "id": 5,
-    "question": "Which of these is NOT a valid way to handle errors in Rust?",
-    "options": [
-      "Using panic!() for recoverable errors",
-      "Using Result<T, E> for recoverable errors",
-      "Using ? operator in functions that return Result",
-      "Using match to extract values from Result"
-    ],
-    "correctAnswer": 0
+    "question": "In Go, how do you write a function that takes a variable number of integer arguments?",
+    "options": ["func Sum(nums int) int", "func Sum(int) int", "func Sum(...int) int", "func Sum(int, ...int)"],
+    "correctAnswer": 2
   },
   {
     "id": 6,
-    "question": "What is the purpose of 'use' statements in Rust modules?",
-    "options": [
-      "To declare external dependencies",
-      "To import items from other modules",
-      "To create new namespaces",
-      "To conditionally compile code"
-    ],
+    "question": "What is the idiomatic way to check for errors in Go?",
+    "options": ["if err == nil {}", "if err != nil {}", "if err > 0 {}", "if err < 0 {}"],
     "correctAnswer": 1
   },
   {
     "id": 7,
-    "question": "Which Rust collection is implemented as a hash table and requires Eq + Hash traits?",
-    "options": [
-      "BTreeMap",
-      "HashSet",
-      "Vec",
-      "LinkedList"
-    ],
+    "question": "In Go, how do you create a new buffered channel?",
+    "options": ["ch := make(chan int)", "ch := make(chan int, 5)", "ch := bufferedChan(int)", "ch := channel(int, 5)"],
     "correctAnswer": 1
   },
   {
     "id": 8,
-    "question": "What is the primary purpose of the 'cargo fmt' command?",
-    "options": [
-      "Format code according to Rust style and formatting guidelines",
-      "Format Cargo.toml for dependency management",
-      "Run unit tests with formatted output",
-      "Format documentation comments in Markdown"
-    ],
-    "correctAnswer": 0
+    "question": "What is the purpose of the context.WithCancel function in Go?",
+    "options": ["to create a new channel", "to declare a new function", "to set a context deadline", "to cancel a goroutine"],
+    "correctAnswer": 3
   },
   {
     "id": 9,
-    "question": "What is the correct way to pattern match against Option::Some in Rust?",
-    "options": [
-      "match x { Some(v) => ... }",
-      "match x { Ok(v) => ... }",
-      "match x { Val(v) => ... }",
-      "match x { Value(v) => ... }"
-    ],
+    "question": "In Go, how do you write a test function?",
+    "options": ["func TestFoo(t *testing.T)", "func Test(t *testing.T)", "func TestFoo()", "func Test()"],
     "correctAnswer": 0
   },
   {
     "id": 10,
-    "question": "What is the purpose of lifetime annotations in Rust function signatures?",
-    "options": [
-      "To indicate compiler warnings for unused variables",
-      "To specify how long references are valid",
-      "To create type aliases for complex types",
-      "To enforce memory safety in unsafe code"
-    ],
+    "question": "What is the recommended way to document exported symbols in Go?",
+    "options": ["with comments at the top of the file", "with proper Go comments", "with Javadoc-style comments", "with no comments at all"],
     "correctAnswer": 1
   }
 ]

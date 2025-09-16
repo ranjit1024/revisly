@@ -50,6 +50,7 @@ model RevisionSession {
   reminderDate  DateTime
   time          DateTime
   status        Status
+  answer        Json?
   revision      Revision @relation(fields: [revisionid], references: [id])
   user          User     @relation(fields: [email], references: [email])
 }

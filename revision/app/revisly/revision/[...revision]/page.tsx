@@ -70,7 +70,7 @@ export default function Page() {
                     </div> : sessionDetails.map((data,index)=>{
                       return <RevisionCard
               key={index}
-              title={`Session ${data.sessionNumber}`}
+              title={`Session ${data.sessionNumber + 1}`}
               status={String(data.status) as Status}
               date={`${data.reminderDate}`}
               progressText={`${data.score}/10`}

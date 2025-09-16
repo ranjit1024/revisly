@@ -78,7 +78,7 @@ export default function Home() {
           startDate={item.createdSession}
           endDate={item.endSession}
           brief={item.brif}
-          sessionNumber={revisionSessionInfo.length - index}
+          sessionNumber={revisionSessionInfo.length + index}
           id={item.id}
           progress={30}
           status={"PENDING"}         
