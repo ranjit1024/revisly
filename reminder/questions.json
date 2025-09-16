@@ -1,62 +1,111 @@
-[
-  {
+[  {
     "id": 1,
-    "question": "What is the correct syntax for declaring a package in Go?",
-    "options": ["package myapp", "package main", "import \"package\"", "go init package"],
-    "correctAnswer": 1
+    "question": "What happens to variable 'a' after executing 'let b = a;' in Rust?",
+    "options": [
+      "a becomes invalid (ownership is moved)",
+      "a and b share ownership (copy)",
+      "a is automatically cloned",
+      "a and b point to the same location but a remains valid"
+    ],
+    "correctAnswer": 0
   },
   {
     "id": 2,
-    "question": "What data type in Go is used to store a complex number?",
-    "options": ["float64", "complex64", "rune", "uint8"],
+    "question": "Which of these is NOT a valid way to create a new thread in Rust?",
+    "options": [
+      "thread::spawn(move || { ... })",
+      "thread::sleep(Duration::from_secs(1))",
+      "rayon::join(|| { ... }, || { ... })",
+      "std::thread::park()"
+    ],
     "correctAnswer": 1
   },
   {
     "id": 3,
-    "question": "How do you declare a variable in Go with type inference?",
-    "options": ["var x int = 10", "var x = 10", "type x int = 10", "short decl: x := 10"],
-    "correctAnswer": 3
-  },
-  {
-    "id": 4,
-    "question": "What is the purpose of the `fallthrough` keyword in a switch statement?",
-    "options": ["to break the switch statement", "to skip the current case", "to continue execution with the next case", "to return from the function"],
-    "correctAnswer": 2
-  },
-  {
-    "id": 5,
-    "question": "What is the correct syntax for calling a variadic function in Go?",
-    "options": ["func Add(a int, b int) { return a+b }", "func Sum(nums ...int) { ... }", "func Add(a, b int) { return a+b }", "func Sum(int) { ... }"],
+    "question": "What is the key difference between 'Box<T>' and 'Rc<T>' in Rust?",
+    "options": [
+      "Rc<T> is thread-safe while Box<T> isn't",
+      "Box<T> is for single ownership, Rc<T> for multiple ownership",
+      "Rc<T> stores data on the stack while Box<T> stores it on heap",
+      "Box<T> increases performance while Rc<T> decreases performance"
+    ],
     "correctAnswer": 1
   },
   {
+    "id": 4,
+    "question": "What does the #[derive(Debug)] attribute do in Rust?",
+    "options": [
+      "Implements the Debug trait for custom types",
+      "Adds debugging capabilities to the entire module",
+      "Generates documentation comments",
+      "Enables unit testing for the struct"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 5,
+    "question": "Which of these is NOT a valid way to handle errors in Rust?",
+    "options": [
+      "Using panic!() for recoverable errors",
+      "Using Result<T, E> for recoverable errors",
+      "Using ? operator in functions that return Result",
+      "Using match to extract values from Result"
+    ],
+    "correctAnswer": 0
+  },
+  {
     "id": 6,
-    "question": "What is the purpose of the `context.WithCancel` function in Go?",
-    "options": ["to create a new context with a deadline", "to create a new context with a cancellation scope", "to create a new context with a timeout", "to create a new context with a value"],
+    "question": "What is the purpose of 'use' statements in Rust modules?",
+    "options": [
+      "To declare external dependencies",
+      "To import items from other modules",
+      "To create new namespaces",
+      "To conditionally compile code"
+    ],
     "correctAnswer": 1
   },
   {
     "id": 7,
-    "question": "How do you run a goroutine in Go?",
-    "options": ["go func() { ... }", "func() { ... }", "go func mygoroutine() { ... }()", "func mygoroutine() { ... }()"],
-    "correctAnswer": 0
-  },
-  {
-    "id": 8,
-    "question": "What is the idiomatic pattern for error handling in Go?",
-    "options": ["if err != nil { return }", "if err != nil { panic(err) }", "if err != nil { log.Fatal(err) }", "if err != nil { return err }"],
-    "correctAnswer": 3
-  },
-  {
-    "id": 9,
-    "question": "What is the purpose of the `make` function when creating a channel in Go?",
-    "options": ["to create a new channel with a capacity", "to create a new channel with a buffer", "to create a new channel with a deadline", "to create a new channel with no buffer"],
+    "question": "Which Rust collection is implemented as a hash table and requires Eq + Hash traits?",
+    "options": [
+      "BTreeMap",
+      "HashSet",
+      "Vec",
+      "LinkedList"
+    ],
     "correctAnswer": 1
   },
   {
+    "id": 8,
+    "question": "What is the primary purpose of the 'cargo fmt' command?",
+    "options": [
+      "Format code according to Rust style and formatting guidelines",
+      "Format Cargo.toml for dependency management",
+      "Run unit tests with formatted output",
+      "Format documentation comments in Markdown"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 9,
+    "question": "What is the correct way to pattern match against Option::Some in Rust?",
+    "options": [
+      "match x { Some(v) => ... }",
+      "match x { Ok(v) => ... }",
+      "match x { Val(v) => ... }",
+      "match x { Value(v) => ... }"
+    ],
+    "correctAnswer": 0
+  },
+  {
     "id": 10,
-    "question": "What is the correct syntax for defining a test function in Go?",
-    "options": ["func TestMytest() { ... }", "func TestMytest(t *testing.T) { ... }", "func Mytest() { ... }", "func Mytest(t *testing.T) { ... }"],
+    "question": "What is the purpose of lifetime annotations in Rust function signatures?",
+    "options": [
+      "To indicate compiler warnings for unused variables",
+      "To specify how long references are valid",
+      "To create type aliases for complex types",
+      "To enforce memory safety in unsafe code"
+    ],
     "correctAnswer": 1
   }
 ]

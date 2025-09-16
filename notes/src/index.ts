@@ -6,7 +6,10 @@ import PDFDocument from "pdfkit";
 import fs from "fs"
 import express from "express"
 //all config
-
+interface ReminderType {
+  topic: string
+  id: string
+}
 dotenv.config()
 const redis = Redis.fromEnv()
 // llm notes init
@@ -51,8 +54,9 @@ function GenerateNotesPdf(notes: string): Promise<void> {
   })
 }
 //main meat of logic
-setInterval(async () => {
-  try {
+async function main(){
+  while(true){
+    try {
     //pop revison message quque
     const revisionData = await redis.rpop("revision") as {
       topic: string
@@ -68,7 +72,7 @@ setInterval(async () => {
       });
       const notes = await getAiGeneratedNotes(`generate notes for ${revisionData.topic} in clean string format `);
       const notesPdf = await GenerateNotesPdf(String(notes));
-      //reading filecontext
+     
       const fileContent = await fs.promises.readFile("notes.pdf");
       //uploading to s3
       const params = {
@@ -79,7 +83,7 @@ setInterval(async () => {
       }
       const command = new PutObjectCommand(params);
       const result = await s3Client.send(command);
-      
+
       console.log(result.$metadata.httpStatusCode, "Notes uploaded  succesffuly");
       //hash updated
       redis.hset(revisionData.id, {
@@ -92,11 +96,9 @@ setInterval(async () => {
   catch (e) {
     console.log(`something went wrong ${e}`)
   }
-}, 2000);
-app.get("/status", (req, res) => {
-
-})
-console.log("Worker started - processing revision jobs...");
+  }
+}
+main()
 app.listen(5084, () => {
   console.log("Listinging on a port number 5084")
 })

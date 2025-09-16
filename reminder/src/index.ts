@@ -11,7 +11,6 @@ import { Readable } from "node:stream";
 import Groq from "groq-sdk"
 import express, { Express } from "express";
 import cors from "cors"
-import { aw } from "@upstash/redis/zmscore-CgRD7oFR";
 //type
 interface remindType {
   topic: string
@@ -73,6 +72,7 @@ async function getData() {
     console.log(`something went wrong ${e}`)
   }
 }
+getData()
 
 //llm test
 async function genarateTest(params: string) {
@@ -83,7 +83,8 @@ async function genarateTest(params: string) {
         content: params,
       },
     ],
-    model: "llama-3.1-8b-instant",
+    reasoning_format: "parsed",
+    model: "qwen/qwen3-32b",
   });
   return chatCompletion.choices[0]?.message.content;
 }
@@ -107,32 +108,6 @@ const s3Client = new S3Client({
   retryMode: "adaptive",
   maxAttempts: 3,
 });
-
-
-//store question in pdf
-function storeFile(content: string | null, filename: string) {
-  try {
-    fs.writeFileSync(filename, '', 'utf-8');
-    console.log('file content added successfully');
-
-    fs.appendFileSync(filename, String(content), 'utf-8')
-  } catch (err) {
-    console.error('Error Ducring handing file')
-  }
-}
-//upload to s3
-
-//get notes pdf form s3
-
-
-
-
-
-// generateQuestionAndStore();
-// new and better inplementation 
-
-
-
 
 app.post('/api/score/:id', async (req, res) => {
   const id = req.params.id;
@@ -204,11 +179,9 @@ private async processQueue() {
       try {
         // Use rpop (non-blocking) with Upstash
         const reminderData:remindType | null = await redis.rpop("reminder");
-        
         if (reminderData) {
-  
-            
           await this.processReminder(reminderData);
+          
         } else {
           // No items in queue, wait before polling again
           await this.sleep(this.pollIntervel);
@@ -222,8 +195,7 @@ private async processQueue() {
   };
   private async processReminder(reminder: remindType | null) {
     try {
-      console.log('Procesing Reminder');
-
+      console.log('Procesing Reminder', reminder);
       if (!reminder?.email.trim() || !reminder.id.trim()) {
         return;
       }
@@ -291,6 +263,7 @@ Return ONLY a valid Javascript format with this exact structure:
 
 Requirements:
 - Do not add code block markers at the beginning or end
+- dont add an
 - Make questions challenging but fair for medium level
 - Ensure correctAnswer is the index (0-3) of the correct option
 - Mix up the position of correct answers
