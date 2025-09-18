@@ -1,6 +1,7 @@
 "use client"
 import React from "react";
 import clsx from "clsx";
+import { useRouter } from "next/navigation";
 
 type Status = 'COMPLETED' | 'PENDING';
 
@@ -11,12 +12,13 @@ interface RevisionCardProps {
   progressText?: string;     // e.g., "1/10"
   onViewReport?: () => void;
   className?: string;
+  id:string
 }
 
 const statusStyles: Record<Status, string> = {
-  COMPLETED: "text-emerald-600 bg-emerald-50 ring-1 ring-emerald-100",
+  COMPLETED: "text-emerald-600 bg-emerald-50 ",
 
-  PENDING: "text-slate-600 bg-slate-50 ring-1 ring-slate-100",
+  PENDING: "text-slate-600 bg-slate-50   ",
 
 };
 
@@ -25,10 +27,12 @@ export function RevisionCard({
   status = "COMPLETED",
   date = "2025-08-15",
   progressText = "1/10",
+  id="",
   onViewReport,
   className,
 }: RevisionCardProps) {
   // Format date safely for display
+  const router = useRouter()
   const displayDate = (() => {
     try {
       const d = new Date(date);
@@ -61,6 +65,7 @@ export function RevisionCard({
         <span
           className={clsx(
             "inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium",
+            statusStyles
             [status]
           )}
         >
@@ -82,13 +87,13 @@ export function RevisionCard({
       <div className="mt-auto">
         <button
           type="button"
-          disabled={status === 'PENDING' ? true : false}
-          onClick={() => {
-            console.log("Data")
+          disabled={status ==='PENDING' ? true:false}
+          onClick={()=>{
+            router.push(`/revisly/report/${id}`)
           }}
 
           className={
-            ` ${status === 'PENDING' ? 'inline-flex w-full items-center justify-center rounded-xl bg-slate-300 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:bg-indigo-600 dark:hover:bg-indigo-500 hover:cursor-pointer' : "inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500dark:bg-indigo-600 dark:hover:bg-indigo-500 hover:cursor-pointer"}`
+            ` ${status === 'PENDING'? 'inline-flex w-full items-center justify-center rounded-xl bg-slate-300 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:bg-indigo-600 dark:hover:bg-indigo-500 hover:cursor-pointer':"inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500dark:bg-indigo-600 dark:hover:bg-indigo-500 hover:cursor-pointer"}`
           }
           aria-label="View report"
         >

@@ -69,6 +69,7 @@ export default function Page() {
                     <Skeleton className="h-full w-full" />
                     </div> : sessionDetails.map((data,index)=>{
                       return <RevisionCard
+              id={data.id}
               key={index}
               title={`Session ${data.sessionNumber + 1}`}
               status={String(data.status) as Status}

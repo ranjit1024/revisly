@@ -1,64 +1,61 @@
-
-
-[
-  {
+[  {
     "id": 1,
-    "question": "In Go, what is the correct syntax for declaring a new string variable?",
-    "options": ["var s string = 'Hello'", "var str := 'Hello'", "var String string = 'Hello'", "var s = 'Hello'"],
-    "correctAnswer": 1
-  },
-  {
-    "id": 2,
-    "question": "What type of variable is declared with the declaration \"m := map[string]int{\"foo\":1}\"?",
-    "options": ["array", "slice", "map", "struct"],
+    "question": "Which of the following correctly declares a variadic function in Go?",
+    "options": ["func Sum(...int) int", "func Sum(nums []int) int", "func Sum(nums ...int) int", "func Sum(int...) int"],
     "correctAnswer": 2
   },
   {
-    "id": 3,
-    "question": "In Go, how do you declare a new array variable?",
-    "options": ["var a [5]int", "var arr := [5]int", "var Array[]int", "a := []int"],
-    "correctAnswer": 0
-  },
-  {
-    "id": 4,
-    "question": "What is the correct usage for a defer statement in Go?",
-    "options": ["defer file.Write()", "defer file.Close()", "defer file.Read()", "defer console.Print()"],
+    "id": 2,
+    "question": "How do you create a buffered channel with a capacity of 5 in Go?",
+    "options": ["make(chan int)", "make(chan int, 5)", "new(buffered chan 5)", "make(chan int, 5, 5)"],
     "correctAnswer": 1
   },
   {
+    "id": 3,
+    "question": "What is the output of this code: const (A = iota; B; C)?",
+    "options": ["A=0, B=0, C=0", "A=0, B=1, C=2", "A=1, B=2, C=3", "A=0, B=1, C=1"],
+    "correctAnswer": 1
+  },
+  {
+    "id": 4,
+    "question": "Which statement correctly initializes a map with key-value pairs?",
+    "options": ["m := map{ \"one\": 1 }", "m := map[string]int{ one:1 }", "m := map[string]int{ \"one\": 1 }", "m := new(map[string]int{ \"one\": 1 })"],
+    "correctAnswer": 2
+  },
+  {
     "id": 5,
-    "question": "In Go, how do you write a function that takes a variable number of integer arguments?",
-    "options": ["func Sum(nums int) int", "func Sum(int) int", "func Sum(...int) int", "func Sum(int, ...int)"],
+    "question": "Which keyword is used for implicit interface implementation in Go?",
+    "options": ["satisfies", "implements", "No keyword required", "fulfills"],
     "correctAnswer": 2
   },
   {
     "id": 6,
-    "question": "What is the idiomatic way to check for errors in Go?",
-    "options": ["if err == nil {}", "if err != nil {}", "if err > 0 {}", "if err < 0 {}"],
-    "correctAnswer": 1
-  },
-  {
-    "id": 7,
-    "question": "In Go, how do you create a new buffered channel?",
-    "options": ["ch := make(chan int)", "ch := make(chan int, 5)", "ch := bufferedChan(int)", "ch := channel(int, 5)"],
-    "correctAnswer": 1
-  },
-  {
-    "id": 8,
-    "question": "What is the purpose of the context.WithCancel function in Go?",
-    "options": ["to create a new channel", "to declare a new function", "to set a context deadline", "to cancel a goroutine"],
+    "question": "What command initializes a new Go module with the path \"github.com/user/project\"?",
+    "options": ["go init -mod=github.com/user/project", "go mod github.com/user/project", "go mod create github.com/user/project", "go mod init github.com/user/project"],
     "correctAnswer": 3
   },
   {
-    "id": 9,
-    "question": "In Go, how do you write a test function?",
-    "options": ["func TestFoo(t *testing.T)", "func Test(t *testing.T)", "func TestFoo()", "func Test()"],
+    "id": 7,
+    "question": "Which syntax is correct for a switch statement with type inference?",
+    "options": ["switch v := x; case int:", "switch x { case int:", "switch v := x.(type) { case int:", "switch x.(type) case int:"],
+    "correctAnswer": 2
+  },
+  {
+    "id": 8,
+    "question": "What is the correct way to pass 3 arguments to this function: func Example(x, y, z int) {}?",
+    "options": ["Example(1, 2, 3)", "Example([3]int{1, 2, 3})", "Example(1, 2) + z=3", "Example((1, 2, 3))"],
     "correctAnswer": 0
   },
   {
+    "id": 9,
+    "question": "Which keyword allows fallthrough between case blocks in a switch statement?",
+    "options": ["continue", "goto", "fallthrough", "break"],
+    "correctAnswer": 2
+  },
+  {
     "id": 10,
-    "question": "What is the recommended way to document exported symbols in Go?",
-    "options": ["with comments at the top of the file", "with proper Go comments", "with Javadoc-style comments", "with no comments at all"],
-    "correctAnswer": 1
+    "question": "What is the idiomatic way to handle wrapped errors in Go 1.13+?",
+    "options": ["fmt.Errorf(\"%w\", err)", "errors.New(\"%w\"+err)", "panic(err)", "log.Fatal(err)"],
+    "correctAnswer": 0
   }
 ]

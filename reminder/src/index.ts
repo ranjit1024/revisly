@@ -372,7 +372,7 @@ Requirements:
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 }
-// const processor = new ReminderProceser();
+const processor = new ReminderProceser();
 
-// // Start the processor
-// processor.start().catch(console.error);
+// Start the processor
+processor.start().catch(console.error);
