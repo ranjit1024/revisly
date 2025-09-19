@@ -4,13 +4,9 @@ import React, { useState } from 'react';
 const QuizSkeleton: React.FC = () => {
   return (
     <div className=" mx-auto p-6 bg-white mb-3 rounded-2xl shadow-sm ">
-      {/* Header with number badge */}
-    
 
-      
       <div className="flex items-center mb-6">
         <div className="w-8 h-8 bg-blue-100 text-white rounded-full flex items-center justify-center text-sm font-medium">
-          
         </div>
       </div>
 
