@@ -99,6 +99,4 @@ async function main(){
   }
 }
 main()
-app.listen(5084, () => {
-  console.log("Listinging on a port number 5084")
-})
+export default app;
