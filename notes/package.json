@@ -21,6 +21,7 @@
     "pdfkit": "^0.17.2"
   },
   "devDependencies": {
-    "@types/node": "^20.x.x"
+    "@types/node": "^20.x.x",
+    "typescript": "^5.9.2"
   }
 }
