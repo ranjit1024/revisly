@@ -99,4 +99,7 @@ async function main(){
   }
 }
 main()
+app.get("/", (req,res)=>{
+  res.send('Wokring')
+})
 export default app;
