@@ -1,24 +1,29 @@
-import { Redis } from "@upstash/redis"
-import dotenv from "dotenv"
+import { Redis } from "@upstash/redis";
+import dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
-import { S3Client, GetObjectCommand, PutObjectCommandInput, PutObjectCommand } from "@aws-sdk/client-s3";
-import fs from "fs"
+import {
+  S3Client,
+  GetObjectCommand,
+  PutObjectCommandInput,
+  PutObjectCommand,
+} from "@aws-sdk/client-s3";
+import fs from "fs";
 import { createWriteStream } from "node:fs";
 import { NodeHttpHandler } from "@smithy/node-http-handler";
-import https from 'https';
-import pdf from "pdf-parse"
+import https from "https";
+import pdf from "pdf-parse";
 import { Readable } from "node:stream";
-import Groq from "groq-sdk"
+import Groq from "groq-sdk";
 import express, { Express } from "express";
-import cors from "cors"
+import cors from "cors";
 //type
 interface remindType {
-  topic: string
-  remind: string,
-  time: string,
-  email: string,
-  revision_id: string,
-  id: string,
+  topic: string;
+  remind: string;
+  time: string;
+  email: string;
+  revision_id: string;
+  id: string;
 }
 //config
 dotenv.config();
@@ -26,13 +31,13 @@ const redis = Redis.fromEnv();
 
 const prisma = new PrismaClient();
 
-console.log(process.env.GROQ_API_KEY)
+console.log(process.env.GROQ_API_KEY);
 const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY
+  apiKey: process.env.GROQ_API_KEY,
 });
 const app: Express = express();
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 //file type
 interface FileUpload {
   content: Buffer | string;
@@ -50,29 +55,30 @@ async function getData() {
         email: true,
         reminderDate: true,
         time: true,
-        revisionid: true
+        revisionid: true,
       },
 
       orderBy: {
-        reminderDate: 'desc'
+        reminderDate: "desc",
       },
-
-    })
+    });
     data.forEach(async (reminderTime) => {
-      await redis.lpush('reminder', JSON.stringify({
-        time: reminderTime.time,
-        topic: reminderTime.topic,
-        email: reminderTime.email,
-        revision_id: reminderTime.revisionid,
-        id: reminderTime.id
-      }))
-    })
-  }
-  catch (e) {
-    console.log(`something went wrong ${e}`)
+      await redis.lpush(
+        "reminder",
+        JSON.stringify({
+          time: reminderTime.time,
+          topic: reminderTime.topic,
+          email: reminderTime.email,
+          revision_id: reminderTime.revisionid,
+          id: reminderTime.id,
+        })
+      );
+    });
+  } catch (e) {
+    console.log(`something went wrong ${e}`);
   }
 }
-getData()
+getData();
 
 //llm test
 async function genarateTest(params: string) {
@@ -109,53 +115,50 @@ const s3Client = new S3Client({
   maxAttempts: 3,
 });
 
-app.post('/api/score/:id', async (req, res) => {
+app.post("/api/score/:id", async (req, res) => {
   const id = req.params.id;
   const { score } = req.body;
-  const {selectedAnswer} = req.body;
-  console.log(id)
+  const { selectedAnswer } = req.body;
+  console.log(id);
 
   try {
     const userId = await prisma.revisionSession.findFirst({
       where: {
-        id: id
-      }
-    })
-    console.log(userId)
+        id: id,
+      },
+    });
+    console.log(userId);
     if (userId) {
       const userUpdate = await prisma.revisionSession.update({
         where: {
-          id: userId.id
+          id: userId.id,
         },
         data: {
           score: score,
-          answer:selectedAnswer,
-          status:'COMPLETED'
-        }
+          answer: selectedAnswer,
+          status: "COMPLETED",
+        },
       });
-      
+
       res.json({
         msg: "Score updated",
-        data: userUpdate
-      })
+        data: userUpdate,
+      });
       return;
-    }
-    else {
+    } else {
       res.json({
         msg: "User not",
-
-      })
+      });
     }
-  }
-  catch (e) {
+  } catch (e) {
     res.json({
-      msg: "not updated"
-    })
+      msg: "not updated",
+    });
   }
-})
+});
 app.listen(4000, () => {
-  console.log('listing on port number 4000')
-})
+  console.log("listing on port number 4000");
+});
 
 class ReminderProceser {
   private isProcessing: boolean = false;
@@ -169,50 +172,53 @@ class ReminderProceser {
     }
     this.isProcessing = true;
     this.shouldStop = false;
-    console.log('Starting Reminder Queue');
+    console.log("Starting Reminder Queue");
 
     await this.processQueue();
   }
   async stop() {
-    console.log('Stopping Queue processor');
+    console.log("Stopping Queue processor");
     this.shouldStop = true;
   }
-
-private async processQueue() {
+  private reminderTime(time: string) {
+    const originalDate = new Date(time);
+    const reminderTime = new Date(originalDate.getTime() - 10 * 60 * 1000);
+    const reminderTimeISO = reminderTime.toISOString()
+    return reminderTimeISO;
+  }
+  private async processQueue() {
     while (!this.shouldStop) {
       try {
         // Use rpop (non-blocking) with Upstash
-        const reminderData:remindType | null = await redis.rpop("reminder");
+        const reminderData: remindType | null = await redis.rpop("reminder");
         if (reminderData) {
           await this.processReminder(reminderData);
-          
         } else {
           // No items in queue, wait before polling again
           await this.sleep(this.pollIntervel);
         }
-        
       } catch (error) {
-        console.error('Queue processing error:', error);
+        console.error("Queue processing error:", error);
         await this.sleep(5000); // Wait longer on error
       }
     }
-  };
+  }
   private async processReminder(reminder: remindType | null) {
     try {
-      console.log('Procesing Reminder', reminder);
+      console.log("Procesing Reminder", reminder);
       if (!reminder?.email.trim() || !reminder.id.trim()) {
         return;
       }
 
-      this.storeFile(JSON.stringify(reminder), 'data.json');
+      this.storeFile(JSON.stringify(reminder), "data.json");
 
       const notes = await this.getNotes({
         id: reminder?.revision_id,
-        title: reminder?.topic
+        title: reminder?.topic,
       });
 
       //Get nots pdf
-      const pdfBuffer = fs.readFileSync('notes.pdf');
+      const pdfBuffer = fs.readFileSync("notes.pdf");
       const data = await pdf(pdfBuffer);
       const pdfTextContent = data.text;
 
@@ -220,41 +226,48 @@ private async processQueue() {
       const questions = await this.generateTest(pdfTextContent, reminder.topic);
 
       if (!questions) {
-        console.log('Failed to generate questions for:', reminder.id);
+        console.log("Failed to generate questions for:", reminder.id);
         return;
       }
-      this.storeFile(questions, 'questions.json');
+      this.storeFile(questions, "questions.json");
 
       // read html
-      const html = fs.readFileSync('index.html', 'utf-8');
+      const html = fs.readFileSync("index.html", "utf-8");
       await this.upload(
         {
           content: html,
           key: `${reminder.id}/index.html`,
-          contentType: 'text/html'
+          contentType: "text/html",
         },
         {
           content: questions,
           key: `${reminder.id}/questions.json`,
-          contentType: 'application/json'
+          contentType: "application/json",
         },
         {
           content: JSON.stringify(reminder),
           key: `${reminder.id}/data.json`,
-          contentType: 'application/json'
+          contentType: "application/json",
         }
       );
-      console.log('Successfully processed reminder:', reminder.id);
-      redis.lpush('time', JSON.stringify({
-
-      }))
+      console.log("Successfully processed reminder:", reminder.id);
+      redis.lpush(
+        "reminderTime",
+        JSON.stringify({
+          email: reminder.email,
+          id: reminder.id,
+          topi: this.reminderTime(reminder.time),
+        })
+      );
+    } catch (err) {
+      console.log("Something Went wrong");
     }
-    catch (err) {
-      console.log('Something Went wrong')
-    }
-  };
+  }
 
-  private async generateTest(pdfTextContent: string, topic: string): Promise<string | null> {
+  private async generateTest(
+    pdfTextContent: string,
+    topic: string
+  ): Promise<string | null> {
     try {
       const test = await genarateTest(`
 Generate 10 medium level multiple choice questions from ${pdfTextContent}. 
@@ -280,28 +293,33 @@ Requirements:
 
       return test;
     } catch (error) {
-      console.error('Error generating test:', error);
+      console.error("Error generating test:", error);
       return null;
     }
   }
 
   private storeFile(content: string | null, filename: string) {
     try {
-      fs.writeFileSync(filename, '', 'utf-8');
-      console.log('file content added successfully');
+      fs.writeFileSync(filename, "", "utf-8");
+      console.log("file content added successfully");
 
-      fs.appendFileSync(filename, String(content), 'utf-8')
+      fs.appendFileSync(filename, String(content), "utf-8");
     } catch (err) {
-      console.error('Error Ducring handing file')
+      console.error("Error Ducring handing file");
     }
   }
 
-  private async getNotes(params: { id: string | undefined, title: string | undefined }) {
-    const { id, title } = params
-    const res = await s3Client.send(new GetObjectCommand({
-      Bucket: "revisly",
-      Key: `${id} ${title}/notes/notes.pdf`
-    }));
+  private async getNotes(params: {
+    id: string | undefined;
+    title: string | undefined;
+  }) {
+    const { id, title } = params;
+    const res = await s3Client.send(
+      new GetObjectCommand({
+        Bucket: "revisly",
+        Key: `${id} ${title}/notes/notes.pdf`,
+      })
+    );
     return new Promise<void>((resolve, reject) => {
       const body = res.Body;
 
@@ -309,12 +327,9 @@ Requirements:
         return reject(new Error("S3 Getobject body is not a Readable stream"));
       }
 
-      const file = createWriteStream('notes.pdf')
-      body
-        .pipe(file)
-        .on("error", reject)
-        .on("close", resolve)
-    })
+      const file = createWriteStream("notes.pdf");
+      body.pipe(file).on("error", reject).on("close", resolve);
+    });
   }
 
   private upload = async (
@@ -329,47 +344,46 @@ Requirements:
         Bucket: Bucket_Name,
         Key: htmlfile.key,
         Body: htmlfile.content,
-        ContentType: htmlfile.contentType
-      }
+        ContentType: htmlfile.contentType,
+      };
       const htmlCommand = new PutObjectCommand(htmlParams);
       const htmlResponse = await s3Client.send(htmlCommand);
-      console.log('HTML upload successful:', htmlResponse.ETag);
+      console.log("HTML upload successful:", htmlResponse.ETag);
 
       // json file upload
       const jsonParams: PutObjectCommandInput = {
         Bucket: Bucket_Name,
         Key: questions.key,
         Body: questions.content,
-        ContentType: questions.contentType
-      }
+        ContentType: questions.contentType,
+      };
 
       const jsonCommand = new PutObjectCommand(jsonParams);
       const jsonResponse = await s3Client.send(jsonCommand);
-      console.log('JSON upload successful:', jsonResponse.ETag);
+      console.log("JSON upload successful:", jsonResponse.ETag);
 
       const userdataPramas: PutObjectCommandInput = {
         Bucket: Bucket_Name,
         Key: userdata.key,
         Body: userdata.content,
-        ContentType: userdata.contentType
-      }
+        ContentType: userdata.contentType,
+      };
 
       const userCommand = new PutObjectCommand(userdataPramas);
       const userResponse = await s3Client.send(userCommand);
-      console.log('JSON upload successful:', userResponse.ETag);
+      console.log("JSON upload successful:", userResponse.ETag);
       return {
-        htmlETag: htmlResponse.ETag || '',
-        jsonETag: jsonResponse.ETag || '',
+        htmlETag: htmlResponse.ETag || "",
+        jsonETag: jsonResponse.ETag || "",
       };
-
     } catch (err) {
-      console.error(err)
-      console.error('Upload failed:', err);
+      console.error(err);
+      console.error("Upload failed:", err);
       throw err;
     }
-  }
+  };
   private sleep(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }
 const processor = new ReminderProceser();

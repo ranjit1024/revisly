@@ -19,7 +19,6 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const redis_1 = require("@upstash/redis");
 const pdfkit_1 = __importDefault(require("pdfkit"));
 const fs_1 = __importDefault(require("fs"));
-const express_1 = __importDefault(require("express"));
 dotenv_1.default.config();
 const redis = redis_1.Redis.fromEnv();
 // llm notes init
@@ -27,7 +26,6 @@ console.log(process.env.GROQ_API_KEY);
 const groq = new groq_sdk_1.default({
     apiKey: process.env.GROQ_API_KEY
 });
-const app = (0, express_1.default)();
 //  init a s3 client
 const s3Client = new client_s3_1.S3Client({
     region: (_a = process.env.AWS_REGION) !== null && _a !== void 0 ? _a : "", // e.g., "us-east-1"
@@ -97,7 +95,6 @@ function main() {
                         topic: revisionData.topic,
                         status: "completed"
                     });
-                    return "done with creating notes";
                 }
             }
             catch (e) {
@@ -107,6 +104,3 @@ function main() {
     });
 }
 main();
-app.listen(5084, () => {
-    console.log("Listinging on a port number 5084");
-});

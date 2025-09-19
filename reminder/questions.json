@@ -1,61 +1,61 @@
 [  {
     "id": 1,
-    "question": "Which of the following correctly declares a variadic function in Go?",
-    "options": ["func Sum(...int) int", "func Sum(nums []int) int", "func Sum(nums ...int) int", "func Sum(int...) int"],
+    "question": "Which function calculates the standard deviation assuming the data represents a sample?",
+    "options": ["STDEV.P", "VAR.P", "STDEV.S", "COUNTA"],
     "correctAnswer": 2
   },
   {
     "id": 2,
-    "question": "How do you create a buffered channel with a capacity of 5 in Go?",
-    "options": ["make(chan int)", "make(chan int, 5)", "new(buffered chan 5)", "make(chan int, 5, 5)"],
+    "question": "To count non-empty cells in a range that contain numbers or text, which function should you use?",
+    "options": ["COUNT", "COUNTA", "COUNTBLANK", "MIN"],
     "correctAnswer": 1
   },
   {
     "id": 3,
-    "question": "What is the output of this code: const (A = iota; B; C)?",
-    "options": ["A=0, B=0, C=0", "A=0, B=1, C=2", "A=1, B=2, C=3", "A=0, B=1, C=1"],
+    "question": "Which function returns the median (middle) value of a dataset?",
+    "options": ["AVERAGE", "MEDIAN", "MODE.SNGL", "MAX"],
     "correctAnswer": 1
   },
   {
     "id": 4,
-    "question": "Which statement correctly initializes a map with key-value pairs?",
-    "options": ["m := map{ \"one\": 1 }", "m := map[string]int{ one:1 }", "m := map[string]int{ \"one\": 1 }", "m := new(map[string]int{ \"one\": 1 })"],
+    "question": "What is the best function to perform a vertical lookup with an exact match?",
+    "options": ["VLOOKUP with TRUE", "HLOOKUP with FALSE", "XLOOKUP with FALSE", "INDEX-MATCH"],
     "correctAnswer": 2
   },
   {
     "id": 5,
-    "question": "Which keyword is used for implicit interface implementation in Go?",
-    "options": ["satisfies", "implements", "No keyword required", "fulfills"],
-    "correctAnswer": 2
+    "question": "Which function filters an array based on a Boolean condition?",
+    "options": ["FILTER", "SORT", "UNIQUE", "SEQUENCE"],
+    "correctAnswer": 0
   },
   {
     "id": 6,
-    "question": "What command initializes a new Go module with the path \"github.com/user/project\"?",
-    "options": ["go init -mod=github.com/user/project", "go mod github.com/user/project", "go mod create github.com/user/project", "go mod init github.com/user/project"],
-    "correctAnswer": 3
+    "question": "To extract the day of the week as a number from a date, which function should you use?",
+    "options": ["WEEKDAY", "DAY", "MONTH", "YEAR"],
+    "correctAnswer": 0
   },
   {
     "id": 7,
-    "question": "Which syntax is correct for a switch statement with type inference?",
-    "options": ["switch v := x; case int:", "switch x { case int:", "switch v := x.(type) { case int:", "switch x.(type) case int:"],
+    "question": "Which function joins multiple text strings with a delimiter?",
+    "options": ["CONCAT", "LEFT", "TEXTJOIN", "MID"],
     "correctAnswer": 2
   },
   {
     "id": 8,
-    "question": "What is the correct way to pass 3 arguments to this function: func Example(x, y, z int) {}?",
-    "options": ["Example(1, 2, 3)", "Example([3]int{1, 2, 3})", "Example(1, 2) + z=3", "Example((1, 2, 3))"],
-    "correctAnswer": 0
+    "question": "What function returns a sequence of numbers dynamically?",
+    "options": ["RAND", "SEQUENCE", "RANDBETWEEN", "FILTER"],
+    "correctAnswer": 1
   },
   {
     "id": 9,
-    "question": "Which keyword allows fallthrough between case blocks in a switch statement?",
-    "options": ["continue", "goto", "fallthrough", "break"],
-    "correctAnswer": 2
+    "question": "To calculate the variance for an entire population, which function is correct?",
+    "options": ["VAR.S", "VAR.P", "STDEV.P", "STDEV.S"],
+    "correctAnswer": 1
   },
   {
     "id": 10,
-    "question": "What is the idiomatic way to handle wrapped errors in Go 1.13+?",
-    "options": ["fmt.Errorf(\"%w\", err)", "errors.New(\"%w\"+err)", "panic(err)", "log.Fatal(err)"],
-    "correctAnswer": 0
+    "question": "Which function can be used to transpose a range (switch rows and columns)?",
+    "options": ["INDEX", "OFFSET", "TRANSPOSE", "CHOOSE"],
+    "correctAnswer": 2
   }
 ]

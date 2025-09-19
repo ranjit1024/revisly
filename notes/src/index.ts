@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import { Redis } from "@upstash/redis";
 import PDFDocument from "pdfkit";
 import fs from "fs"
-import express from "express"
+
 //all config
 interface ReminderType {
   topic: string
@@ -17,7 +17,7 @@ console.log(process.env.GROQ_API_KEY)
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY
 });
-const app = express()
+
 //  init a s3 client
 const s3Client = new S3Client({
   region: process.env.AWS_REGION ?? "", // e.g., "us-east-1"
@@ -90,7 +90,7 @@ async function main(){
         topic: revisionData.topic,
         status: "completed"
       })
-      return "done with creating notes";
+      
     }
   }
   catch (e) {
@@ -99,7 +99,3 @@ async function main(){
   }
 }
 main()
-app.get("/", (req,res)=>{
-  res.send('Wokring')
-})
-export default app;
