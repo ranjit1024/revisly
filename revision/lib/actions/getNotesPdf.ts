@@ -17,6 +17,7 @@ export async function getNotes({ folderKey }: {
   folderKey: string
 }) {
   try {
+      const Bucket_Name = "ranjit-dev-test"
     const command = new GetObjectCommand({
       Bucket: process.env.S3_BUCKET,
       Key: folderKey,
