@@ -13,13 +13,7 @@ interface reminderType {
   time: string;
   topic:string;
 }
-interface EmailOptions {
-  from: string;
-  to: string;
-  subject: string;
-  html?: string;
-  text?: string;
-}
+
 //
 const s3Client = new S3Client({
   region: process.env.AWS_REGION || "us-east-1",

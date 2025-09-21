@@ -1,0 +1,25 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@prisma/client": "^6.15.0",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.5.2"
+  },
+  "dependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/dotenv": "^8.2.3",
+    "@upstash/redis": "^1.35.4",
+    "corn": "^0.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "prisma": "^6.15.0"
+  }
+}

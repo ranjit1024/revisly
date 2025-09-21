@@ -1,6 +1,5 @@
 import { Redis } from "@upstash/redis";
 import dotenv from "dotenv";
-import { PrismaClient } from "@prisma/client";
 import {
   S3Client,
   GetObjectCommand,
@@ -29,7 +28,6 @@ interface remindType {
 dotenv.config();
 const redis = Redis.fromEnv();
 
-const prisma = new PrismaClient();
 
 console.log(process.env.GROQ_API_KEY);
 const groq = new Groq({
@@ -46,39 +44,7 @@ interface FileUpload {
 }
 
 //push to quque
-async function getData() {
-  try {
-    const data = await prisma.revisionSession.findMany({
-      select: {
-        id: true,
-        topic: true,
-        email: true,
-        reminderDate: true,
-        time: true,
-        revisionid: true,
-      },
 
-      orderBy: {
-        reminderDate: "desc",
-      },
-    });
-    data.forEach(async (reminderTime) => {
-      await redis.lpush(
-        "reminder",
-        JSON.stringify({
-          time: reminderTime.time,
-          topic: reminderTime.topic,
-          email: reminderTime.email,
-          revision_id: reminderTime.revisionid,
-          id: reminderTime.id,
-        })
-      );
-    });
-  } catch (e) {
-    console.log(`something went wrong ${e}`);
-  }
-}
-getData();
 
 //llm test
 async function genarateTest(params: string) {
@@ -115,50 +81,7 @@ const s3Client = new S3Client({
   maxAttempts: 3,
 });
 
-app.post("/api/score/:id", async (req, res) => {
-  const id = req.params.id;
-  const { score } = req.body;
-  const { selectedAnswer } = req.body;
-  console.log(id);
 
-  try {
-    const userId = await prisma.revisionSession.findFirst({
-      where: {
-        id: id,
-      },
-    });
-    console.log(userId);
-    if (userId) {
-      const userUpdate = await prisma.revisionSession.update({
-        where: {
-          id: userId.id,
-        },
-        data: {
-          score: score,
-          answer: selectedAnswer,
-          status: "COMPLETED",
-        },
-      });
-
-      res.json({
-        msg: "Score updated",
-        data: userUpdate,
-      });
-      return;
-    } else {
-      res.json({
-        msg: "User not",
-      });
-    }
-  } catch (e) {
-    res.json({
-      msg: "not updated",
-    });
-  }
-});
-app.listen(4000, () => {
-  console.log("listing on port number 4000");
-});
 
 class ReminderProceser {
   private isProcessing: boolean = false;
