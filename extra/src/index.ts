@@ -1,8 +1,9 @@
 import { Redis } from "@upstash/redis";
 import dotenv from "dotenv";
 import {PrismaClient} from "@prisma/client";
-import express from "express"
-import cors from "cors"
+import express from "express";
+import corn from "node-cron"
+import cors from "cors";
 //
 dotenv.config();
 const redis = Redis.fromEnv();
@@ -31,6 +32,7 @@ async function getData() {
         reminderDate: "asc",
       },
     });
+    console.log(data)
     data.forEach(async (reminderTime) => {
       await redis.lpush(
         "reminder",
@@ -47,7 +49,7 @@ async function getData() {
     console.log(`something went wrong ${e}`);
   }
 }
-getData();
+
 
 app.post("/api/score/:id", async (req, res) => {
   const id = req.params.id;
@@ -93,3 +95,8 @@ app.post("/api/score/:id", async (req, res) => {
 app.listen(port, () => {
   console.log("listing on port number ",  port);
 });
+
+corn.schedule('0 0 * * *', async()=>{
+  const res = await getData();
+  console.log(res)
+})
