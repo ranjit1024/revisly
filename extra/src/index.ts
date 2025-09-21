@@ -4,6 +4,7 @@ import {PrismaClient} from "@prisma/client";
 import express from "express";
 import corn from "node-cron"
 import cors from "cors";
+import { P } from "@upstash/redis/zmscore-DWj9Vh1g";
 //
 dotenv.config();
 const redis = Redis.fromEnv();
@@ -49,8 +50,38 @@ async function getData() {
     console.log(`something went wrong ${e}`);
   }
 }
-
-
+async function markMissed(){
+  try {
+    const data = await prisma.revisionSession.findMany({
+      where:{
+        status:"PENDING",
+        reminderDate:{
+          gte:new Date().toISOString()
+        }
+      },
+      orderBy: {
+        reminderDate: "asc",
+      },
+    });
+    data.forEach(item=>{
+      if(item){
+        prisma.revisionSession.updateMany({
+          where:{
+            id:item.id
+          },
+          data:{
+            status:'MISSED'
+          }
+        })
+      }else{
+        console.log('Not found')
+      }
+    })
+}
+catch(e){
+  console.log('somethig went wrtong')
+}
+}
 app.post("/api/score/:id", async (req, res) => {
   const id = req.params.id;
   const { score } = req.body;
@@ -98,5 +129,9 @@ app.listen(port, () => {
 
 corn.schedule('0 0 * * *', async()=>{
   const res = await getData();
+  console.log(res)
+})
+corn.schedule('0 3 * * *', async()=>{
+  const res = await markMissed();
   console.log(res)
 })
