@@ -1,10 +1,12 @@
 'use client'
 import { motion, useInView, useScroll } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import RevisionSessionCard from "@/components/ui/revisionCard";
+import { CircleAlert, PlusCircle } from "lucide-react";
 import { getUserSession } from "@/lib/actions/getSession";
 import Skeleton from "@/components/ui/cardSkeleton";
 import SessionCard from "@/components/ui/revisionCard";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 const containerVariant = {
   hidden: {},
   show: {
@@ -35,9 +37,10 @@ const cardVariant = {
 };
 
 export default function Home() {
+  const router = useRouter()
   const ref = useRef(null)
   const inView = useInView(ref, { once: true });
-  const [revisionSessionInfo, setRevisionSessionInfo] = useState<RevisionSession[] | null>(null)
+  const [revisionSessionInfo, setRevisionSessionInfo] = useState<RevisionSession[] | "">("")
   
   useEffect(()=>{
     async function getRevisionSession() { 
@@ -49,6 +52,16 @@ export default function Home() {
   },[])
   
   // console.log(g)
+  if(revisionSessionInfo == ""){
+    return <div className="mt-10 p-10  flex justify-center items-center h-[80vh]">
+     <button onClick={()=>{
+      router.push("/revisly/revision")
+     }} className="inline-flex items-center gap-3 px-10 py-3 border flex-col hover:from-purple-600 border-gray-200 hover:to-indigo-700 text-gray-700 font-semibold rounded-xl shadow-sm hover:shadow-md transform transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-purple-300/50  hover:cursor-pointer">
+      <PlusCircle/>
+      Set Revision
+    </button>
+    </div>
+  }
   return <div className=" flex w-[100%] justify-center ">
 
  
