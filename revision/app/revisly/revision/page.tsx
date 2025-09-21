@@ -1,5 +1,5 @@
 "use client";
-import axios, { AxiosError } from "axios"
+import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import TimePicker from "@/components/ui/time";
@@ -14,15 +14,17 @@ import { MaxRangeDatePicker } from "@/components/ui/Daterange";
 import Chip from "@/components/ui/level";
 import { Redis } from "@upstash/redis";
 import { SelectDay } from "@/components/ui/days";
-import ErrorToast from "@/components/ui/toast";
+import { ErrorToast } from "@/components/ui/toast";
 import { ApiError } from "@/components/ui/apiError";
-
+import { Hard } from "@/components/ui/hard";
+import { TopicExistsToast } from "@/components/ui/topicExits";
 
 export default function Home() {
-  const redis = Redis.fromEnv()
-  const [showError, setShowError] = useState<boolean>(false);
-  const [apiError, setApiError] = useState<boolean>(false)
-  const router = useRouter()
+  const redis = Redis.fromEnv();
+  const [invalidInputError, setInvalidInputError] = useState<boolean>(false);
+  const [showRepeteError, setShowrepeteError] = useState<boolean>(false);
+  const [apiError, setApiError] = useState<boolean>(false);
+  const router = useRouter();
   const dispatch = useDispatch();
   const sessionData = useSelector((state: RootState) => {
     const data = {
@@ -37,34 +39,42 @@ export default function Home() {
     return data;
   });
   useEffect(() => {
-    apiError ? setTimeout(() => {
-      router.push('/revisly/home')
-    }, 1500) : null
-  }, [apiError])
+    apiError
+      ? setTimeout(() => {
+          router.push("/revisly/home");
+        }, 1500)
+      : null;
+  }, [apiError]);
   useEffect(() => {
-    if (showError) {
+    if (invalidInputError) {
       const timeOut = setTimeout(() => {
-        setShowError(false)
-      }, 3000)
-      return () => clearTimeout(timeOut)
+        setInvalidInputError(false);
+      }, 3000);
+      return () => clearTimeout(timeOut);
     }
-  }, [showError])
+  }, [invalidInputError]);
+  useEffect(() => {
+    if (showRepeteError) {
+      const timeOut = setTimeout(() => {
+        setShowrepeteError(false);
+      }, 3000);
+      return () => clearTimeout(timeOut);
+    }
+  }, [showRepeteError]);
   const [sendData, setSendData] = useState<boolean>(false);
 
   return (
     <div className=" ">
       <ApiError open={apiError} setOpen={setApiError}></ApiError>
-      {
-        showError ? <ErrorToast title="Invalid Input" subtitle="kindly enter corrrct Input" /> : null
-      }
+      {invalidInputError ? (
+        <ErrorToast
+         
+         
+        />
+      ) : null}
+      {showRepeteError ? <TopicExistsToast /> : null}
 
-      {
-
-        sendData ? <NotesgeneratorLoader /> : null
-      }
-
-
-
+      {sendData ? <NotesgeneratorLoader /> : null}
 
       <div className="bg-white shadow p-5 rounded-md h-[120vh] ">
         <div className="mb-6 flex items-start justify-between gap-4">
@@ -73,11 +83,12 @@ export default function Home() {
               Set Revision Reminder
             </h1>
             <p className="mt-1 text-sm text-zinc-600 flex">
-              We use<span className="font-medium text-emerald-700">&nbsp;spaced repetition</span> &nbsp; to help you retain more with less time.
-              <button className="ml-2 inline-flex items-center gap-1 text-emerald-700 hover:text-emerald-800">
-
-
-              </button>
+              We use
+              <span className="font-medium text-emerald-700">
+                &nbsp;spaced repetition
+              </span>{" "}
+              &nbsp; to help you retain more with less time.
+              <button className="ml-2 inline-flex items-center gap-1 text-emerald-700 hover:text-emerald-800"></button>
             </p>
           </div>
           <div className="hidden rounded-xl bg-emerald-50 px-3 py-2 text-emerald-700 ring-1 ring-emerald-100 sm:flex items-center gap-2">
@@ -88,9 +99,10 @@ export default function Home() {
         <div className="pt-6 w-full">
           <div className="w-full flex text-start items-start gap-4  justify-start h-full">
             <div className="w-[100%] ">
-
-
-              <label className="block text-sm font-medium text-zinc-700 text-start ml-1" htmlFor="topic">
+              <label
+                className="block text-sm font-medium text-zinc-700 text-start ml-1"
+                htmlFor="topic"
+              >
                 Topic Name
               </label>
               <div className="mt-2">
@@ -98,23 +110,23 @@ export default function Home() {
                   <input
                     onBlur={(e) => {
                       console.log(e.currentTarget.value);
-                      dispatch(actions.addTopic({
-                        topic: e.currentTarget.value
-                      }))
+                      dispatch(
+                        actions.addTopic({
+                          topic: e.currentTarget.value,
+                        })
+                      );
                     }}
                     id="topic"
-
                     placeholder="e.g., System Design — Caching"
                     className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-zinc-900 shadow-sm outline-none transition placeholder:text-zinc-400 focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100"
                   />
-                  <Layers className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400" size={16} />
+                  <Layers
+                    className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400"
+                    size={16}
+                  />
                 </div>
               </div>
-
-
-
             </div>
-
           </div>
           <div className="mt-8  ">
             <MaxRangeDatePicker
@@ -123,73 +135,77 @@ export default function Home() {
           </div>
 
           <div className="w-100 mt-8 hover:cursor-pointer  ">
-
             <TimePicker />
           </div>
 
-          <div>
-            {/* <Progress value={33} /> */}
-          </div>
+          <div>{/* <Progress value={33} /> */}</div>
           <div className="flex flex-col mt-2">
-            <label className="block mt-7 ml-2 mb-3 text-sm font-medium text-zinc-700 text-start " htmlFor="topic">
+            <label
+              className="block mt-7 ml-2 mb-3 text-sm font-medium text-zinc-700 text-start "
+              htmlFor="topic"
+            >
               Select The diffeculty level
             </label>
             <div className="flex ml-1 gap-2">
-
-              <Chip ></Chip>
-
-
-
+              <Chip></Chip>
             </div>
-            {
-              sessionData.difficulty ? sessionData.difficulty === 'hard' ? null : <div className="mt-9 ml-2 transition">
-                <label className="block mb-3 text-sm font-medium text-zinc-700 text-start " htmlFor="topic">
-                  Which day of week you want to shedule your revision
-                </label>
-                <SelectDay Limit={sessionData.difficulty === "medium" ? 3 : 1} />
-              </div> : null
-            }
 
+            {sessionData.difficulty ? (
+              sessionData.difficulty === "hard" ? (
+                <div>{<Hard />}</div>
+              ) : (
+                <div className="mt-9 ml-2 transition">
+                  <label
+                    className="block mb-3 text-sm font-medium text-zinc-700 text-start "
+                    htmlFor="topic"
+                  >
+                    Which day of week you want to shedule your revision
+                  </label>
 
+                  <SelectDay
+                    Limit={sessionData.difficulty === "medium" ? 3 : 1}
+                  />
+                </div>
+              )
+            ) : null}
           </div>
-
           <div className="mt-9 flex items-center gap-3">
             <button
               onClick={async () => {
-
                 try {
-                  setSendData(true);
-                  const setRevision = await axios.post('http://localhost:3000/api/revision', sessionData, {
-                    headers: {
-                      'Content-Type': 'application/json',
+                  const setRevision = await axios.post(
+                    "http://localhost:3000/api/revision",
+                    sessionData,
+                    {
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
                     }
-                  }
-
                   );
 
-                  setSendData(false);
-
-                  router.push('/revisly/all');
-                }
-                catch (e: unknown) {
+                  router.push("/revisly/all");
+                } catch (e: unknown) {
                   if (axios.isAxiosError(e)) {
-                    if (e.response?.data.message === "Not Working") {
-                      setSendData(false)
-                      setApiError(true);
-
-                    }
-                    else {
+                    console.log(e.response?.data.message);
+                    if (e.response?.data.message === "Invalid Input") {
+                      console.log("data");
                       setSendData(false);
-                      setShowError(true);
+                      setInvalidInputError(true);
+                      return;
+                    }
+                    if (
+                      e.response?.data.message ===
+                      "Session Exists with same topic"
+                    ) {
+                      setShowrepeteError(true);
+                      return;
+                    } else {
+                      setSendData(true);
                     }
                   }
-
-
                 }
-
               }}
               className="inline-flex items-center gap-2 rounded-xl bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-zinc-800 active:translate-y-px"
-
             >
               <Send size={16} />
               Set Revision Reminder
@@ -198,14 +214,8 @@ export default function Home() {
             {/* */}
             <Preview />
           </div>
-
-
-
-
-
         </div>
       </div>
-    </div >
+    </div>
   );
 }
-

@@ -24,7 +24,8 @@ type RevisionSession = {
   time: Date;
   createdSession: Date;
   endSession: Date;
-  brif:string
+  brif:string;
+  status:"COMPLETED" | "PENDING" |"MISSED";
 };
 
 const cardVariant = {
@@ -78,10 +79,10 @@ export default function Home() {
           startDate={item.createdSession}
           endDate={item.endSession}
           brief={item.brif}
-          sessionNumber={revisionSessionInfo.length + index}
+          sessionNumber={revisionSessionInfo.length - index}
           id={item.id}
           progress={30}
-          status={"PENDING"}         
+          status={item.status}         
         />)
     }
 

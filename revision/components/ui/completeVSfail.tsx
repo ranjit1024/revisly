@@ -22,8 +22,8 @@ import {
 export const description = "A pie chart with stacked sections"
 
 const desktopData = [
-  { month: "january", desktop: 186, fill: "var(--color-january)" },
-  { month: "february", desktop: 305, fill: "var(--color-february)" },
+  { month: "january", desktop: 30, fill: "var(--color-january)" },
+  { month: "february", desktop: 205, fill: "var(--color-february)" },
   
 ]
 
@@ -38,31 +38,20 @@ const chartConfig = {
     label: "Visitors",
   },
   desktop: {
-    label: "Desktop",
+    label: "Session",
   },
   mobile: {
-    label: "Mobile",
+    label: "Missed",
   },
   january: {
-    label: "January",
-    color: "var(--chart-1)",
-  },
-  february: {
-    label: "February",
-    color: "var(--chart-2)",
-  },
-  march: {
-    label: "March",
+    label: "Completed",
     color: "var(--chart-3)",
   },
-  april: {
-    label: "April",
-    color: "var(--chart-4)",
-  },
-  may: {
-    label: "May",
+  february: {
+    label: "Missed",
     color: "var(--chart-5)",
   },
+  
 } satisfies ChartConfig
 
 export function SuccessvsFail() {
@@ -75,7 +64,7 @@ export function SuccessvsFail() {
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[300px]"
+          className="mx-auto aspect-square max-h-[250px]"
         >
           <PieChart>
             <ChartTooltip
@@ -92,12 +81,12 @@ export function SuccessvsFail() {
                 />
               }
             />
-            <Pie data={desktopData} dataKey="desktop" outerRadius={150} />
+            <Pie data={desktopData} dataKey="desktop" outerRadius={120} />
             <Pie
               data={mobileData}
               dataKey="mobile"
-              innerRadius={230}
-              outerRadius={300}
+              innerRadius={3000}
+              outerRadius={4000}
             />
           </PieChart>
         </ChartContainer>

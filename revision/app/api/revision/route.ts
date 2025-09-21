@@ -98,6 +98,14 @@ export async function POST(req: NextRequest) {
   if (zodValidation.data.difficulty === "medium" && daysLenght !== 3) {
     return NextResponse.json({ message: "invalid Input" }, { status: 400 })
   }
+  const ifExitstingRevison = await prisma.revision.findFirst({
+    where:{
+      topic:zodValidation.data.topic
+    }
+  })
+  if(ifExitstingRevison){
+    return NextResponse.json({ message: "Session Exists with same topic" }, { status: 400 })
+  }
 
   // <---- Completing on the revision donrt----->
   try {

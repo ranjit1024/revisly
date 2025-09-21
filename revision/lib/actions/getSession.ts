@@ -17,7 +17,7 @@ type RevisionSession = {
     endSession: Date;
     totalDays: number;
     brif: string;
-    
+    status:"COMPLETED" | "PENDING" | "MISSED"
 };
 export async function getUserSession(){
     const session : userType | null  = await getServerSession(authOption);

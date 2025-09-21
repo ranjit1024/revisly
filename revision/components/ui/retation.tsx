@@ -16,7 +16,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-
+import { getRevisionSession } from "@/lib/actions/dashBoard"
+import { useEffect } from "react"
 export const description = "A line chart with a custom label"
 
 const chartData = [
@@ -59,6 +60,13 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function Retation() {
+  useEffect(()=>{
+    async function getData() {
+      const data = await getRevisionSession()
+      console.log(data)
+    }
+    getData()
+  },[])
   return (
     <Card className="h-full">
       <CardHeader>

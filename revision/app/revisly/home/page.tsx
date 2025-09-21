@@ -33,7 +33,6 @@ export default function Home() {
     }
     Data();
   }, []);
-  console.log(dashBoardData);
   return (
     <div className="">
       <div className="w-[100%] h-full ">
@@ -58,7 +57,8 @@ export default function Home() {
                   Current Revision Topic
                 </p>
                 <h3 className="mt-1 text-xl font-semibold tracking-tight">
-                  {dashBoardData?.topic}
+                  
+                  {dashBoardData?.topic || ""}
                 </h3>
               </div>
               <span className="rounded-full bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700 ring-1 ring-emerald-100">

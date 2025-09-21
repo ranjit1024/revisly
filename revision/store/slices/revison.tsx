@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+type diffeculty = {
 
+}
 interface sessionType {
   topic?: string;
   time?: string ;
@@ -8,7 +10,7 @@ interface sessionType {
   id?:string;
   startDate?:String;
   endDate?:String;
-  difficulty?:"easy" | "medium" | 'hard';
+  difficulty?:"easy" | "medium" | "hard";
   days?:string[] | null;
 }
 

@@ -26,7 +26,7 @@ const SessionCard = (
   brief = "Short summary about what to revise in this session.",
   progress = 0,
   id="",
-  status=null
+  status="PENDING"
 
 }:{
  
@@ -37,7 +37,7 @@ const SessionCard = (
   sessionNumber:number,
   progress:number
   id:string
-  status: 'PENDING' | 'COMPLETED' | null
+  status: 'PENDING' | 'COMPLETED' | 'MISSED'
 
 }
 ) => {
@@ -61,8 +61,8 @@ const router = useRouter();
         </div>
       </div>
       <div className="text-end mt-1 mr-2">
-          <span className=" bg-amber-50 text-amber-500 text-xs font-semibold px-3 py-1 rounded-full">
-                PENDING
+          <span className={`bg-amber-50 text-amber-500 text-xs font-semibold px-3 py-1 rounded-full ${status === 'COMPLETED' ?'bg-green-50 text-green-500 text-xs font-semibold px-3 py-1 rounded-full ':null} `}>
+                {status}
             </span>
             </div>
 
