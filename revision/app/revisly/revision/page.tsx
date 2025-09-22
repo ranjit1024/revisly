@@ -18,6 +18,7 @@ import { ErrorToast } from "@/components/ui/toast";
 import { ApiError } from "@/components/ui/apiError";
 import { Hard } from "@/components/ui/hard";
 import { TopicExistsToast } from "@/components/ui/topicExits";
+import { setDate } from "date-fns";
 
 export default function Home() {
   const redis = Redis.fromEnv();
@@ -173,6 +174,7 @@ export default function Home() {
             <button
               onClick={async () => {
                 try {
+                  setSendData(true);
                   const setRevision = await axios.post(
                     "http://localhost:3000/api/revision",
                     sessionData,
@@ -182,13 +184,14 @@ export default function Home() {
                       },
                     }
                   );
-
                   router.push("/revisly/all");
+                  setSendData(false);
                 } catch (e: unknown) {
                   if (axios.isAxiosError(e)) {
                     console.log(e.response?.data.message);
                     if (e.response?.data.message === "Invalid Input") {
                       console.log("data");
+                   
                       setSendData(false);
                       setInvalidInputError(true);
                       return;
@@ -197,6 +200,7 @@ export default function Home() {
                       e.response?.data.message ===
                       "Session Exists with same topic"
                     ) {
+                      setSendData(false)
                       setShowrepeteError(true);
                       return;
                     } else {

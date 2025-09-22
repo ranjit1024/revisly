@@ -1,17 +1,23 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import Groq from "groq-sdk";
 import dotenv from "dotenv";
-import { Redis } from "@upstash/redis";
+import { createClient } from "redis";
 import PDFDocument from "pdfkit";
 import fs from "fs"
-
+dotenv.config()
 //all config
 interface ReminderType {
   topic: string
   id: string
 }
-dotenv.config()
-const redis = Redis.fromEnv()
+const redis = createClient({
+    username: 'default',
+    password: process.env.REDIS_PASSWORD,
+    socket: {
+        host: process.env.REDIS_HOST,
+        port: 10363
+    }
+});
 // llm notes init
 console.log(process.env.GROQ_API_KEY)
 const groq = new Groq({
@@ -55,21 +61,22 @@ function GenerateNotesPdf(notes: string): Promise<void> {
 }
 //main meat of logic
 async function main(){
+  redis.on('error', err => console.log('Something Went Wronmg'))
+  await redis.connect();
   while(true){
     try {
     //pop revison message quque
-    const revisionData = await redis.rpop("revision") as {
-      topic: string
-      id: string
-    } | null;
-    if (revisionData && revisionData.topic !== null && revisionData.topic.trim() !== '') {
+    const quque = await redis.brPop("revision",30);
+    const revisionData : {
+      topic:string;
+      id:string
+    } = JSON.parse(quque?.element || '');
+    console.log(revisionData)
+    if (revisionData && revisionData.id !== null && revisionData.topic.trim() !== '') {
       console.log(`Processing: ${revisionData.id}`);
 
       //hash sett 
-      await redis.hset(revisionData.id, {
-        status: 'pending',
-        topic: revisionData.topic
-      });
+     
       const notes = await getAiGeneratedNotes(`generate notes for ${revisionData.topic} in clean string format `);
       const notesPdf = await GenerateNotesPdf(String(notes));
      
@@ -86,10 +93,7 @@ async function main(){
 
       console.log(result.$metadata.httpStatusCode, "Notes uploaded  succesffuly");
       //hash updated
-      redis.hset(revisionData.id, {
-        topic: revisionData.topic,
-        status: "completed"
-      })
+     
       
     }
   }

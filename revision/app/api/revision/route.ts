@@ -5,18 +5,15 @@ import z, { string } from "zod";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOption } from "@/lib/auth";
-import { Redis } from "@upstash/redis";
+import {createClient} from 'redis'
 import { Groq } from "groq-sdk";
-import { uuid } from "uuidv4"
+import crypto from 'crypto'
 import axios from "axios";
+import { AwardIcon } from "lucide-react";
 
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY
 });
-console.log(process.env.NEXTAUTH_URL);
-console.log(process.env.GROQ_API_KEY);
-
-
 async function gerateBrif(sub: string) {
   const chatCompletion = await groq.chat.completions.create({
     messages: [
@@ -29,9 +26,6 @@ async function gerateBrif(sub: string) {
   });
   return chatCompletion.choices[0].message.content;
 }
-
-const redis = Redis.fromEnv();
-
 //function to get user selected time into date type
 function getSelectedDateAndTime(time: string): Date {
   const today = new Date().toISOString().split('T')[0]
@@ -47,7 +41,6 @@ function getSelectedDateAndTime(time: string): Date {
   const convertedDate = new Date(year, (month - 1), day, hours24, minute, 0, 0);
   return convertedDate
 }
-
 //function for calculating endsesionDate
 function calculateAfterDays(value: number, createDate: Date): Date {
   const date = new Date();
@@ -80,8 +73,8 @@ function getCorrectDate(date: string) {
   return newDate.toISOString()
 }
 export async function POST(req: NextRequest) {
-  const revisionId = uuid;
-  const id = revisionId()
+
+  const id =  crypto.randomBytes(8).toString('hex');
   const session = await getServerSession(authOption)
   const body = await req.json();
   const zodValidation = validation.safeParse(body);
@@ -106,37 +99,26 @@ export async function POST(req: NextRequest) {
   if(ifExitstingRevison){
     return NextResponse.json({ message: "Session Exists with same topic" }, { status: 400 })
   }
-
+    const redis = createClient({
+    username: 'default',
+    password: process.env.REDIS_PASSWORD,
+    socket: {
+        host: process.env.REDIS_HOST,
+        port: 10363
+    }
+});
   // <---- Completing on the revision donrt----->
+    
   try {
+   
+    await redis.connect()
     //pushing in quque
-      await redis.lpush("revision", JSON.stringify({
+      await redis.lPush("revision", JSON.stringify({
         topic: zodValidation.data?.topic,
         id: id
       }));
-    //check whethre notes process are done or not
-    async function check(): Promise<boolean> {
-      return new Promise((resolve) => {
-        const statusCheck = setInterval(async () => {
-          try {
-            const status = await redis.hgetall(id);
-
-            if (status?.status === "completed") {
-              clearInterval(statusCheck);
-              console.log('Status completed!');
-              resolve(true);
-              
-            }
-          } catch (error) {
-            console.error('Error checking status:', error);
-            clearInterval(statusCheck);
-            resolve(false);
-          }
-        }, 4000);
-      });
-    }
-    const result = await check();
-    console.log('Check result:', result);
+    //check whethre notes process are done or not\
+    await redis.quit()
     // cretae db entry
     const revision = await prisma.revision.create({
       data: {
@@ -176,8 +158,8 @@ export async function POST(req: NextRequest) {
   }
   catch (err) {
     console.log(err)
-    NextResponse.json({ message: 'Something went wrong' }, { status: 400 });
+    return NextResponse.json({ message: 'Something went wrong' }, { status: 400 });
   }
-  return NextResponse.json({ message: 'Not Working' }, { status: 400 });
+ 
 }
 

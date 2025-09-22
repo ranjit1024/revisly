@@ -16,11 +16,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const client_s3_1 = require("@aws-sdk/client-s3");
 const groq_sdk_1 = __importDefault(require("groq-sdk"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const redis_1 = require("@upstash/redis");
+const redis_1 = require("redis");
 const pdfkit_1 = __importDefault(require("pdfkit"));
 const fs_1 = __importDefault(require("fs"));
 dotenv_1.default.config();
-const redis = redis_1.Redis.fromEnv();
+const redis = (0, redis_1.createClient)({
+    username: 'default',
+    password: process.env.REDIS_PASSWORD,
+    socket: {
+        host: process.env.REDIS_HOST,
+        port: 10363
+    }
+});
 // llm notes init
 console.log(process.env.GROQ_API_KEY);
 const groq = new groq_sdk_1.default({
@@ -66,17 +73,17 @@ function GenerateNotesPdf(notes) {
 //main meat of logic
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
+        redis.on('error', err => console.log('Something Went Wronmg'));
+        yield redis.connect();
         while (true) {
             try {
                 //pop revison message quque
-                const revisionData = yield redis.rpop("revision");
-                if (revisionData && revisionData.topic !== null && revisionData.topic.trim() !== '') {
+                const quque = yield redis.brPop("revision", 30);
+                const revisionData = JSON.parse((quque === null || quque === void 0 ? void 0 : quque.element) || '');
+                console.log(revisionData);
+                if (revisionData && revisionData.id !== null && revisionData.topic.trim() !== '') {
                     console.log(`Processing: ${revisionData.id}`);
                     //hash sett 
-                    yield redis.hset(revisionData.id, {
-                        status: 'pending',
-                        topic: revisionData.topic
-                    });
                     const notes = yield getAiGeneratedNotes(`generate notes for ${revisionData.topic} in clean string format `);
                     const notesPdf = yield GenerateNotesPdf(String(notes));
                     const fileContent = yield fs_1.default.promises.readFile("notes.pdf");
@@ -91,10 +98,6 @@ function main() {
                     const result = yield s3Client.send(command);
                     console.log(result.$metadata.httpStatusCode, "Notes uploaded  succesffuly");
                     //hash updated
-                    redis.hset(revisionData.id, {
-                        topic: revisionData.topic,
-                        status: "completed"
-                    });
                 }
             }
             catch (e) {

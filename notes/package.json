@@ -17,7 +17,8 @@
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "groq-sdk": "^0.32.0",
-    "pdfkit": "^0.17.2"
+    "pdfkit": "^0.17.2",
+    "redis": "^5.8.2"
   },
   "devDependencies": {
     "@types/node": "^20.x.x",

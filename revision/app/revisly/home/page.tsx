@@ -50,8 +50,8 @@ export default function Home() {
           }}
           className="grid grid-cols-1 gap-6 lg:grid-cols-2"
         >
-          <Card>
-            <div className="flex items-start justify-between">
+          <div className="bg-white p-5 shadow rounded-2xl" >
+            <div className="flex items-start justify-between ">
               <div>
                 <p className="text-sm font-medium text-zinc-500">
                   Current Revision Topic
@@ -87,9 +87,9 @@ export default function Home() {
                 <ChevronRight size={16} />
               </button>
             </div>
-          </Card>
+          </div>
 
-          <Card>
+          <div className="bg-white p-5 rounded-2xl shadow">
             <p className="text-sm font-medium text-zinc-500">
               Upcoming Revision
             </p>
@@ -104,7 +104,7 @@ export default function Home() {
               </div>
               <p className="text-sm text-zinc-700">Tomorrow • 5:00 AM</p>
             </div>
-          </Card>
+          </div >
         </motion.section>
 
         <motion.div

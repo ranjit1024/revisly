@@ -39,8 +39,8 @@ export function SessionHistory() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Bar Chart - Label</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Last five session </CardTitle>
+        <CardDescription>Score of last 5 session</CardDescription>
       </CardHeader>
       <CardContent className="">
         <ChartContainer config={chartConfig}>
@@ -80,10 +80,10 @@ export function SessionHistory() {
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 leading-none font-medium">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+          Showing total score for last 5 session
+           <TrendingUp className="h-4 w-4" />
         </div>
         <div className="text-muted-foreground leading-none">
-          Showing total visitors for the last 6 months
         </div>
       </CardFooter>
     </Card>
