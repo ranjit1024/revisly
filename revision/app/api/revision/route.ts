@@ -10,6 +10,7 @@ import { Groq } from "groq-sdk";
 import crypto from 'crypto'
 import axios from "axios";
 import { AwardIcon } from "lucide-react";
+import { listeners } from "process";
 
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY
@@ -26,6 +27,7 @@ async function gerateBrif(sub: string) {
   });
   return chatCompletion.choices[0].message.content;
 }
+
 //function to get user selected time into date type
 function getSelectedDateAndTime(time: string): Date {
   const today = new Date().toISOString().split('T')[0]
@@ -118,7 +120,8 @@ export async function POST(req: NextRequest) {
         id: id
       }));
     //check whethre notes process are done or not\
-    await redis.quit()
+ 
+
     // cretae db entry
     const revision = await prisma.revision.create({
       data: {
@@ -152,7 +155,7 @@ export async function POST(req: NextRequest) {
         })) || []
       })
     }
-
+    await redis.quit()
     return NextResponse.json({ message: 'Notes and database updated' }, { status: 200 });
 
   }
@@ -162,4 +165,3 @@ export async function POST(req: NextRequest) {
   }
  
 }
-

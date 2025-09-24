@@ -20,25 +20,17 @@ const redis_1 = require("redis");
 const pdfkit_1 = __importDefault(require("pdfkit"));
 const fs_1 = __importDefault(require("fs"));
 dotenv_1.default.config();
-const redis = (0, redis_1.createClient)({
-    username: 'default',
-    password: process.env.REDIS_PASSWORD,
-    socket: {
-        host: process.env.REDIS_HOST,
-        port: 10363
-    }
-});
 // llm notes init
 console.log(process.env.GROQ_API_KEY);
 const groq = new groq_sdk_1.default({
-    apiKey: process.env.GROQ_API_KEY
+    apiKey: process.env.GROQ_API_KEY,
 });
 //  init a s3 client
 const s3Client = new client_s3_1.S3Client({
     region: (_a = process.env.AWS_REGION) !== null && _a !== void 0 ? _a : "", // e.g., "us-east-1"
     credentials: {
         accessKeyId: (_b = process.env.AWS_ACCESS_KEY_ID) !== null && _b !== void 0 ? _b : "",
-        secretAccessKey: (_c = process.env.AWS_SECRET_ACCESS_KEY) !== null && _c !== void 0 ? _c : '',
+        secretAccessKey: (_c = process.env.AWS_SECRET_ACCESS_KEY) !== null && _c !== void 0 ? _c : "",
     },
     maxAttempts: 5,
 });
@@ -62,28 +54,38 @@ function getAiGeneratedNotes(params) {
 function GenerateNotesPdf(notes) {
     return new Promise((resolve, reject) => {
         const doc = new pdfkit_1.default(); // Create new instance each time
-        const stream = fs_1.default.createWriteStream('notes.pdf');
+        const stream = fs_1.default.createWriteStream("notes.pdf");
         doc.pipe(stream);
         doc.fontSize(18).text(notes);
         doc.end();
-        stream.on('finish', () => resolve());
-        stream.on('error', () => reject());
+        stream.on("finish", () => resolve());
+        stream.on("error", () => reject());
     });
 }
 //main meat of logic
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        redis.on('error', err => console.log('Something Went Wronmg'));
+        const redis = (0, redis_1.createClient)({
+            username: "default",
+            password: process.env.REDIS_PASSWORD,
+            socket: {
+                host: process.env.REDIS_HOST,
+                port: 10363,
+            },
+        });
+        redis.on("error", (err) => console.log("Something Went Wronmg"));
         yield redis.connect();
         while (true) {
             try {
                 //pop revison message quque
                 const quque = yield redis.brPop("revision", 30);
-                const revisionData = JSON.parse((quque === null || quque === void 0 ? void 0 : quque.element) || '');
+                const revisionData = JSON.parse((quque === null || quque === void 0 ? void 0 : quque.element) || "");
                 console.log(revisionData);
-                if (revisionData && revisionData.id !== null && revisionData.topic.trim() !== '') {
+                if (revisionData &&
+                    revisionData.id !== null &&
+                    revisionData.topic.trim() !== "") {
                     console.log(`Processing: ${revisionData.id}`);
-                    //hash sett 
+                    //hash sett
                     const notes = yield getAiGeneratedNotes(`generate notes for ${revisionData.topic} in clean string format `);
                     const notesPdf = yield GenerateNotesPdf(String(notes));
                     const fileContent = yield fs_1.default.promises.readFile("notes.pdf");
@@ -92,11 +94,17 @@ function main() {
                         Bucket: String(process.env.S3_BUCKET),
                         Key: `${revisionData.id} ${revisionData.topic}/notes/notes.pdf`,
                         Body: fileContent,
-                        ContentType: 'application/pdf',
+                        ContentType: "application/pdf",
                     };
                     const command = new client_s3_1.PutObjectCommand(params);
                     const result = yield s3Client.send(command);
+                    redis.set(`${revisionData.id}`, 'completed');
                     console.log(result.$metadata.httpStatusCode, "Notes uploaded  succesffuly");
+                    yield redis.set(`status${revisionData.id}`, JSON.stringify({
+                        success: true,
+                        data: result
+                    })),
+                        3000;
                     //hash updated
                 }
             }
