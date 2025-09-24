@@ -67,7 +67,7 @@ async function main() {
   while (true) {
     try {
       //pop revison message quque
-      const quque = await redis.brPop("revision", 30);
+      const quque = await redis.brPop("revision", 60);
 
       const revisionData: {
         topic: string;
@@ -99,16 +99,14 @@ async function main() {
         };
         const command = new PutObjectCommand(params);
         const result = await s3Client.send(command);
-        redis.set(`${revisionData.id}`, 'completed')
+        
+        await redis.set(`status-${revisionData.id}`,JSON.stringify({
+        success: true,
+      }))
         console.log(
           result.$metadata.httpStatusCode,
           "Notes uploaded  succesffuly"
         );
-        await redis.publish(`job_completed_${revisionData.id}`, JSON.stringify({
-        success: true,
-        result: result
-      }))
-      
     }
   } catch (e) {
     console.log(`something went wrong ${e}`);

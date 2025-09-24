@@ -98,14 +98,10 @@ function main() {
                     };
                     const command = new client_s3_1.PutObjectCommand(params);
                     const result = yield s3Client.send(command);
-                    redis.set(`${revisionData.id}`, 'completed');
-                    console.log(result.$metadata.httpStatusCode, "Notes uploaded  succesffuly");
-                    yield redis.set(`status${revisionData.id}`, JSON.stringify({
+                    yield redis.set(`status-${revisionData.id}`, JSON.stringify({
                         success: true,
-                        data: result
-                    })),
-                        3000;
-                    //hash updated
+                    }));
+                    console.log(result.$metadata.httpStatusCode, "Notes uploaded  succesffuly");
                 }
             }
             catch (e) {
