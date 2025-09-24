@@ -1,4 +1,4 @@
-import { Redis } from "@upstash/redis";
+import {createClient} from "redis"
 import dotenv from "dotenv";
 import {
   S3Client,
@@ -16,7 +16,7 @@ import Groq from "groq-sdk";
 import express, { Express } from "express";
 import cors from "cors";
 //type
-interface remindType {
+interface reminderType {
   topic: string;
   remind: string;
   time: string;
@@ -26,7 +26,7 @@ interface remindType {
 }
 //config
 dotenv.config();
-const redis = Redis.fromEnv();
+
 
 
 console.log(process.env.GROQ_API_KEY);
@@ -110,24 +110,47 @@ class ReminderProceser {
     return reminderTimeISO;
   }
   private async processQueue() {
+        const redis = createClient({
+    username: 'default',
+    password: process.env.REDIS_PASSWORD,
+    socket: {
+        host: process.env.REDIS_HOST,
+        port: 10363
+    }
+});
+redis.connect()
     while (!this.shouldStop) {
       try {
         // Use rpop (non-blocking) with Upstash
-        const reminderData: remindType | null = await redis.rpop("reminder");
-        if (reminderData) {
-          await this.processReminder(reminderData);
+        const res  = await redis.brPop("reminder",60);
+        
+        if (res) {
+          const reminderData : reminderType = JSON.parse(res.element);
+          console.log(reminderData)
+          await this.processReminder( reminderData);
         } else {
           // No items in queue, wait before polling again
           await this.sleep(this.pollIntervel);
         }
       } catch (error) {
         console.error("Queue processing error:", error);
+        
         await this.sleep(5000); // Wait longer on error
       }
     }
   }
-  private async processReminder(reminder: remindType | null) {
+  private async processReminder(reminder: reminderType | null) {
     try {
+      const client = createClient({
+  username: 'default',
+  password: process.env.REDIS_PASSWORD,
+  socket: {
+      host: process.env.REDIS_HOST,
+      port: 10363
+  }
+});
+client.connect()
+
       console.log("Procesing Reminder", reminder);
       if (!reminder?.email.trim() || !reminder.id.trim()) {
         return;
@@ -174,7 +197,7 @@ class ReminderProceser {
         }
       );
       console.log("Successfully processed reminder:", reminder.id);
-      redis.lpush(
+      client.lpush(
         "reminderTime",
         JSON.stringify({
           email: reminder.email,
@@ -182,6 +205,7 @@ class ReminderProceser {
           topi: this.reminderTime(reminder.time),
         })
       );
+      await client.quit()
     } catch (err) {
       console.log("Something Went wrong");
     }

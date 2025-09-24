@@ -1,11 +1,12 @@
-import { Redis } from "@upstash/redis";
+import {createClient} from "redis"
 import dotenv from "dotenv";
 import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import nodemailer from "nodemailer"
+import { aw, L } from "@upstash/redis/zmscore-CgRD7oFR";
 //
 dotenv.config();
-const redis = Redis.fromEnv();
+
 //
 interface reminderType {
   email: string;
@@ -171,18 +172,30 @@ async function semdMail(to:string,subject:string,link:string) {
     }
 }
 async function main() {
+    const redis = createClient({
+    username: 'default',
+    password: process.env.REDIS_PASSWORD,
+    socket: {
+        host: process.env.REDIS_HOST,
+        port: 10363
+    }});
+    redis.connect()
   while (1) {
     try {
-      const reminderData: reminderType | null = await redis.rpop(
-        "reminderTime"
-      );
-      if (reminderData && reminderData.email !== "") {
-        const link = await getQuizLInk(reminderData?.id);
-        console.log(link)
-        await semdMail(reminderData.email, reminderData.topic, link)
-      } else {
-        // console.log("not found");
-      }
+        const res = await redis.brPop("reminderTime", 60);
+        if(res){
+            const reminderData: reminderType | null = JSON.parse(res?.element);
+            if (reminderData && reminderData.email !== "") {
+              const link = await getQuizLInk(reminderData?.id);
+              console.log(link)
+              await semdMail(reminderData.email, reminderData.topic, link)
+            } else {
+              // console.log("not found");
+            }
+        }
+        else{
+            console.log("not found")
+        }
     } catch (e) {
       console.log(`something went wrong ${e}`);
     }

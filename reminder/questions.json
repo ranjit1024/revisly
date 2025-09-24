@@ -1,61 +1,111 @@
 [  {
     "id": 1,
-    "question": "Which function calculates the standard deviation assuming the data represents a sample?",
-    "options": ["STDEV.P", "VAR.P", "STDEV.S", "COUNTA"],
+    "question": "What happens when you assign a variable to another variable in Rust if the value does not implement the `Copy` trait?",
+    "options": [
+      "Both variables remain valid and hold the same value",
+      "The value is cloned, and the original variable is dropped",
+      "The original variable is moved, and the new variable becomes the owner",
+      "A compilation error occurs if the type is not explicitly marked as `move`"
+    ],
     "correctAnswer": 2
   },
   {
     "id": 2,
-    "question": "To count non-empty cells in a range that contain numbers or text, which function should you use?",
-    "options": ["COUNT", "COUNTA", "COUNTBLANK", "MIN"],
-    "correctAnswer": 1
-  },
-  {
-    "id": 3,
-    "question": "Which function returns the median (middle) value of a dataset?",
-    "options": ["AVERAGE", "MEDIAN", "MODE.SNGL", "MAX"],
-    "correctAnswer": 1
-  },
-  {
-    "id": 4,
-    "question": "What is the best function to perform a vertical lookup with an exact match?",
-    "options": ["VLOOKUP with TRUE", "HLOOKUP with FALSE", "XLOOKUP with FALSE", "INDEX-MATCH"],
-    "correctAnswer": 2
-  },
-  {
-    "id": 5,
-    "question": "Which function filters an array based on a Boolean condition?",
-    "options": ["FILTER", "SORT", "UNIQUE", "SEQUENCE"],
+    "question": "Which of the following is a valid way to declare a mutable reference to a value?",
+    "options": [
+      "let mut my_ref = &10;",
+      "let my_ref: &mut i32 = &10;",
+      "let mut my_ref: &i32 = &mut 10;",
+      "let my_ref = mut &10;"
+    ],
     "correctAnswer": 0
   },
   {
+    "id": 3,
+    "question": "What is the primary purpose of Rust's `match` expression compared to `if` statements?",
+    "options": [
+      "To allow fall-through behavior like C/C++`switch",
+      "To handle optional values with `Some`/`None` exclusively",
+      "To require exhaustive checking of all possible patterns",
+      "To reduce code verbosity by removing the need for `else`"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "id": 4,
+    "question": "How would you correctly borrow multiple references to the same value in Rust, and when would that be allowed?",
+    "options": [
+      "Using `&self` and `&self` in a method if the receiver is mutable",
+      "By using the `RefCell` type to dynamically check borrow validity at runtime",
+      "By assigning values to a `Rc` before creating multiple immutable references",
+      "All of the above depend on runtime vs compile-time rules"
+    ],
+    "correctAnswer": 3
+  },
+  {
+    "id": 5,
+    "question": "Which trait would you explicitly implement to enable comparison between two custom struct instances using `==`?",
+    "options": [
+      "Clone",
+      "PartialEq",
+      "Eq",
+      "Hash"
+    ],
+    "correctAnswer": 1
+  },
+  {
     "id": 6,
-    "question": "To extract the day of the week as a number from a date, which function should you use?",
-    "options": ["WEEKDAY", "DAY", "MONTH", "YEAR"],
+    "question": "What is the main difference between `&str` and `String` types in Rust?",
+    "options": [
+      "`String` is mutable while `&str` is an immutable slice",
+      "`&str` can contain invalid UTF-8 while `String` enforces validation",
+      "Only `&str` can be created from string literals",
+      "They are interchangeable and can be used in the same context"
+    ],
     "correctAnswer": 0
   },
   {
     "id": 7,
-    "question": "Which function joins multiple text strings with a delimiter?",
-    "options": ["CONCAT", "LEFT", "TEXTJOIN", "MID"],
+    "question": "Which of these correctly demonstrates trait bounds with a generic function?",
+    "options": [
+      "fn print<T: Display>(item: T) { println!(item); }",
+      "fn print<T: Clone>(item: T) where T: Clone { ... }",
+      "fn print<T>(item: T) where T: Clone + Debug { ... }",
+      "fn print<T: Clone, Debug>(item: T) { ... }"
+    ],
     "correctAnswer": 2
   },
   {
     "id": 8,
-    "question": "What function returns a sequence of numbers dynamically?",
-    "options": ["RAND", "SEQUENCE", "RANDBETWEEN", "FILTER"],
-    "correctAnswer": 1
+    "question": "What does the `?` operator do in an async function returning `Result<T, E>`?",
+    "options": [
+      "It unwraps the value and panics on error",
+      "It returns an `Option` by converting `None` values",
+      "It propagates errors by converting them to the function's return type",
+      "It clones the contained value of the `Result` to avoid ownership issues"
+    ],
+    "correctAnswer": 2
   },
   {
     "id": 9,
-    "question": "To calculate the variance for an entire population, which function is correct?",
-    "options": ["VAR.S", "VAR.P", "STDEV.P", "STDEV.S"],
-    "correctAnswer": 1
+    "question": "When using Cargo workspaces, how do you depend on a member crate in another crate?",
+    "options": [
+      "By specifying it as a normal dependency in Cargo.toml with a path to it",
+      "By adding it as a member project in the workspace's Cargo.toml",
+      "By using `pub use` statements in the dependency crate",
+      "By importing it via `mod` declarations in the source code"
+    ],
+    "correctAnswer": 0
   },
   {
     "id": 10,
-    "question": "Which function can be used to transpose a range (switch rows and columns)?",
-    "options": ["INDEX", "OFFSET", "TRANSPOSE", "CHOOSE"],
-    "correctAnswer": 2
+    "question": "Which Rust type would ensure exactly one owner of a value, but allow sharing of data between threads?",
+    "options": [
+      "Arc<T>",
+      "Rc<T>",
+      "&T with a static lifetime",
+      "&mut T with a Mutex"
+    ],
+    "correctAnswer": 0
   }
 ]

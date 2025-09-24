@@ -12,14 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const redis_1 = require("@upstash/redis");
+const redis_1 = require("redis");
 const dotenv_1 = __importDefault(require("dotenv"));
 const client_s3_1 = require("@aws-sdk/client-s3");
 const s3_request_presigner_1 = require("@aws-sdk/s3-request-presigner");
 const nodemailer_1 = __importDefault(require("nodemailer"));
 //
 dotenv_1.default.config();
-const redis = redis_1.Redis.fromEnv();
 //
 const s3Client = new client_s3_1.S3Client({
     region: process.env.AWS_REGION || "us-east-1",
@@ -79,7 +78,7 @@ function semdMail(to, subject, link) {
                     <!-- Header -->
                     <tr>
                         <td style="padding: 50px 40px 30px; text-align: center; background-color: #ffffff; border-radius: 12px 12px 0 0;">
-                            <div style="font-size: 48px; margin-bottom: 16px;">🎯</div>
+                            <div style="font-size: 28px; margin-bottom: 16px;">🎯</div>
                             <h1 style="margin: 0; color: #1f2937; font-size: 32px; font-weight: 700; letter-spacing: -0.5px;">Quiz Ready!</h1>
                             <p style="margin: 12px 0 0; color: #6b7280; font-size: 16px;">Time to test your knowledge</p>
                         </td>
@@ -181,16 +180,31 @@ function semdMail(to, subject, link) {
 }
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
+        const redis = (0, redis_1.createClient)({
+            username: 'default',
+            password: process.env.REDIS_PASSWORD,
+            socket: {
+                host: process.env.REDIS_HOST,
+                port: 10363
+            }
+        });
+        redis.connect();
         while (1) {
             try {
-                const reminderData = yield redis.rpop("reminderTime");
-                if (reminderData && reminderData.email !== "") {
-                    const link = yield getQuizLInk(reminderData === null || reminderData === void 0 ? void 0 : reminderData.id);
-                    console.log(link);
-                    yield semdMail(reminderData.email, reminderData.topic, link);
+                const res = yield redis.brPop("reminderTime", 60);
+                if (res) {
+                    const reminderData = JSON.parse(res === null || res === void 0 ? void 0 : res.element);
+                    if (reminderData && reminderData.email !== "") {
+                        const link = yield getQuizLInk(reminderData === null || reminderData === void 0 ? void 0 : reminderData.id);
+                        console.log(link);
+                        yield semdMail(reminderData.email, reminderData.topic, link);
+                    }
+                    else {
+                        // console.log("not found");
+                    }
                 }
                 else {
-                    // console.log("not found");
+                    console.log("not found");
                 }
             }
             catch (e) {
