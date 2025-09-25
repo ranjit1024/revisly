@@ -36,7 +36,9 @@ async function getData() {
       orderBy: {
         reminderDate: "asc",
       },
-      take: 2,
+      where:{
+        status:'PENDING'
+      }
     });
     console.log(data);
     data.forEach(async (reminderTime) => {
