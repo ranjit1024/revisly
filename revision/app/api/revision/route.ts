@@ -158,7 +158,8 @@ export async function POST(req: NextRequest) {
         id: id,
       })
     );
-    await status(id)
+    await status(id);
+    
     //check whethre notes process are done or not\
     // cretae db entry
     const revision = await prisma.revision.create({

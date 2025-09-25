@@ -185,7 +185,7 @@ async function main() {
         const res = await redis.brPop("reminderTime", 60);
         if(res){
             const reminderData: reminderType | null = JSON.parse(res?.element);
-            if (reminderData && reminderData.email !== "") {
+            if (reminderData && reminderData.email !== ""  ) {
               const link = await getQuizLInk(reminderData?.id);
               console.log(link)
               await semdMail(reminderData.email, reminderData.topic, link)

@@ -48,6 +48,7 @@ export function SelectDay({ Limit }: {
             days: selectedDay
         })));
         console.log(selectedDay)
+        
     }, [selectedDay])
     useEffect(() => {
         setSelectdDay([]);
@@ -57,7 +58,7 @@ export function SelectDay({ Limit }: {
         dispatch(actions.addSessionInterl({
             sessionIntervel:findSpecificWeekdaysWithDateFns(String(date.from ), String(date.to), selectedDay)
         }))
-        
+      
     }, [selectedDay])
     return (
         <div className="flex  gap-3 ">

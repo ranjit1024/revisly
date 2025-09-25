@@ -78,7 +78,7 @@ function main() {
         while (true) {
             try {
                 //pop revison message quque
-                const quque = yield redis.brPop("revision", 30);
+                const quque = yield redis.brPop("revision", 60);
                 const revisionData = JSON.parse((quque === null || quque === void 0 ? void 0 : quque.element) || "");
                 console.log(revisionData);
                 if (revisionData &&

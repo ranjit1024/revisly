@@ -1,111 +1,61 @@
 [  {
     "id": 1,
-    "question": "What happens when you assign a variable to another variable in Rust if the value does not implement the `Copy` trait?",
-    "options": [
-      "Both variables remain valid and hold the same value",
-      "The value is cloned, and the original variable is dropped",
-      "The original variable is moved, and the new variable becomes the owner",
-      "A compilation error occurs if the type is not explicitly marked as `move`"
-    ],
-    "correctAnswer": 2
+    "question": "Which function counts the number of non-empty cells in a range regardless of data type?",
+    "options": ["COUNT", "COUNTA", "COUNTBLANK", "COUNTIF"],
+    "correctAnswer": 1
   },
   {
     "id": 2,
-    "question": "Which of the following is a valid way to declare a mutable reference to a value?",
-    "options": [
-      "let mut my_ref = &10;",
-      "let my_ref: &mut i32 = &10;",
-      "let mut my_ref: &i32 = &mut 10;",
-      "let my_ref = mut &10;"
-    ],
-    "correctAnswer": 0
-  },
-  {
-    "id": 3,
-    "question": "What is the primary purpose of Rust's `match` expression compared to `if` statements?",
-    "options": [
-      "To allow fall-through behavior like C/C++`switch",
-      "To handle optional values with `Some`/`None` exclusively",
-      "To require exhaustive checking of all possible patterns",
-      "To reduce code verbosity by removing the need for `else`"
-    ],
+    "question": "To calculate the sum of values in column A where column B is greater than 100, which function should you use?",
+    "options": ["SUM(A:A)", "SUMIF(B:B,\">100\",A:A)", "SUMIFS(A:A,B:B,\">100\")", "SUM(A:A,B:B>100)"],
     "correctAnswer": 2
   },
   {
+    "id": 3,
+    "question": "What Excel function returns both date and time from your system?",
+    "options": ["TODAY()", "NOW()", "DATE()", "EDATE()"],
+    "correctAnswer": 1
+  },
+  {
     "id": 4,
-    "question": "How would you correctly borrow multiple references to the same value in Rust, and when would that be allowed?",
-    "options": [
-      "Using `&self` and `&self` in a method if the receiver is mutable",
-      "By using the `RefCell` type to dynamically check borrow validity at runtime",
-      "By assigning values to a `Rc` before creating multiple immutable references",
-      "All of the above depend on runtime vs compile-time rules"
-    ],
-    "correctAnswer": 3
+    "question": "Which lookup function can search vertically or horizontally without requiring sorted data?",
+    "options": ["VLOOKUP", "HLOOKUP", "XLOOKUP", "INDEX/MATCH combo"],
+    "correctAnswer": 2
   },
   {
     "id": 5,
-    "question": "Which trait would you explicitly implement to enable comparison between two custom struct instances using `==`?",
-    "options": [
-      "Clone",
-      "PartialEq",
-      "Eq",
-      "Hash"
-    ],
+    "question": "To extract the first 3 characters from cell A1, which formula is correct?",
+    "options": ["RIGHT(A1,3)", "LEFT(A1,3)", "MID(A1,3)", "LEN(A1,3)"],
     "correctAnswer": 1
   },
   {
     "id": 6,
-    "question": "What is the main difference between `&str` and `String` types in Rust?",
-    "options": [
-      "`String` is mutable while `&str` is an immutable slice",
-      "`&str` can contain invalid UTF-8 while `String` enforces validation",
-      "Only `&str` can be created from string literals",
-      "They are interchangeable and can be used in the same context"
-    ],
-    "correctAnswer": 0
+    "question": "Which function evaluates all logical conditions and returns TRUE only if all are TRUE?",
+    "options": ["OR", "XOR", "AND", "NOT"],
+    "correctAnswer": 2
   },
   {
     "id": 7,
-    "question": "Which of these correctly demonstrates trait bounds with a generic function?",
-    "options": [
-      "fn print<T: Display>(item: T) { println!(item); }",
-      "fn print<T: Clone>(item: T) where T: Clone { ... }",
-      "fn print<T>(item: T) where T: Clone + Debug { ... }",
-      "fn print<T: Clone, Debug>(item: T) { ... }"
-    ],
-    "correctAnswer": 2
+    "question": "To count cells that meet multiple criteria in different ranges, which function would you use?",
+    "options": ["COUNTIF", "COUNTIFS", "SUMIF", "AVERAGEIF"],
+    "correctAnswer": 1
   },
   {
     "id": 8,
-    "question": "What does the `?` operator do in an async function returning `Result<T, E>`?",
-    "options": [
-      "It unwraps the value and panics on error",
-      "It returns an `Option` by converting `None` values",
-      "It propagates errors by converting them to the function's return type",
-      "It clones the contained value of the `Result` to avoid ownership issues"
-    ],
-    "correctAnswer": 2
+    "question": "What formula would concatenate cell A1 (\"Hello\") and B1 (\"World\") with a space between?",
+    "options": ["CONCATENATE(A1, \" \", B1)", "A1 & B1", "TEXTJOIN(A1:B1,TRUE,\" \")", "A1\" \"B1"],
+    "correctAnswer": 0
   },
   {
     "id": 9,
-    "question": "When using Cargo workspaces, how do you depend on a member crate in another crate?",
-    "options": [
-      "By specifying it as a normal dependency in Cargo.toml with a path to it",
-      "By adding it as a member project in the workspace's Cargo.toml",
-      "By using `pub use` statements in the dependency crate",
-      "By importing it via `mod` declarations in the source code"
-    ],
+    "question": "Which function rounds a number UP to the nearest specified significance?",
+    "options": ["CEILING", "ROUND", "FLOOR", "MROUND"],
     "correctAnswer": 0
   },
   {
     "id": 10,
-    "question": "Which Rust type would ensure exactly one owner of a value, but allow sharing of data between threads?",
-    "options": [
-      "Arc<T>",
-      "Rc<T>",
-      "&T with a static lifetime",
-      "&mut T with a Mutex"
-    ],
+    "question": "To evaluate multiple conditions in order without nested IF statements, use...",
+    "options": ["IFS", "IF", "SWITCH", "CHOOSE"],
     "correctAnswer": 0
   }
 ]

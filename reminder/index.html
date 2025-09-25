@@ -378,7 +378,7 @@
             };
             const data = await userData.json();
 
-            fetch(`http://localhost:4000/api/score/${data.id}`, requestOptions)
+            fetch(`http://localhost:8080/api/score/${data.id}`, requestOptions)
                 .then(response => {
                     if (!response.ok) {
                         throw new error('Somehting went wrting')

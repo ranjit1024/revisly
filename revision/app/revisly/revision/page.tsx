@@ -9,36 +9,37 @@ import React, { useEffect, useState } from "react";
 import { RootState } from "@/store/store";
 import NotesgeneratorLoader from "@/components/ui/notestgenratorLading";
 import { CalendarDays, Layers, Send } from "lucide-react";
-import { Preview } from "@/components/ui/Preview";
+
 import { MaxRangeDatePicker } from "@/components/ui/Daterange";
 import Chip from "@/components/ui/level";
-import { Redis } from "@upstash/redis";
 import { SelectDay } from "@/components/ui/days";
 import { ErrorToast } from "@/components/ui/toast";
 import { ApiError } from "@/components/ui/apiError";
 import { Hard } from "@/components/ui/hard";
 import { TopicExistsToast } from "@/components/ui/topicExits";
 import { setDate } from "date-fns";
+import { createSelector } from "@reduxjs/toolkit";
 
 export default function Home() {
-  const redis = Redis.fromEnv();
+
   const [invalidInputError, setInvalidInputError] = useState<boolean>(false);
   const [showRepeteError, setShowrepeteError] = useState<boolean>(false);
   const [apiError, setApiError] = useState<boolean>(false);
   const router = useRouter();
   const dispatch = useDispatch();
-  const sessionData = useSelector((state: RootState) => {
-    const data = {
-      topic: state.revision.topic,
-      sessionIntervel: state.revision.sessionIntervel,
-      time: state.revision.time,
-      sessionStart: state.revision.startDate,
-      sessionEnd: state.revision.endDate,
-      difficulty: state.revision.difficulty,
-      days: state.revision.days,
-    };
-    return data;
-  });
+  const selectorData = createSelector(
+    [(state:RootState) => state.revision],
+    (revision) =>({
+       topic: revision.topic,
+      sessionIntervel: revision.sessionIntervel,
+      time: revision.time,
+      sessionStart: revision.startDate,
+      sessionEnd: revision.endDate,
+      difficulty: revision.difficulty,
+      days: revision.days,
+    })
+  )
+  const sessionData = useSelector(selectorData);
   useEffect(() => {
     apiError
       ? setTimeout(() => {
@@ -215,8 +216,7 @@ export default function Home() {
               Set Revision Reminder
             </button>
 
-            {/* */}
-            <Preview />
+        
           </div>
         </div>
       </div>

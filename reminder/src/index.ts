@@ -15,6 +15,7 @@ import { Readable } from "node:stream";
 import Groq from "groq-sdk";
 import express, { Express } from "express";
 import cors from "cors";
+import { Redis } from "@upstash/redis";
 //type
 interface reminderType {
   topic: string;
@@ -202,7 +203,8 @@ client.connect()
         JSON.stringify({
           email: reminder.email,
           id: reminder.id,
-          topi: this.reminderTime(reminder.time),
+          topic: reminder.topic,
+          time:this.reminderTime(reminder.time)
         })
       );
       await client.quit()

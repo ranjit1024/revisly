@@ -33,13 +33,10 @@ async function getData() {
         time: true,
         revisionid: true,
       },
-      where: {
-        status: "PENDING",
-        time: new Date().toISOString(),
-      },
       orderBy: {
         reminderDate: "asc",
       },
+      take: 2,
     });
     console.log(data);
     data.forEach(async (reminderTime) => {
@@ -58,11 +55,7 @@ async function getData() {
     console.log(`something went wrong ${e}`);
   }
 }
-
-app.post("/api/score/:id", async (req, res) => {
-  const id = req.params.id;
-  const { score } = req.body;
-  const { selectedAnswer } = req.body;
+async function isCompletd(email: string, topic: string) {
   let status: String[] = [];
   let revisionData: {
     status: String[];
@@ -70,6 +63,49 @@ app.post("/api/score/:id", async (req, res) => {
     email: string;
     revisonId: string;
   } = { topic: "", email: "", status: status, revisonId: "" };
+  const allRevison = await prisma.revisionSession.findMany({
+    where: {
+      email: email,
+      topic: topic,
+    },
+    include: {
+      revision: true
+    },
+  });
+
+  allRevison.map((revison) => {
+    status.push(revison.status);
+    revisionData = {
+      topic: revison.topic,
+      email: revison?.email,
+      status: status,
+      revisonId: revison.revision.id,
+    };
+  });
+  console.log(revisionData)
+  const isCompletd = revisionData.status.every((data) => data === "COMPLETED");
+
+  if (isCompletd) {
+     await prisma.revision.update({
+      where: {
+        id: revisionData.revisonId,
+      },
+      data: {
+        status: "COMPLETED",
+      },
+    });
+    return
+  } else {
+    return
+  }
+
+}
+
+app.post("/api/score/:id", async (req, res) => {
+  const id = req.params.id;
+  const { score } = req.body;
+  const { selectedAnswer } = req.body;
+
   console.log(id);
 
   try {
@@ -79,84 +115,41 @@ app.post("/api/score/:id", async (req, res) => {
       },
     });
 
-    // if (userId) {
-    //   const userUpdate = await prisma.revisionSession.update({
-    //     where: {
-    //       id: userId.id,
-    //     },
-    //     data: {
-    //       score: score,
-    //       answer: selectedAnswer,
-    //       status: "COMPLETED",
-    //     },
-    //   });
-
-    //   res.json({
-    //     msg: "Score updated",
-    //     data: userUpdate,
-    //   });
-    //   return;
-    // } else {
-    //   res.json({
-    //     msg: "User not",
-    //   });
-    // }
-
-    const allRevison = await prisma.revisionSession.findMany({
-      where: {
-        email: userId?.email,
-        topic: userId?.topic,
-      },
-      include: {
-        revision: true,
-      },
-    });
-
-    allRevison.map((revison) => {
-      status.push(revison.status);
-      revisionData = {
-        topic: revison.topic,
-        email: revison?.email,
-        status: status,
-        revisonId: revison.revision.id,
-      };
-    });
-    const isCompletd = revisionData.status.every(data => data === 'COMPLETED')
-    console.log(isCompletd);
-    if(revisionData){
-      const mainUpdate = await prisma.revision.update({
-        where:{
-          id:revisionData.revisonId
+    if (userId) {
+      const userUpdate = await prisma.revisionSession.update({
+        where: {
+          id: userId.id,
         },
-        data:{
-          status:'COMPLETED'
-        }
-      })
-      res.status(200).json({
-        msg:"Your Session Coppleted"
-      })
+        data: {
+          score: score,
+          answer: selectedAnswer,
+          status: "COMPLETED",
+        },
+      });
+      isCompletd(userId.email, userId.topic);
+      res.json({
+        msg: "Score updated",
+        data: userUpdate,
+      });
+      return;
+
     }
-    else{
-       res.status(200).json({
-        msg:"Pending"
-      })
+    else {
+      res.json({
+        msg: "User Not found",
+      });
     }
-    console.log(revisionData);
-  } catch (e) {
+  }
+  catch (e) {
     res.json({
-      msg: "not updated",
+      msg: "Something Went wrinf",
     });
   }
-  res.json({
-    msg: "Woking",
-  });
+
 });
 app.listen(port, () => {
   console.log("listing on port number ", port);
 });
 
-corn.schedule("0 0 * * *", async () => {
-  const res = await getData();
-  console.log("data", res);
-});
+
 getData();
