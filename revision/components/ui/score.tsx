@@ -3,7 +3,7 @@ import React from "react";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 
-type Status = 'COMPLETED' | 'PENDING';
+type Status = 'COMPLETED' | 'PENDING' | 'MISSED';
 
 interface RevisionCardProps {
   title?: string;            // e.g., "Revision 1/10"
@@ -18,8 +18,9 @@ interface RevisionCardProps {
 const statusStyles: Record<Status, string> = {
   COMPLETED: "text-emerald-600 bg-emerald-50 ",
 
-  PENDING: "text-slate-600 bg-slate-50   ",
+  PENDING: "text-slate-600 bg-slate-50  ",
 
+  MISSED: 'text-slate-600 bg-red-50 '
 };
 
 export function RevisionCard({

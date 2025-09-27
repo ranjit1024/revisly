@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Skeleton from "@/components/ui/cardSkeleton";
 import { getSessionBrif } from "@/lib/actions/getDetailsSession";
-type Status = 'COMPLETED' | 'PENDING' ;
+type Status = 'COMPLETED' | 'PENDING'  | 'MISSED';
 interface revisionDetails {
     id: string;
     email: string;
@@ -72,7 +72,7 @@ export default function Page() {
               id={data.id}
               key={index}
               title={`Session ${data.sessionNumber + 1}`}
-              status={String(data.status) as Status}
+              status={data.status}
               date={`${data.reminderDate}`}
               progressText={`${data.score}/10`}
               onViewReport={() => console.log("View Report clicked")}
