@@ -14,6 +14,14 @@ app.use(cors());
 app.use(express.json());
 //
 async function getData() {
+  const today = new Date();
+  const startDate =  new Date(today);
+  startDate.setHours(0 ,0,0,0);
+  const startDateIso = startDate.toISOString();
+
+  const endOfDay = new Date(today);
+ endOfDay.setHours(23, 59, 59, 999);
+const endOfDayISO = endOfDay.toISOString();
   const redis = createClient({
     username: "default",
     password: process.env.REDIS_PASSWORD,
@@ -37,7 +45,11 @@ async function getData() {
         reminderDate: "asc",
       },
       where:{
-        status:'PENDING'
+        reminderDate:{
+          gte:startDateIso,
+          lte:endOfDayISO
+        },
+       status:"PENDING"
       }
     });
     console.log(data);
@@ -155,4 +167,5 @@ app.listen(port, () => {
 corn.schedule('0 0 * * *',async()=>{
   await getData()
 })
-getData();
+
+getData()
