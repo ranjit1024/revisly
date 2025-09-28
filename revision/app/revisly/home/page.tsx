@@ -1,13 +1,12 @@
 "use client";
-import { Last5 } from "@/components/ui/last5";
 import { Retation } from "@/components/ui/retation";
 import { CalendarCheck, ChevronRight } from "lucide-react";
 import { getDashBaordData } from "@/lib/actions/dashBoard";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Subjects } from "@/components/ui/subjects";
 import { SuccessvsFail } from "@/components/ui/completeVSfail";
 import { SessionHistory } from "@/components/ui/sessionHistory";
+import CreateFirstRevisionSession from "@/components/ui/ DashboardNull";
 interface type {
   id: string;
   email: string;
@@ -33,6 +32,9 @@ export default function Home() {
     }
     Data();
   }, []);
+  if(dashBoardData === null){
+    return <div className=""><CreateFirstRevisionSession/></div>
+  }
   return (
     <div className="">
       <div className="w-[100%] h-full ">

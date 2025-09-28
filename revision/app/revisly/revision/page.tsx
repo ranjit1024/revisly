@@ -9,7 +9,6 @@ import React, { useEffect, useState } from "react";
 import { RootState } from "@/store/store";
 import NotesgeneratorLoader from "@/components/ui/notestgenratorLading";
 import { CalendarDays, Layers, Send } from "lucide-react";
-
 import { MaxRangeDatePicker } from "@/components/ui/Daterange";
 import Chip from "@/components/ui/level";
 import { SelectDay } from "@/components/ui/days";
