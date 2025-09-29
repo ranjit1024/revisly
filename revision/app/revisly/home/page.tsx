@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { SuccessvsFail } from "@/components/ui/completeVSfail";
 import { SessionHistory } from "@/components/ui/sessionHistory";
-import CreateFirstRevisionSession from "@/components/ui/ DashboardNull";
+import CreateFirstRevisionSession from "@/components/ui/firstSession";
 interface type {
   id: string;
   email: string;

@@ -1,13 +1,11 @@
 "use client";
 import { motion, useInView, useScroll } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { CircleAlert, PlusCircle } from "lucide-react";
 import { getUserSession } from "@/lib/actions/getSession";
-import Skeleton from "@/components/ui/cardSkeleton";
 import SessionCard from "@/components/ui/revisionCard";
-import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import CreateFirstRevisionSession from "@/components/ui/ DashboardNull";
+import Listloader from "@/components/ui/listLoader";
+import EmptySessionState from "@/components/ui/emptylist";
 const containerVariant = {
   hidden: {},
   show: {
@@ -54,14 +52,21 @@ export default function Home() {
     console.log(revisionSessionInfo)
   }, []);
 
-  // console.log(g)
-  if (revisionSessionInfo && revisionSessionInfo.length === 0) {
-    return <CreateFirstRevisionSession/>;
-  }
+
   if(revisionSessionInfo === null){
-    for(let i = 0; i < 10; i++){
-      return <div><Skeleton/></div>
-    }
+    return <motion.div 
+    ref={ref}
+        variants={containerVariant}
+        initial="hidden"
+        animate={inView ? "show" : "hidden"}
+        className="flex flex-col gap-3  w-[98%]   ">
+      <Listloader/>
+
+    
+    </motion.div>
+  }
+  if(revisionSessionInfo.length === 0){
+    return <EmptySessionState/>
   }
   return (
     <div className=" flex w-[100%] justify-center ">
