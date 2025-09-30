@@ -1,6 +1,8 @@
 import React from 'react';
 import { Plus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 const CreateFirstRevisionSession = () => {
+  const router = useRouter();
   return (
     <div className="min-h-screen bg-white flex rounded-md items-center justify-center relative overflow-hidden">
       {/* Subtle background gradient */}
@@ -36,7 +38,7 @@ const CreateFirstRevisionSession = () => {
         </p>
 
         {/* Clean CTA */}
-      <button className="group relative inline-flex items-center gap-3 bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-slate-900/25">
+      <button onClick={()=>router.push("/revisly/revision")} className="group relative inline-flex items-center gap-3 bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-slate-900/25">
           <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
           Create First Session
           

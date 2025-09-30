@@ -1,8 +1,10 @@
 import { Plus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 const EmptySessionState = () => {
+  const router = useRouter()
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50/30 flex items-center justify-center p-4 rounded-md bg-red-50">
+    <div className="min-h-[79vh] bg-gradient-to-br from-slate-50 to-blue-50/30 flex items-center justify-center p-4 rounded-md bg-red-50">
       <div className="max-w-md w-full text-center">
         {/* Icon Container */}
         <div className="relative mb-8">
@@ -24,7 +26,7 @@ const EmptySessionState = () => {
         </div>
 
         {/* CTA Button */}
-        <button className="group relative inline-flex items-center gap-3 bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-slate-900/25">
+        <button onClick={()=>router.push("/revisly/revision")} className="group relative inline-flex items-center gap-3 bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-slate-900/25">
           <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
           Create First Session
           

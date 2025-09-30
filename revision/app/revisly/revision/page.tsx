@@ -1,5 +1,5 @@
 "use client";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import TimePicker from "@/components/ui/time";
@@ -16,7 +16,6 @@ import { ErrorToast } from "@/components/ui/toast";
 import { ApiError } from "@/components/ui/apiError";
 import { Hard } from "@/components/ui/hard";
 import { TopicExistsToast } from "@/components/ui/topicExits";
-import { setDate } from "date-fns";
 import { createSelector } from "@reduxjs/toolkit";
 
 export default function Home() {
@@ -129,13 +128,13 @@ export default function Home() {
               </div>
             </div>
           </div>
-          <div className="mt-8  ">
+          <div className="mt-10  ">
             <MaxRangeDatePicker
             // Limit to 30 days
             />
           </div>
 
-          <div className="w-100 mt-8 hover:cursor-pointer  ">
+          <div className="w-100 mt-10 hover:cursor-pointer  ">
             <TimePicker />
           </div>
 

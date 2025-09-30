@@ -68,14 +68,14 @@ export default function TimePicker() {
     })));
   },[])
   return (
-    <div className="relative z-10" ref={dropdownRef}>
+    <div className="relative z-10 " ref={dropdownRef}>
       
-      <div className="mt-5">
+      <div className="mt-5 ">
             <label className="block text-sm font-medium ml-2 text-zinc-700" htmlFor="time">
-              Select Revision Time
+              When should we remind you
             </label>
             <div className="mt-2">
-              <div className="relative max-w-xs">
+              <div className="relative max-w-sm">
                 <input
                   id="time"
                   
@@ -93,7 +93,7 @@ export default function TimePicker() {
             </div>
           </div>
       {setTime ? (
-        <div className="absolute p-4 h-[50vh]  top-18   bg-white shadow w-100 mt-1 border rounded-md ">
+        <div className="absolute p-4 h-[50vh]   top-18   bg-white shadow w-100 mt-1 border rounded-md ">
           <div className="grid grid-cols-[40%_40%_20%] justify-center items-center-safe">
             <div className="h-[43vh]   overflow-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               <p className="text-center text-xs mb-3 font-medium text-muted">

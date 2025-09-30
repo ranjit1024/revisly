@@ -102,7 +102,7 @@ export default function Home() {
                 <p className="text-[3.5rem] -mt-2 font-medium">Master Time</p>
               </div>
               <div className="mt-5 w-[80%]">
-                Automatic reminders are sent to your registered email and phone
+                Automatic quiz reminders are sent to your registered email 
                 based on the date and time you set.
               </div>
               <div className="mt-12 flex items-center">

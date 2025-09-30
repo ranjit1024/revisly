@@ -94,7 +94,7 @@ export default function Home({ children }: { children: ReactNode }) {
           }}
           className=" bg-white z-400 border-b-gray-200 border-b-1 grid grid-cols-[20%_80%] fixed w-full"
         >
-          <div className=" border-r-1 border-r-gray-100 p-2  ">
+          <div  className="hover:cursor-pointer border-r-1 border-r-gray-100 p-2  ">
             <div onClick={() => {
               router.push("/revisly/home")
             }} className="flex items-center gap-2 max-md:ml-2     ">
