@@ -1,16 +1,44 @@
-import { ReactNode } from "react"
-import animation from "../../public/notes-animation.json"
+import animation from "../../public/scan document.json"
 import Lottie from "lottie-react"
-import { Button } from "./button"
-export default function NotesgeneratorLoader():ReactNode{
-    return <div className="overflow-hidden">
-    <div className="fixed top-1  w-[79vw] h-full  bg-gray-500  items-center  bg-linear-150 from-gray-50 from-65% to-gray-100/80 z-30">
-   
-      <div className="flex flex-col justify-center items-center h-[90vh]">
-      <Lottie animationData={animation} loop={true} size={100} className="size-80 absolute" />
-      <p className="mt-56 text-lg text-gray-900 mask font-normal ">Hang tight—we’re getting your notes ready</p>
+import React, { useState, useEffect } from 'react';
 
-</div>
+const NotesgeneratorLoader  = () => {
+
+return ( <div className="min-h-screen fixed w-[79vw] z-40 top-0 bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center p-4">
+      <div className="text-center space-y-6">
+        {/* Animated icon */}
+        <div className="relative w-40 h-40 mx-auto">
+          {/* Spinning ring */}
+          <div className="absolute inset-0 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
+          
+          {/* Center icon */}
+          
+
+           <Lottie animationData={animation} loop={true}  />
+          
+        </div>
+
+        {/* Text */}
+        <div className="space-y-2">
+          <h2 className="text-xl font-semibold text-gray-800">
+            Generating your notes...
+          </h2>
+          <p className="text-gray-500 text-sm">This will only take a moment</p>
+        </div>
+
+        {/* Animated dots */}
+        <div className="flex justify-center items-center space-x-1.5">
+          <span className="w-2 h-2 bg-indigo-600 rounded-full animate-bounce" style={{ animationDelay: '0s' }} />
+          <span className="w-2 h-2 bg-indigo-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+          <span className="w-2 h-2 bg-indigo-600 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }} />
+        </div>
+      </div>
     </div>
-    </div>
+  );
 }
+;
+
+// Add this to your Tailwind config or global CSS
+
+
+export default NotesgeneratorLoader;
