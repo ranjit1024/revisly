@@ -4,7 +4,7 @@ import { CalendarCheck } from "lucide-react";
 import { motion } from "framer-motion";
 import { SuccessvsFail } from "@/components/ui/completeVSfail";
 import { SessionHistory } from "@/components/ui/sessionHistory";
-import { CurretnTopicCard, CurretnTopicCardLoader } from "@/components/ui/DashboardCurenttopic";
+import { CurretnTopicCard } from "@/components/ui/DashboardCurenttopic";
 import { useEffect, useState } from "react";
 import { getFirst } from "@/lib/actions/dashBoard";
 import CreateFirstRevisionSession from "@/components/ui/firstSession";

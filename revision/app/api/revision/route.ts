@@ -30,6 +30,9 @@ function status(id: string) {
         await client.del(`status-${id}`)
         resolve(status)
       }
+      else{
+        clearInterval(pollStatus)
+      }
     }catch(e){
       reject(Error('Not Found'));
       clearInterval(pollStatus);
