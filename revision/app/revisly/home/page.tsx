@@ -43,7 +43,7 @@ export default function Home() {
   }
     return (
       <div className="">
-        <div className="w-[100%] h-full ">
+        <div className="w-[100%] h-full max-md:w-[100vw] max-md:p-1 ">
           <motion.section
             initial={{
               opacity: 0,

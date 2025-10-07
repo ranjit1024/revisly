@@ -4,17 +4,15 @@ import { store } from "@/store/store";
 import { Provider } from "react-redux";
 import newUser from "@/lib/actions/newUser";
 import { usePathname } from "next/navigation";
-
+import logo from '../../public/revisly.png'
 import {
-  Bell,
   BookOpen,
   CalendarCheck,
   Gauge,
   HelpCircle,
   LayoutDashboard,
   PlusCircle,
-  MessageCircle
-
+  MessageCircle,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Profile from "@/components/ui/Profile";
@@ -55,8 +53,8 @@ export default function Home({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    newUser().then(data => console.log(data))
-  }, [])
+    newUser().then((data) => console.log(data));
+  }, []);
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -76,8 +74,6 @@ export default function Home({ children }: { children: ReactNode }) {
   if (!session) return null;
   return (
     <Provider store={store}>
-
-
       <div className="h-[100%] relative bg-gray-100  ">
         <motion.div
           initial={{
@@ -93,17 +89,20 @@ export default function Home({ children }: { children: ReactNode }) {
           }}
           className=" bg-white z-400 border-b-gray-200 border-b-1 grid grid-cols-[20%_80%] fixed w-full"
         >
-          <div  className="hover:cursor-pointer border-r-1 border-r-gray-100 p-2  ">
-            <div onClick={() => {
-              router.push("/revisly/home")
-            }} className="flex items-center gap-2 max-md:ml-2     ">
-              <div className="bg-[url(../public/slogo.png)] bg-center bg-cover bg-no-repeat rounded-full h-6 w-6"></div>
+          <div className="hover:cursor-pointer border-r-1 border-r-gray-100 p-2 max-md:border-none ">
+            <div
+              onClick={() => {
+                router.push("/revisly/home");
+              }}
+              className="flex items-center gap-2 max-md:ml-2"
+            >
+              <Image src={logo} height={50} width={25} alt="logo"/>
               <p className="font-semibold text-[1.2rem]  text-input/90">
                 Revisly
               </p>
             </div>
           </div>
-          <div className=" flex px-3 justify-between items-center">
+          <div className=" max-md:hidden flex px-3 justify-between items-center">
             <div className="flex items-center gap-3">
               <div className="grid h-9 w-9 place-items-center rounded-full bg-emerald-600 text-white shadow-sm">
                 <BookOpen size={18} />
@@ -121,14 +120,10 @@ export default function Home({ children }: { children: ReactNode }) {
                   onClick={() => {
                     router.push("/revisly/revision");
                   }}
-
                 >
-
-
                   <PlusCircle size={16} />
                   Set Revision
                 </button>
-
               </div>
 
               <div className="bg-gradient-to-r to-purple-50 from-fuchsia-100 border-1 border-pink-50  hover:border-pink-100  px-3 py-[5px] flex rounded-lg gap-3 hover:cursor-pointer ">
@@ -140,39 +135,12 @@ export default function Home({ children }: { children: ReactNode }) {
                 />
                 <p className="text-sm font-bold text-gray-700">0</p>
               </div>
-
-              <div className="w-[1] shadow-2xs h-10 border-r-1 border-chart  border-r-gray-300 bg-secondary-foreground "></div>
-              {notification ? (
-                <div className="absolute [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]' bg-white space-y-1 border-1 border-gray-300 overflow-scroll h-[90vh] rounded-lg p-2 shadow top-11 right-2 scroll-smooth   ">
-
-                  <Notification />
-                  <Notification />
-                  <Notification />
-                  <Notification />
-                  <Notification />
-                  <Notification />
-                  <Notification />
-                  <Notification />
-                </div>
-              ) : null}
-
-              <div
-                ref={notificationRef}
-                className="prifile flex items-center gap-2 hover:cursor-pointer hover:scale-102"
-                onClick={() => {
-                  setNotification((prev) => !prev);
-                }}
-              >
-                <button className="grid h-9 w-9 place-items-center rounded-full border border-zinc-200 bg-white text-zinc-700 shadow-sm hover:bg-zinc-50">
-                  <Bell size={16} />
-                </button>
-              </div>
             </div>
           </div>
         </motion.div>
 
         <div className="h-[100%] w-[100%] relative   grid grid-cols-[20%_80%]">
-          <div className="mt-2">
+          <div className="mt-2 max-md:hidden">
             <motion.div
               initial={{
                 x: -20,
@@ -208,14 +176,13 @@ export default function Home({ children }: { children: ReactNode }) {
                   onClick={() => {
                     router.push("/revisly/home");
                   }}
-
                 >
-                  <div className="">
-
-
-                  </div>
-                  <NavItem icon={<LayoutDashboard size={16} />} label="Dashboard" active={pathname.includes('home') ? true : false} />
-
+                  <div className=""></div>
+                  <NavItem
+                    icon={<LayoutDashboard size={16} />}
+                    label="Dashboard"
+                    active={pathname.includes("home") ? true : false}
+                  />
                 </motion.div>
 
                 <motion.div
@@ -235,15 +202,12 @@ export default function Home({ children }: { children: ReactNode }) {
                   onClick={() => {
                     router.push("/revisly/all");
                   }}
-
                 >
-
-                  <NavItem icon={<CalendarCheck size={16} />} label="All Revision sessions"
-                    active={pathname.includes('all') ? true : false}
+                  <NavItem
+                    icon={<CalendarCheck size={16} />}
+                    label="All Revision sessions"
+                    active={pathname.includes("all") ? true : false}
                   />
-
-
-
                 </motion.div>
                 <motion.div
                   initial={{
@@ -263,8 +227,11 @@ export default function Home({ children }: { children: ReactNode }) {
                   }}
                   className=""
                 >
-
-                  <NavItem icon={<Gauge size={16} />} label="Set custom Revision" active={pathname.includes('custom') ? true : false} />
+                  <NavItem
+                    icon={<Gauge size={16} />}
+                    label="Set custom Revision"
+                    active={pathname.includes("custom") ? true : false}
+                  />
                 </motion.div>
 
                 <motion.div
@@ -279,14 +246,13 @@ export default function Home({ children }: { children: ReactNode }) {
                   transition={{
                     duration: 1,
                     delay: 1.25,
-                  }} className="mt-4 border-t border-zinc-100" onClick={() => {
-                    router.push('/contact')
-                  }}>
-
+                  }}
+                  className="mt-4 border-t border-zinc-100"
+                  onClick={() => {
+                    router.push("/contact");
+                  }}
+                >
                   <NavItem icon={<HelpCircle size={16} />} label="Help" />
-
-
-                  
                 </motion.div>
                 <motion.div
                   initial={{
@@ -300,12 +266,17 @@ export default function Home({ children }: { children: ReactNode }) {
                   transition={{
                     duration: 1,
                     delay: 1.25,
-                  }} className=" border-zinc-100" onClick={() => {
-                    router.push('/feedback')
-                  }}>
-                    <NavItem icon={<MessageCircle size={16} />} label="feedback and suggestions" />
+                  }}
+                  className=" border-zinc-100"
+                  onClick={() => {
+                    router.push("/feedback");
+                  }}
+                >
+                  <NavItem
+                    icon={<MessageCircle size={16} />}
+                    label="feedback and suggestions"
+                  />
                 </motion.div>
-
 
                 <div
                   className={`flex items-end hover:cursor-pointer relative   `}
@@ -350,9 +321,7 @@ export default function Home({ children }: { children: ReactNode }) {
             </motion.div>
           </div>
 
-          <div className="p-3 w-[99%] pt-15 h-[100%] ">
-            {children}
-          </div>
+          <div className="p-3 max-md:p-0 w-[99%] pt-15 h-[100%] max-md:w-[100vw] max-md:mt-14 ">{children}</div>
         </div>
       </div>
     </Provider>
@@ -370,7 +339,6 @@ function NavItem({
 }) {
   return (
     <motion.button
-
       className={[
         "w-full rounded-xl px-3 py-2 text-left text-sm font-medium",
         "flex items-center gap-2 transition-discrete duration-300  ease-out ",

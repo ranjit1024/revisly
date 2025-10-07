@@ -1,7 +1,8 @@
 "use client";
 import { ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Frist } from "@/lib/actions/dashBoard";
+import { Frist, Progress } from "@/lib/actions/dashBoard";
+import { JsonValue } from "@prisma/client/runtime/library";
 interface type {
   topic: string | null;
   id: string;
@@ -19,15 +20,39 @@ interface type {
   status: "PENDING" | "MISSED" | "COMPLETED";
   score: number | null;
 }
+interface sessionType {
+   id: string;
+        email: string;
+        topic: string;
+        time: Date;
+         status: "PENDING" | "MISSED" | "COMPLETED";
+        score: number;
+        sessionNumber: number;
+        revisionid: string;
+        reminderDate: Date;
+        answer: JsonValue | null;
+}
+interface sessionData {
+  total: sessionType[];
+  completed: sessionType[];
+  percentage: number;
+}
 export function CurretnTopicCard() {
   const [Data, setData] = useState<type | null>(null);
+  const [sessionData, setSessionData] = useState<sessionData | null>(null)
   useEffect(() => {
     async function data() {
       const data = await Frist();
+      const sessiondata = await Progress();
+      console.log(sessionData)
+      setSessionData(sessiondata)
       setData(data);
-    }
+    };
     data();
   }, []);
+  useEffect(()=>{
+    console.log(sessionData)
+  },[sessionData])
   if (Data === null) {
     return <CurretnTopicCardLoader />;
   }
@@ -38,7 +63,9 @@ export function CurretnTopicCard() {
           <p className="text-sm font-medium text-zinc-500">
             Current Revision Topic
           </p>
-          <h3 className="mt-1 text-xl font-semibold tracking-tight">{Data.topic}</h3>
+          <h3 className="mt-1 text-xl font-semibold tracking-tight">
+            {Data.topic}
+          </h3>
         </div>
         <span className="rounded-full bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700 ring-1 ring-emerald-100">
           Active
@@ -48,7 +75,9 @@ export function CurretnTopicCard() {
       {/* Progress */}
       <div className="mt-4">
         <div className="relative h-2 w-full overflow-hidden rounded-full bg-zinc-100">
-          <div className="absolute inset-y-0 left-0 w-[2%] rounded-r-full bg-emerald-500" />
+          <div style={{
+            width:sessionData?.percentage
+          }} className={`absolute inset-y-0 left-0  rounded-r-full bg-emerald-500`} />
         </div>
         <p className="mt-3 text-sm text-zinc-600">
           You’re{" "}
@@ -56,13 +85,6 @@ export function CurretnTopicCard() {
           and should reach your goal{" "}
           <span className="font-semibold">ahead</span> of schedule.
         </p>
-      </div>
-
-      <div className="mt-4">
-        <button className="inline-flex items-center gap-1 text-sm font-medium text-emerald-700 hover:text-emerald-800">
-          View plan
-          <ChevronRight size={16} />
-        </button>
       </div>
     </div>
   );
