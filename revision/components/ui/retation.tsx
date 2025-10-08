@@ -51,10 +51,10 @@ export function Retation() {
   console.log(data)
   return (
     <ResponsiveContainer>
-    <Card className="h-full">
+    <Card className="h-full ">
       <CardHeader>
-        <CardTitle>Cureent Quiz Data</CardTitle>
-        <CardDescription>All completed quiz result</CardDescription>
+        <CardTitle>Cureent Quiz Progress</CardTitle>
+        <CardDescription>All completed quiz score</CardDescription>
       </CardHeader>
       <CardContent className="h-[100%]">
         <ChartContainer config={chartConfig} className="h-60 w-full">

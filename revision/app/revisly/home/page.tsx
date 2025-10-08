@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { getFirst } from "@/lib/actions/dashBoard";
 import CreateFirstRevisionSession from "@/components/ui/firstSession";
 import { DashboardSpinner } from "@/components/ui/dashBoardLoader";
+import { useMediaQuery } from "react-responsive";
+import  MRetation  from "@/components/mRetain";
 interface type {
   id: string | null;
   email: string;
@@ -26,58 +28,87 @@ interface type {
 }
 
 export default function Home() {
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+  return isMobile ? <Mobile/> :<Desktop/>
+}
+function Mobile() {
+  return <div className="p-2">
+    <h1 className="text-[2.5rem] font-semibold text-zinc-800 mb-3">React</h1>
+    <p className="text-sm font-normal text-zinc-600 mb-3 ">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae deleniti mollitia laborum. </p>
+    <MRetation/>
+  </div>;
+}
+function Desktop() {
   const [isEmpty, setIsempty] = useState<type | null>(null);
-  const [loading, setLoading] = useState<Boolean>(true)
-  useEffect(()=>{
-    async function check(){
+  const [loading, setLoading] = useState<Boolean>(true);
+  useEffect(() => {
+    async function check() {
       setIsempty(await getFirst());
-      setLoading(false)
+      setLoading(false);
     }
-    check()
-  },[])
-  if(loading){
-    return <DashboardSpinner/>
+    check();
+  }, []);
+  if (loading) {
+    return <DashboardSpinner />;
   }
-  if(isEmpty === null){
-    return <CreateFirstRevisionSession/>
+  if (isEmpty === null) {
+    return <CreateFirstRevisionSession />;
   }
-    return (
-      <div className="">
-        <div className="w-[100%] h-full max-md:w-[100vw] max-md:p-1 ">
-          <motion.section
-            initial={{
-              opacity: 0,
-              scale: 0.9,
-            }}
-            animate={{
-              opacity: 1,
-              scale: 1,
-            }}
-            transition={{
-              duration: 0.6,
-            }}
-            className="grid grid-cols-1 gap-6 lg:grid-cols-2"
-          >
-            <CurretnTopicCard ></CurretnTopicCard>
+  return (
+    <div className="">
+      <div className="w-[100%] h-full max-md:w-[100vw] max-md:p-1  ">
+        <motion.section
+          initial={{
+            opacity: 0,
+            scale: 0.9,
+          }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+          }}
+          transition={{
+            duration: 0.6,
+          }}
+          className="grid grid-cols-1 gap-6 lg:grid-cols-2"
+        >
+          <CurretnTopicCard></CurretnTopicCard>
 
-            <div className="bg-white p-5 rounded-2xl shadow">
-              <p className="text-sm font-medium text-zinc-500">
-                Upcoming Revision
-              </p>
-              <h3 className="mt-1 text-xl font-semibold tracking-tight">
-                topic name
-              </h3>
-              <p className="mt-3 text-sm text-zinc-600">Topic info</p>
+          <div className="bg-white p-5 rounded-2xl shadow">
+            <p className="text-sm font-medium text-zinc-500">
+              Upcoming Revision
+            </p>
+            <h3 className="mt-1 text-xl font-semibold tracking-tight">
+              topic name
+            </h3>
+            <p className="mt-3 text-sm text-zinc-600">Topic info</p>
 
-              <div className="mt-4 flex items-center gap-2">
-                <div className="grid h-7 w-7 place-items-center rounded-full bg-amber-100 text-amber-700">
-                  <CalendarCheck size={16} />
-                </div>
-                <p className="text-sm text-zinc-700">Tomorrow • 5:00 AM</p>
+            <div className="mt-4 flex items-center gap-2">
+              <div className="grid h-7 w-7 place-items-center rounded-full bg-amber-100 text-amber-700">
+                <CalendarCheck size={16} />
               </div>
+              <p className="text-sm text-zinc-700">Tomorrow • 5:00 AM</p>
             </div>
-          </motion.section>
+          </div>
+        </motion.section>
 
+        <motion.div
+          initial={{
+            y: -20,
+            opacity: 0,
+          }}
+          animate={{
+            y: 0,
+            opacity: 1,
+          }}
+          transition={{
+            duration: 0.6,
+            delay: 0.3,
+          }}
+          className="pt-3   w-[100%]"
+        >
+          <Retation />
+        </motion.div>
+        <div className="grid grid-cols-2 gap-3">
           <motion.div
             initial={{
               y: -20,
@@ -93,48 +124,30 @@ export default function Home() {
             }}
             className="pt-3   w-[100%]"
           >
-            <Retation />
+            <SessionHistory />
           </motion.div>
-          <div className="grid grid-cols-2 gap-3">
-            <motion.div
-              initial={{
-                y: -20,
-                opacity: 0,
-              }}
-              animate={{
-                y: 0,
-                opacity: 1,
-              }}
-              transition={{
-                duration: 0.6,
-                delay: 0.3,
-              }}
-              className="pt-3   w-[100%]"
-            >
-              <SessionHistory />
-            </motion.div>
-            <motion.div
-              initial={{
-                y: -20,
-                opacity: 0,
-              }}
-              animate={{
-                y: 0,
-                opacity: 1,
-              }}
-              transition={{
-                duration: 0.6,
-                delay: 0.3,
-              }}
-              className="pt-3   w-[100%]"
-            >
-              <SuccessvsFail />
-            </motion.div>
-          </div>
+          <motion.div
+            initial={{
+              y: -20,
+              opacity: 0,
+            }}
+            animate={{
+              y: 0,
+              opacity: 1,
+            }}
+            transition={{
+              duration: 0.6,
+              delay: 0.3,
+            }}
+            className="pt-3   w-[100%]"
+          >
+            <SuccessvsFail />
+          </motion.div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
 function Card({ children }: { children: React.ReactNode }) {
   return (

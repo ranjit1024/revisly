@@ -13,6 +13,13 @@ import {
   LayoutDashboard,
   PlusCircle,
   MessageCircle,
+  HomeIcon,
+  User2Icon,
+  User,
+  Book,
+  BookOpenCheck,
+  HelpCircleIcon,
+  BadgeInfo,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Profile from "@/components/ui/Profile";
@@ -87,14 +94,14 @@ export default function Home({ children }: { children: ReactNode }) {
           transition={{
             duration: 0.6,
           }}
-          className=" bg-white z-400 border-b-gray-200 border-b-1 grid grid-cols-[20%_80%] fixed w-full"
+          className=" bg-white max-md:hidden z-400 border-b-gray-200 border-b-1 grid grid-cols-[20%_80%] fixed w-full"
         >
-          <div className="hover:cursor-pointer border-r-1 border-r-gray-100 p-2 max-md:border-none ">
+          <div className="hover:cursor-pointer border-r-1 max-md:hidden border-r-gray-100 p-2 max-md:border-none ">
             <div
               onClick={() => {
                 router.push("/revisly/home");
               }}
-              className="flex items-center gap-2 max-md:ml-2"
+              className="flex items-center gap-2 max-md:ml-0 "
             >
               <Image src={logo} height={50} width={25} alt="logo"/>
               <p className="font-semibold text-[1.2rem]  text-input/90">
@@ -102,7 +109,9 @@ export default function Home({ children }: { children: ReactNode }) {
               </p>
             </div>
           </div>
-          <div className=" max-md:hidden flex px-3 justify-between items-center">
+          
+          
+          <div className="  flex px-3 justify-between items-center">
             <div className="flex items-center gap-3">
               <div className="grid h-9 w-9 place-items-center rounded-full bg-emerald-600 text-white shadow-sm">
                 <BookOpen size={18} />
@@ -138,8 +147,32 @@ export default function Home({ children }: { children: ReactNode }) {
             </div>
           </div>
         </motion.div>
+        {/* mobile header */}
+           <header className="bg-gray-100 py-2 border-b md:hidden border-gray-200/80 backdrop-blur-xl sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-3 ">
+        <div className="flex items-center justify-between ">
+          <div className="flex items-center gap-1 group cursor-pointer select-none">
+          <Image src={logo} height={25} width={27} alt="logo"/>
+            
+            <h1 className="text-[18px] font-[550] text-gray-900 tracking-tight group-hover:text-emerald-600 transition-colors duration-300">
+              Revisly
+            </h1>
+          </div>
 
-        <div className="h-[100%] w-[100%] relative   grid grid-cols-[20%_80%]">
+          {/* User Profile */}
+          <button 
+            className="w-9 h-9 rounded hover:bg-gray-200 flex items-center justify-center transition-all duration-300 group bg-gray-100 border"
+            aria-label="User profile"
+          >
+            
+           <User className="text-zinc-900"/>
+            
+          </button>
+        </div>
+      </div>
+    </header>
+        {/* //done */}
+        <div className="h-[100%] w-[100%] relative  grid grid-cols-[20%_80%]">
           <div className="mt-2 max-md:hidden">
             <motion.div
               initial={{
@@ -321,9 +354,41 @@ export default function Home({ children }: { children: ReactNode }) {
             </motion.div>
           </div>
 
-          <div className="p-3 max-md:p-0 w-[99%] pt-15 h-[100%] max-md:w-[100vw] max-md:mt-14 ">{children}</div>
+          <div className="p-3 max-md:p-0 w-[99%] pt-15 h-[100%] max-md:w-[100vw] max-md:mt-1 ">{children}</div>
         </div>
       </div>
+        <div className="fixed bottom-0 md:hidden p-1 rounded-tr-lg rounded-tl-lg bg-black text-white w-[100%] grid grid-cols-[45%_12%_45%]">
+          <div className="flex w-full gap-2 justify-around">
+
+          <button className="hover:cursor-pointer gap-1 flex flex-col items-center p-3 hover:bg-white/10 rounded-2xl font-thin">
+          <HomeIcon className="text-xs stroke-[1.2] size-[1.4rem] font-thin active:stroke-3 text-gray-100"/>
+          <p className="text-xs font-normal">Home</p>
+          </button>
+          <button className="hover:cursor-pointer p-3 flex flex-col items-center gap-1  rounded-2xl active:font-semibold font-thin">
+          <CalendarCheck className="text-xs stroke-[1.2]  size-[1.4rem]   font-thin active:stroke-3 text-gray-100"/>
+          <p className="text-xs font-normal">sessions</p>
+          </button>
+          </div>
+
+          <div className="flex justify-center items-center   relative -top-5   ring-gray-200 rounded-[2rem] h-[70%] bg-red-50 w-[100%]">
+            <PlusCircle className="size-8 text-gray-900"/>
+          </div> 
+          
+           <div className="flex w-full gap-2 justify-around">
+
+           <button className="hover:cursor-pointer p-3 flex flex-col items-center gap-1  rounded-2xl active:font-semibold font-thin">
+          < BookOpenCheck className="text-xs stroke-[1.2]  size-[1.4rem]   font-thin active:stroke-3 text-gray-100"/>
+          <p className="text-xs font-normal">Custom</p>
+          </button>
+           <button className="hover:cursor-pointer p-3 flex flex-col items-center gap-1  rounded-2xl active:font-semibold font-thin">
+          <BadgeInfo className="text-xs stroke-[1.2]  size-[1.4rem]   font-thin active:stroke-3 text-gray-100"/>
+          <p className="text-xs font-normal">Feedback</p>
+          </button>
+         
+          </div>
+          
+          
+        </div>
     </Provider>
   );
 }
