@@ -37,7 +37,7 @@ const chartConfig = {
 
 export function MSessionHistory() {
   return (
-    <Card className="h-65">
+    <Card className="h-75">
       <CardHeader>
         <CardTitle>Last five session </CardTitle>
         <CardDescription>Score of last 5 session</CardDescription>
@@ -47,7 +47,7 @@ export function MSessionHistory() {
           <BarChart
             accessibilityLayer
             data={chartData}
-            className="-mt-2"
+            className="max-sm:mt-4 "
             
             margin={{
               top:0
@@ -71,7 +71,7 @@ export function MSessionHistory() {
 
                 position="top"
                 offset={12}
-                className="top-10"
+                className="top-1"
                 fontSize={12}
               />
             </Bar>

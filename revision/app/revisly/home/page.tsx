@@ -38,7 +38,24 @@ function Mobile() {
     <h1 className="text-[2.5rem] font-semibold text-zinc-800 mb-3">React</h1>
     <p className="text-sm font-normal text-zinc-600 mb-3 ">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae deleniti mollitia laborum. </p>
     <MRetation/>
-       <div className="bg-zinc-900 p-5 mb-4 mt-5 rounded-2xl shadow-xs">
+       < motion.div 
+       initial={{
+            opacity: 0,
+            x: 10,
+          }}
+          whileInView={{
+            opacity: 1,
+            x: 0,
+          }}
+          viewport={{
+                    once: true,
+                    amount: 0.3,
+                  }}
+          transition={{
+            duration: 0.6,
+            delay:0.5
+          }}
+       className="bg-gray-900 p-5 mb-4 mt-5 rounded-2xl shadow-xs">
             <p className="text-sm font-medium text-zinc-200">
               Upcoming Revision
             </p>
@@ -53,9 +70,26 @@ function Mobile() {
               </div>
               <p className="text-sm text-zinc-200">Tomorrow • 5:00 AM</p>
             </div>
-          </div>
-        
+          </motion.div>
+          <motion.div 
+          initial={{
+            opacity: 0,
+            y: -100,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+                    once: true,
+                    amount: 0.3,
+                  }}
+          transition={{
+            duration: 1,
+          }}
+          >
           <MSessionHistory/>
+          </motion.div>
           <div className="mb-20">
 
           </div>

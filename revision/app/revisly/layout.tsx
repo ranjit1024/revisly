@@ -14,12 +14,9 @@ import {
   PlusCircle,
   MessageCircle,
   HomeIcon,
-  User2Icon,
-  User,
-  Book,
   BookOpenCheck,
-  HelpCircleIcon,
   BadgeInfo,
+  Plus,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Profile from "@/components/ui/Profile";
@@ -27,8 +24,8 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 
 import Image from "next/image";
-import Notification from "@/components/ui/notification";
 import Loader from "@/components/ui/loader";
+import ProfileIcon from "@/components/ui/Mprofile";
 
 export default function Home({ children }: { children: ReactNode }) {
   let pathname = usePathname();
@@ -160,14 +157,15 @@ export default function Home({ children }: { children: ReactNode }) {
           </div>
 
           {/* User Profile */}
-          <button 
+          {/* <button 
             className="w-9 h-9 rounded hover:bg-gray-200 flex items-center justify-center transition-all duration-300 group bg-gray-100 "
             aria-label="User profile"
           >
             
            <Image src={session?.user?.image || ""} height={40} width={30} alt="profile" className="rounded-full"/>
             
-          </button>
+          </button> */}
+          <ProfileIcon/>
         </div>
       </div>
     </header>
@@ -357,7 +355,7 @@ export default function Home({ children }: { children: ReactNode }) {
           <div className="p-3 max-md:p-0 w-[99%] pt-15 h-[100%] max-md:w-[100vw] max-md:mt-1 ">{children}</div>
         </div>
       </div>
-        <div className="fixed bottom-0 md:hidden p-1 rounded-tr-lg rounded-tl-lg bg-black text-white w-[100%] grid grid-cols-[45%_12%_45%]">
+        <div className="fixed bottom-0 md:hidden p-1 rounded-tr-lg rounded-tl-lg bg-black text-white w-[100%] grid grid-cols-[42.5%_15%_42.5%]">
           <div className="flex w-full gap-2 justify-around">
 
           <button onClick={()=>{
@@ -374,9 +372,13 @@ export default function Home({ children }: { children: ReactNode }) {
           </button>
           </div>
 
-          <div className="flex justify-center items-center   relative -top-5   ring-gray-200 rounded-[2rem] h-[70%] bg-red-50 w-[100%]">
-            <PlusCircle className="size-8 text-gray-900"/>
-          </div> 
+          <div className="flex  justify-center items-center relative w-[100%] " onClick={()=>{
+            router.push('/revisly/revision')
+          }}>
+            <div className="bg-gray-100 rounded-full border-4 border-black absolute -top-4 text-gray-900 p-2 re">
+            <Plus className="size-8"></Plus>
+            </div>
+          </div>
           
            <div className="flex w-full gap-2 justify-around">
 

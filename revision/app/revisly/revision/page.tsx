@@ -17,8 +17,17 @@ import { ApiError } from "@/components/ui/apiError";
 import { Hard } from "@/components/ui/hard";
 import { TopicExistsToast } from "@/components/ui/topicExits";
 import { createSelector } from "@reduxjs/toolkit";
+import { useMediaQuery } from "react-responsive";
+export default function Home(){
+ const isMobile = useMediaQuery({ maxWidth: 768 });
+   return isMobile ? <Mobile/> :<Desktop/>
+}
 
-export default function Home() {
+function Mobile(){
+  return <div>fsdf</div>
+}
+
+function Desktop() {
 
   const [invalidInputError, setInvalidInputError] = useState<boolean>(false);
   const [showRepeteError, setShowrepeteError] = useState<boolean>(false);
@@ -76,19 +85,19 @@ export default function Home() {
 
       {sendData ? <NotesgeneratorLoader /> : null}
 
-      <div className="bg-white shadow p-5 rounded-md h-[120vh] ">
-        <div className="mb-6 flex items-start justify-between gap-4">
+      <div className="bg-white shadow p-5 rounded-md h-[120vh] max-md:p-3 ">
+        <div className="mb-6 max-md:mb-1 flex items-start justify-between gap-4">
           <div>
             <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
               Set Revision Reminder
             </h1>
-            <p className="mt-1 text-sm text-zinc-600 flex">
+            <p className="mt-1 text-sm text-zinc-600 flex max-md:flex-col max-md:hidden max-md:items-start">
               We use
               <span className="font-medium text-emerald-700">
                 &nbsp;spaced repetition
               </span>{" "}
               &nbsp; to help you retain more with less time.
-              <button className="ml-2 inline-flex items-center gap-1 text-emerald-700 hover:text-emerald-800"></button>
+              
             </p>
           </div>
           <div className="hidden rounded-xl bg-emerald-50 px-3 py-2 text-emerald-700 ring-1 ring-emerald-100 sm:flex items-center gap-2">

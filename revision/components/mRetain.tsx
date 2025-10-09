@@ -1,7 +1,7 @@
 "use client"
 
 import { TrendingUp } from "lucide-react"
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, XAxis } from "recharts"
 
 import {
   Card,
@@ -38,7 +38,7 @@ const chartConfig = {
 
 export default function MRetation() {
   return (
-   
+    <ResponsiveContainer>
         <ChartContainer config={chartConfig} className="pt-10 px-0  ">
           <AreaChart
             accessibilityLayer
@@ -46,7 +46,9 @@ export default function MRetation() {
             margin={{
               left: 10,
               right: 0,
+              
             }}
+
           >
             <CartesianGrid vertical={false} />
             <XAxis
@@ -69,7 +71,7 @@ export default function MRetation() {
             />
           </AreaChart>
         </ChartContainer>
-      
+      </ResponsiveContainer>
 
   )
 }

@@ -76,7 +76,7 @@ export function MaxRangeDatePicker() {
             id="date"
             variant="outline"
             className={cn(
-              "w-[400px] justify-start text-left font-normal h-11 rounded-2xl",
+              "w-[400px]  justify-start text-left font-normal h-11 rounded-2xl",
               !date && "text-white"
             )}
           

@@ -1,47 +1,108 @@
-"use client"
-import { useSession } from "next-auth/react";
-import User from "../../../public/user.jpg"
+"use client";
+import { Mail, Trash2 } from "lucide-react";
+import { useState } from "react";
+import user from "../../../public/user.jpg";
 import Image from "next/image";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import {AlertDialogDemo} from "@/components/ui/deletePermently";
-export default function Home(){
-    const { data: session } = useSession();
-    return <div className="px-15 py-10 bg-white rounded-2xl">
-    
-        <div className="flex justify-between items-center gap-4">
-            <div className="flex items-center gap-3">
-     <Image src={User} height={200} width={70} className="rounded-full" alt="Profile"/>
-                
-     <h1 className="text-[2.5rem] text-gray-800 font-medium">{session?.user?.name}</h1>
+import { useSession } from "next-auth/react";
+interface UserProfileCardProps {
+  name: string;
+  email: string;
+  totalSessions: number;
+  avatarUrl?: string;
+  onDelete?: () => void;
+}
+
+export default function Home({
+  email,
+  totalSessions,
+  onDelete,
+}: UserProfileCardProps) {
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const {data:session} = useSession()
+  const handleDelete = () => {
+    if (showDeleteConfirm && onDelete) {
+      onDelete();
+    } else {
+      setShowDeleteConfirm(true);
+      setTimeout(() => setShowDeleteConfirm(false), 3000);
+    }
+  };
+
+  return (
+    <div className="w-full mx-auto p-1">
+      <div className="bg-white rounded-xl p-8 space-y-8 border border-gray-100/50 backdrop-blur-sm">
+        {/* Profile Header */}
+        <div className="flex items-start justify-between">
+          <div className="flex items-center gap-4">
+            <div className="relative group">
+              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-amber-200 via-yellow-300 to-amber-300 flex items-center justify-center ring-4 ring-amber-50 transition-all duration-300 group-hover:ring-amber-100">
+                <Image
+                  src={user || ""}
+                  className="w-full h-full rounded-full object-cover"
+                  alt="profile"
+                />
+              </div>
             </div>
+
             <div>
-                <div className="bg-gradient-to-r to-indigo-100 from-purple-50 flex items-center rounded-md gap-3 px-3 py-[2px] border border-indigo-50">
-                        <img
-                width="20"
-                height="50"
-                src="https://img.icons8.com/parakeet-line/50/coins--v2.png"
-                alt="coins--v2"
-              />
-              <p className="text-gray-600 font-semibold">1</p>
-                </div>
+              <h2 className="text-xl font-semibold text-gray-900 tracking-tight">
+                {session?.user?.name}
+              </h2>
+              <p className="text-sm text-gray-400 mt-0.5">Profile</p>
             </div>
-        </div>
-        <div className="mt-10">
-        <Label className="mb-1 ml-1">Email</Label>
-        <Input disabled value={String(session?.user?.email)}/>
-      
+          </div>
 
+          {/* Session Badge */}
+          <div className="flex flex-col items-end mt-1">
+            <div className="text-lg font-bold text-gray-800">
+              {3}
+            </div>
+            <span className="text-xs text-gray-400 uppercase tracking-wider">
+              Sessions
+            </span>
+          </div>
         </div>
-        <div className="mt-">
-       
-       <p className="text-accent-foreground text-sm mt-5 px-3 py-1 bg-gradient-to-l to-gray-100 from-gray-50 w-fit rounded-md">Total Session: <span className="text-gray-800 font-semibold ">5</span></p>
-      
 
+        {/* Divider */}
+        <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+
+        {/* Email Section */}
+        <div className="space-y-3">
+          <label className="text-xs uppercase tracking-wider text-gray-400 font-medium flex items-center gap-2">
+            <Mail className="w-3.5 h-3.5" />
+            Email Address
+          </label>
+          <input
+            type="email"
+            value={session?.user?.email || ""}
+            readOnly
+            className="w-full px-0 py-2 bg-transparent border-0 border-b border-gray-200 text-gray-700 text-sm focus:outline-none focus:border-gray-900 transition-colors placeholder:text-gray-300"
+          />
         </div>
-        <div className="text-start mt-5">
-       <AlertDialogDemo/>
-        </div>
+
+        {/* Delete Button */}
+        <button
+          onClick={handleDelete}
+          className={`
+            w-full py-3.5 px-6 rounded-2xl font-medium text-sm
+            transition-all duration-300 flex items-center justify-center gap-2
+            ${
+              showDeleteConfirm
+                ? "bg-red-600 text-white shadow-lg shadow-red-500/30 scale-[1.02]"
+                : "bg-gray-900 text-white hover:bg-gray-800 hover:shadow-lg hover:shadow-gray-900/20"
+            }
+          `}
+        >
+          <Trash2 className="w-4 h-4" />
+          {showDeleteConfirm ? "Click Again to Confirm" : "Delete Permanently"}
+        </button>
+
+        {showDeleteConfirm && (
+          <p className="text-xs text-center text-gray-400 -mt-4 animate-pulse">
+            This action cannot be undone
+          </p>
+        )}
+      </div>
     </div>
+  );
 }
