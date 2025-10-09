@@ -24,7 +24,21 @@ export default function Home(){
 }
 
 function Mobile(){
-  return <div>fsdf</div>
+  return <div className="mb-6 max-md:mb-1 flex items-start justify-between gap-4 p-2">
+          <div>
+            <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
+              Set Revision Reminder
+            </h1>
+            <p className="mt-1 text-sm text-zinc-600  ">
+              We use
+              <span className="font-medium text-emerald-700">
+                &nbsp;spaced repetition
+              </span>{" "}
+              &nbsp; to help you retain more with less time.
+              
+            </p>
+          </div>
+          </div>
 }
 
 function Desktop() {
