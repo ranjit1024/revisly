@@ -55,22 +55,24 @@ const router = useRouter();
           <Calendar size={16} />
           <span>{formatDate(startDate)} - {formatDate(endDate)}</span>
         </div>
-        <div className="flex items-center gap-1 text-gray-400 text-xs">
-          <Clock size={14} />
-          <span>10 day(s)</span>
-        </div>
-      </div>
-      <div className="text-end mt-1 mr-2">
-          <span className={`bg-amber-50 text-amber-500 text-xs font-semibold px-3 py-1 rounded-full ${status === 'COMPLETED' ?'bg-green-50 text-green-500 text-xs font-semibold px-3 py-1 rounded-full ':null} `}>
+        <div className="flex max-md:hidden items-center gap-2 text-gray-400 text-xs">
+        <span className={`bg-amber-50 text-amber-500 text-xs font-semibold px-3 py-1 rounded-md ${status === 'COMPLETED' ?'bg-green-50 text-green-500 text-xs font-semibold px-3 py-1 rounded-md ':null} `}>
                 {status}
             </span>
+            <div className="flex gap-1">
+
+          <Clock size={14} />
+          <span>10 day(s)</span>
             </div>
+        </div>
+      </div>
+    
 
       {/* Main content */}
       <div className="p-6">
         {/* Title section */}
         <div className="flex items-center gap-4 mb-6 ">
-          <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md">
+          <div className="w-12 h-12 bg-gradient-to-br from-neutral-800 to-neutral-900 rounded-xl flex items-center justify-center shadow">
             <BookOpen className="text-white" size={20} />
           </div>
           <div>
@@ -88,7 +90,7 @@ const router = useRouter();
        
 
         {/* Action buttons */}
-        <div className="flex gap-3">
+        <div className="flex gap-3 max-md:flex-col">
           <button 
           onClick={async ()=>{
           const userNotes = await getNotes({folderKey:`${id} ${title}/notes/notes.pdf`});
@@ -97,7 +99,7 @@ const router = useRouter();
 
             window.open(userNotes)
           }}}
-          className="flex-1 bg-indigo-600 hover:bg-indigo-700 hover:cursor-pointer text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+          className="flex-1 bg-zinc-900 hover:bg-zinc-700 hover:cursor-pointer text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2">
             View Notes
           </button>
           <button 

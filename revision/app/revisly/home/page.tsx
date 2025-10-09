@@ -11,6 +11,8 @@ import CreateFirstRevisionSession from "@/components/ui/firstSession";
 import { DashboardSpinner } from "@/components/ui/dashBoardLoader";
 import { useMediaQuery } from "react-responsive";
 import  MRetation  from "@/components/mRetain";
+import { Last5 } from "@/components/ui/last5";
+import { MSessionHistory } from "@/components/ui/msessionH";
 interface type {
   id: string | null;
   email: string;
@@ -36,6 +38,27 @@ function Mobile() {
     <h1 className="text-[2.5rem] font-semibold text-zinc-800 mb-3">React</h1>
     <p className="text-sm font-normal text-zinc-600 mb-3 ">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vitae deleniti mollitia laborum. </p>
     <MRetation/>
+       <div className="bg-zinc-900 p-5 mb-4 mt-5 rounded-2xl shadow-xs">
+            <p className="text-sm font-medium text-zinc-200">
+              Upcoming Revision
+            </p>
+            <h3 className="mt-1 text-xl font-semibold text-zinc-200 tracking-tight">
+              topic name
+            </h3>
+            <p className="mt-3 text-sm text-zinc-200">Topic info</p>
+
+            <div className="mt-4 flex items-center gap-2">
+              <div className="grid h-7 w-7 place-items-center rounded-full bg-amber-100 text-amber-700">
+                <CalendarCheck size={16} />
+              </div>
+              <p className="text-sm text-zinc-200">Tomorrow • 5:00 AM</p>
+            </div>
+          </div>
+        
+          <MSessionHistory/>
+          <div className="mb-20">
+
+          </div>
   </div>;
 }
 function Desktop() {

@@ -44,7 +44,7 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="px-6 py-8 bg-white rounded-xl">
+    <div className="px-6 py-8 bg-white rounded-xl max-md:px-3 max-md:py-5 max-md:bg-gray-100">
       <h1 className="text-5xl font-semibold text-gray-900">
         {topic === null ? (
           <div className="bg-gray-200/70 h-12 w-100 flex flex-col gap-2  animate-pulse rounded-2xl"></div>
@@ -61,7 +61,7 @@ export default function Page() {
       </div>
       <p className="text-md text-gray-400 mt-7">Revision / Upcoming revision</p>
 
-      <div className="mt-6 grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-6 grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 max-md: mb-15">
         {sessionDetails === null ? (
           <div className="h-[100vh]  grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 w-[75vw] ">
             <Skeleton className="h-full w-full" />

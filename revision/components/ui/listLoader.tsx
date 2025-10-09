@@ -5,7 +5,7 @@ const ListLoader = ({ items = 10 }) => {
   const skeletonItems = Array(items).fill(0);
   
   return (
-    <div role="status" className="w-[78vw] h-[100vh] p-4 space-y-4 border  border-gray-200 divide-y divide-gray-200 rounded-lg shadow animate-pulse dark:divide-gray-700 dark:border-gray-700">
+    <div role="status" className="w-[78vw] max-md:w-[100vw] h-[100vh] p-4 space-y-4 border  border-gray-200 divide-y divide-gray-200 rounded-lg shadow animate-pulse dark:divide-gray-700 dark:border-gray-700">
       {skeletonItems.map((_, index) => (
         <div key={index} className="flex items-center justify-between pt-4 first:pt-0">
           <div className="flex items-center space-x-4">

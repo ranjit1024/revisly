@@ -161,11 +161,11 @@ export default function Home({ children }: { children: ReactNode }) {
 
           {/* User Profile */}
           <button 
-            className="w-9 h-9 rounded hover:bg-gray-200 flex items-center justify-center transition-all duration-300 group bg-gray-100 border"
+            className="w-9 h-9 rounded hover:bg-gray-200 flex items-center justify-center transition-all duration-300 group bg-gray-100 "
             aria-label="User profile"
           >
             
-           <User className="text-zinc-900"/>
+           <Image src={session?.user?.image || ""} height={40} width={30} alt="profile" className="rounded-full"/>
             
           </button>
         </div>
@@ -360,12 +360,16 @@ export default function Home({ children }: { children: ReactNode }) {
         <div className="fixed bottom-0 md:hidden p-1 rounded-tr-lg rounded-tl-lg bg-black text-white w-[100%] grid grid-cols-[45%_12%_45%]">
           <div className="flex w-full gap-2 justify-around">
 
-          <button className="hover:cursor-pointer gap-1 flex flex-col items-center p-3 hover:bg-white/10 rounded-2xl font-thin">
-          <HomeIcon className="text-xs stroke-[1.2] size-[1.4rem] font-thin active:stroke-3 text-gray-100"/>
+          <button onClick={()=>{
+            router.push('/revisly/home')
+          }} className="hover:cursor-pointer gap-1 flex flex-col items-center p-3 hover:bg-white/10 rounded-2xl font-thin">
+          <HomeIcon className={`${pathname.includes("home")?'stroke-[2]':"stroke-[1.2] active:stroke-[2]"}`}/>
           <p className="text-xs font-normal">Home</p>
           </button>
-          <button className="hover:cursor-pointer p-3 flex flex-col items-center gap-1  rounded-2xl active:font-semibold font-thin">
-          <CalendarCheck className="text-xs stroke-[1.2]  size-[1.4rem]   font-thin active:stroke-3 text-gray-100"/>
+          <button onClick={()=>[
+            router.push('/revisly/all')
+          ]} className={`'hover:cursor-pointer p-3 flex flex-col items-center gap-1  rounded-2xl active:font-semibold font-thin stroke-[2]`}>
+          <CalendarCheck className={` ${pathname.includes("all")?"text-xs   size-[1.4rem]   font-thin stroke-[2] text-gray-100":"text-xs stroke-[1.2]  size-[1.4rem]   font-thin active:stroke-3 text-gray-100"} `}/>
           <p className="text-xs font-normal">sessions</p>
           </button>
           </div>
@@ -380,7 +384,9 @@ export default function Home({ children }: { children: ReactNode }) {
           < BookOpenCheck className="text-xs stroke-[1.2]  size-[1.4rem]   font-thin active:stroke-3 text-gray-100"/>
           <p className="text-xs font-normal">Custom</p>
           </button>
-           <button className="hover:cursor-pointer p-3 flex flex-col items-center gap-1  rounded-2xl active:font-semibold font-thin">
+           <button onClick={()=>{
+            router.push('/contact')
+           }} className="hover:cursor-pointer p-3 flex flex-col items-center gap-1  rounded-2xl active:font-semibold font-thin">
           <BadgeInfo className="text-xs stroke-[1.2]  size-[1.4rem]   font-thin active:stroke-3 text-gray-100"/>
           <p className="text-xs font-normal">Feedback</p>
           </button>
