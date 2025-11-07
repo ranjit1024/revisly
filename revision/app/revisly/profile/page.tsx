@@ -4,29 +4,12 @@ import { useState } from "react";
 import user from "../../../public/user.jpg";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-interface UserProfileCardProps {
-  name: string;
-  email: string;
-  totalSessions: number;
-  avatarUrl?: string;
-  onDelete?: () => void;
-}
 
-export default function Home({
-  email,
-  totalSessions,
-  onDelete,
-}: UserProfileCardProps) {
+
+export default function Home() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const {data:session} = useSession()
-  const handleDelete = () => {
-    if (showDeleteConfirm && onDelete) {
-      onDelete();
-    } else {
-      setShowDeleteConfirm(true);
-      setTimeout(() => setShowDeleteConfirm(false), 3000);
-    }
-  };
+  
 
   return (
     <div className="w-full mx-auto p-1">
@@ -82,7 +65,7 @@ export default function Home({
 
         {/* Delete Button */}
         <button
-          onClick={handleDelete}
+          onClick={()=>{console.log("Delete")}}
           className={`
             w-full py-3.5 px-6 rounded-2xl font-medium text-sm
             transition-all duration-300 flex items-center justify-center gap-2
