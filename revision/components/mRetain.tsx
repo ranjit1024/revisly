@@ -67,7 +67,7 @@ export default function MRetation() {
               type="natural"
               fill="var(--color-desktop)"
               fillOpacity={0}
-              stroke="var(--color-desktop)"
+              stroke="teal"
             />
           </AreaChart>
         </ChartContainer>

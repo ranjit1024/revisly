@@ -70,8 +70,8 @@ export default function TimePicker() {
   return (
     <div className="relative z-10 " ref={dropdownRef}>
       
-      <div className="mt-5 ">
-            <label className="block text-sm font-medium ml-2 text-zinc-700" htmlFor="time">
+      <div className="mt-5 max-md:mt-1">
+            <label className="block text-sm  font-medium ml-2 text-zinc-700" htmlFor="time">
               When should we remind you
             </label>
             <div className="mt-2">

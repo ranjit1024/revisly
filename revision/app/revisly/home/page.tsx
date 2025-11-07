@@ -55,7 +55,7 @@ function Mobile() {
             duration: 0.6,
             delay:0.5
           }}
-       className="bg-gray-900 p-5 mb-4 mt-5 rounded-2xl shadow-xs">
+       className="bg-gray-900 p-5 mb-4 mt-5 rounded-2xl ">
             <p className="text-sm font-medium text-zinc-200">
               Upcoming Revision
             </p>

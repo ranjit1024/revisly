@@ -31,7 +31,7 @@ const chartData = [
 const chartConfig = {
   desktop: {
     label: "Desktop",
-    color: "#7F22FE",
+    color: "teal",
   },
 } satisfies ChartConfig
 
@@ -47,7 +47,7 @@ export function MSessionHistory() {
           <BarChart
             accessibilityLayer
             data={chartData}
-            className="max-sm:mt-4 "
+            className=""
             
             margin={{
               top:0
@@ -55,7 +55,7 @@ export function MSessionHistory() {
           >
             <CartesianGrid vertical={false} />
             <XAxis
-            className="w-fit h-fit"
+            className="w-fit h-fit "
               dataKey="month"
               tickLine={false}
               tickMargin={10}

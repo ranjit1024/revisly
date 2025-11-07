@@ -18,13 +18,57 @@ import { Hard } from "@/components/ui/hard";
 import { TopicExistsToast } from "@/components/ui/topicExits";
 import { createSelector } from "@reduxjs/toolkit";
 import { useMediaQuery } from "react-responsive";
+import { DatePickerResponsive } from "@/components/ui/MDatePicker";
 export default function Home(){
  const isMobile = useMediaQuery({ maxWidth: 768 });
    return isMobile ? <Mobile/> :<Desktop/>
 }
 
 function Mobile(){
-  return <div className="mb-6 max-md:mb-1 flex items-start justify-between gap-4 p-2">
+   const [invalidInputError, setInvalidInputError] = useState<boolean>(false);
+  const [showRepeteError, setShowrepeteError] = useState<boolean>(false);
+  const [apiError, setApiError] = useState<boolean>(false);
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const selectorData = createSelector(
+    [(state:RootState) => state.revision],
+    (revision) =>({
+       topic: revision.topic,
+      sessionIntervel: revision.sessionIntervel,
+      time: revision.time,
+      sessionStart: revision.startDate,
+      sessionEnd: revision.endDate,
+      difficulty: revision.difficulty,
+      days: revision.days,
+    })
+  )
+  const sessionData = useSelector(selectorData);
+  useEffect(() => {
+    apiError
+      ? setTimeout(() => {
+          router.push("/revisly/home");
+        }, 1500)
+      : null;
+  }, [apiError]);
+  useEffect(() => {
+    if (invalidInputError) {
+      const timeOut = setTimeout(() => {
+        setInvalidInputError(false);
+      }, 3000);
+      return () => clearTimeout(timeOut);
+    }
+  }, [invalidInputError]);
+  useEffect(() => {
+    if (showRepeteError) {
+      const timeOut = setTimeout(() => {
+        setShowrepeteError(false);
+      }, 3000);
+      return () => clearTimeout(timeOut);
+    }
+  }, [showRepeteError]);
+  const [sendData, setSendData] = useState<boolean>(false);
+
+  return <div className="mb-6 flex-col gap-7  max-md:mb-1 flex items-start justify-between  p-2">
           <div>
             <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
               Set Revision Reminder
@@ -37,6 +81,44 @@ function Mobile(){
               &nbsp; to help you retain more with less time.
               
             </p>
+          </div>
+           <div className="w-full flex text-start items-start gap-7  justify-start h-full">
+            <div className="w-[100%] ">
+              <label
+                className="block text-sm font-medium text-zinc-700 text-start ml-1"
+                htmlFor="topic"
+              >
+                Topic Name
+              </label>
+              <div className="mt-2">
+                <div className="relative">
+                  <input
+                    onBlur={(e) => {
+                      console.log(e.currentTarget.value);
+                      dispatch(
+                        actions.addTopic({
+                          topic: e.currentTarget.value,
+                        })
+                      );
+                    }}
+                    id="topic"
+                    placeholder="e.g., System Design — Caching"
+                    className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-zinc-900 shadow-sm outline-none transition placeholder:text-zinc-400 focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100"
+                  />
+                  <Layers
+                    className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400"
+                    size={16}
+                  />
+                </div>
+                </div>
+                </div>
+                </div>
+                <div>
+                <DatePickerResponsive/>
+                  </div>
+
+                   <div className="w-100  hover:cursor-pointer  ">
+            <TimePicker />
           </div>
           </div>
 }
