@@ -54,7 +54,7 @@ export function DatePickerResponsive() {
           {displayText}
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-full">
+      <DrawerContent className="h-100">
         <DialogTitle className="text-center text-gray-600 text-lg font-medium">
           Pick a date range
         </DialogTitle>

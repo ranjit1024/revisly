@@ -20,6 +20,7 @@ import { createSelector } from "@reduxjs/toolkit";
 import { useMediaQuery } from "react-responsive";
 import { DatePickerResponsive } from "@/components/ui/MDatePicker";
 import { MTime } from "@/components/ui/MTime";
+import Mchip from "@/components/ui/MChip";
 export default function Home(){
  const isMobile = useMediaQuery({ maxWidth: 768 });
    return isMobile ? <Mobile/> :<Desktop/>
@@ -120,7 +121,17 @@ function Mobile(){
                 <div>
                 <MTime/>
                   </div>
-               
+                  <div className="h-100">                 
+                  <label
+              className="block ml-2 mb-3 text-sm font-medium text-zinc-800 text-start "
+              htmlFor="topic"
+            >
+              Select The diffeculty level
+            </label>
+            <div>
+              <Mchip/>
+            </div>
+               </div>
                   
                
           </div>

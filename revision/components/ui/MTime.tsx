@@ -11,15 +11,10 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { MinusCircle, PlusCircle } from "lucide-react";
 export function MTime() {
-  const [Hours, setHours] = React.useState(5);
-  const [Min, setMin] = React.useState(0);
+  const [Hours, setHours] = React.useState("");
+  const [Min, setMin] = React.useState("");
 
-  React.useEffect(() => {
-    if (Min > 60) {
-    }
-  }, [Min]);
   return (
     <Drawer>
       <label
@@ -45,33 +40,40 @@ export function MTime() {
           <div className="p-4 pb-0 w-[100%] grid grid-cols-[60%_40%] justify-start items-center">
             <div className="flex gap-3 justify-start ">
               <div className="text-center flex justify-center flex-col gap-4 items-center">
-               
+               <input
+                  type="number"
+                  className="text-xl w-20 p-2 rounded-2xl border text-center font-medium"
+                  onChange={(e) => {
+                    const value = e.target.value;
 
-                <input type="number" onChange={(e)=>{
-                  const value = +e.target.value;
-                   setHours(Math.min(Math.max(value,0),12))
-                }}  value={Hours} className="text-xl w-20 p-2 rounded-2xl border text-center font-medium"/>
-                  
-                
-             
+                    const numValue = parseInt(value);
+                    
+                  setHours(String(Math.min(Math.max(numValue, 1), 12)))
+                  }}
+                  onFocus={(e) => e.target.select()}
+                  value={Hours}
+                ></input>
               </div>
               <div className="flex justify-center items-center">
                 <p className="font-black">:</p>
               </div>
               <div className="text-center flex justify-center flex-col gap-4 items-center">
-               
                 <input
-                type="number"
+                  type="number"
                   className="text-xl w-20 p-2 rounded-2xl border text-center font-medium"
                   onChange={(e) => {
-                    const value = +e.target.value
-                    setMin(Math.min(Math.max(value,0),60))}}
+                    const value = e.target.value;
+
+                    const numValue = parseInt(value);
+                    
+                  setMin(String(Math.min(Math.max(numValue, 1), 60)))
+                  }}
+                  onFocus={(e) => e.target.select()}
                   value={Min}
                 ></input>
-               
               </div>
             </div>
-            <div className="flex gap-1 w-full justify-center items-center-safe">
+            <div className="flex gap-1 w-full justify-center items-center-safe flex-wrap">
               <Button className=" bg-transparent border-2 rounded-2xl w-fit text-center focus:bg-teal-600/20 font-semibold focus:border-teal-600 text-black px-6 py-5">
                 AM
               </Button>
