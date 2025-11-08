@@ -19,6 +19,7 @@ import { TopicExistsToast } from "@/components/ui/topicExits";
 import { createSelector } from "@reduxjs/toolkit";
 import { useMediaQuery } from "react-responsive";
 import { DatePickerResponsive } from "@/components/ui/MDatePicker";
+import { MTime } from "@/components/ui/MTime";
 export default function Home(){
  const isMobile = useMediaQuery({ maxWidth: 768 });
    return isMobile ? <Mobile/> :<Desktop/>
@@ -68,7 +69,7 @@ function Mobile(){
   }, [showRepeteError]);
   const [sendData, setSendData] = useState<boolean>(false);
 
-  return <div className="mb-6 flex-col gap-7  max-md:mb-1 flex items-start justify-between  p-2">
+  return <div className="mb-6 flex-col gap-7 w-[100vw]  max-md:mb-1 flex items-start justify-between  p-2">
           <div>
             <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
               Set Revision Reminder
@@ -116,10 +117,12 @@ function Mobile(){
                 <div>
                 <DatePickerResponsive/>
                   </div>
-
-                   <div className="w-100  hover:cursor-pointer  ">
-            <TimePicker />
-          </div>
+                <div>
+                <MTime/>
+                  </div>
+               
+                  
+               
           </div>
 }
 
