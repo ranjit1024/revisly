@@ -21,6 +21,7 @@ import { useMediaQuery } from "react-responsive";
 import { DatePickerResponsive } from "@/components/ui/MDatePicker";
 import { MTime } from "@/components/ui/MTime";
 import Mchip from "@/components/ui/MChip";
+import { Button } from "@/components/ui/button";
 export default function Home(){
  const isMobile = useMediaQuery({ maxWidth: 768 });
    return isMobile ? <Mobile/> :<Desktop/>
@@ -105,7 +106,7 @@ function Mobile(){
                     }}
                     id="topic"
                     placeholder="e.g., System Design — Caching"
-                    className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-zinc-900 shadow-sm outline-none transition placeholder:text-zinc-400 focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100"
+                    className="w-full rounded-md border border-zinc-200 bg-white px-4 py-2 text-zinc-900 shadow-sm outline-none transition placeholder:text-zinc-400 focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100"
                   />
                   <Layers
                     className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400"
@@ -130,6 +131,12 @@ function Mobile(){
             </label>
             <div>
               <Mchip/>
+            </div>
+            <div className="mt-5 h-35">
+              <Button className="inline-flex items-center gap-2 rounded-md bg-zinc-900 px-4 py-2.5 w-[96vw] text-sm font-medium h-10 text-white shadow-sm transition hover:bg-zinc-800 active:translate-y-px">
+                <Send size={16} />
+              Set Revision Reminder
+              </Button>
             </div>
                </div>
                   

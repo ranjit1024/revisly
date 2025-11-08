@@ -18,7 +18,7 @@ const DifficultySelector = () => {
             key={level.id}
             onClick={() => setSelected(level.id)}
             className={`
-              w-full p-4 rounded-xl text-left transition-all
+              w-[96vw] p-4 rounded-xl text-left transition-all
               ${
                 selected === level.id
                   ? 'bg-amber-50 border-2 border-amber-200'

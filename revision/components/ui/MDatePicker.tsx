@@ -11,6 +11,7 @@ import {
   Drawer,
   DrawerContent,
   DrawerTrigger,
+  DrawerClose
 } from "@/components/ui/drawer"
 import { DialogTitle } from "@radix-ui/react-dialog"
 
@@ -54,7 +55,7 @@ export function DatePickerResponsive() {
           {displayText}
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-100">
+      <DrawerContent className="h-[100%] p-3">
         <DialogTitle className="text-center text-gray-600 text-lg font-medium">
           Pick a date range
         </DialogTitle>
@@ -70,7 +71,13 @@ export function DatePickerResponsive() {
             initialFocus
             className="rounded-md w-full"
           />
+ 
+    
         </div>
+        <DrawerClose asChild className="flex justify-end w-[100%] items-end">
+              <Button className="mt-6 rounded-md w-[20%] text-end ">Done</Button>
+            </DrawerClose>
+      
       </DrawerContent>
     </Drawer>
   )
