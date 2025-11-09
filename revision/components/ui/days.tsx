@@ -62,7 +62,7 @@ export function SelectDay({ Limit }: {
     }, [selectedDay])
     return (
         <div className="flex  gap-3 max-md:flex-wrap ">
-            <h1 className="">Select Day</h1>
+            
             {week
                 .map(day => <button
                     key={day}

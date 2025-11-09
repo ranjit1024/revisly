@@ -350,3 +350,7 @@ function Desktop() {
     </div>
   );
 }
+
+
+// {topic: 'mjhbm', sessionIntervel: Array(6), time: '5:04AM', sessionStart: 'Sun Nov 09 2025 11:06:58 GMT+0530 (India Standard Time)', sessionEnd: 'Fri Nov 21 2025 00:00:00 GMT+0530 (India Standard Time)', …}days: (3) ['monday', 'tuesday', 'wednesday']difficulty: "medium"sessionEnd: "Fri Nov 21 2025 00:00:00 GMT+0530 (India Standard Time)"sessionIntervel: (6) ['Mon Nov 10 2025', 'Tue Nov 11 2025', 'Wed Nov 12 2025', 'Mon Nov 17 2025', 'Tue Nov 18 2025', 'Wed Nov 19 2025']sessionStart: "Sun Nov 09 2025 11:06:58 GMT+0530 (India Standard Time)"time: "5:04AM"topic: "mjhbm"[[Prototype]]: Object
+// turbopack-hot-reloader-common.ts:41 
