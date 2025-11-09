@@ -22,6 +22,7 @@ import { DatePickerResponsive } from "@/components/ui/MDatePicker";
 import { MTime } from "@/components/ui/MTime";
 import Mchip from "@/components/ui/MChip";
 import { Button } from "@/components/ui/button";
+import { MDifficluty } from "@/components/ui/MDiffculty";
 export default function Home(){
  const isMobile = useMediaQuery({ maxWidth: 768 });
    return isMobile ? <Mobile/> :<Desktop/>
@@ -129,8 +130,9 @@ function Mobile(){
             >
               Select The diffeculty level
             </label>
+           
             <div>
-              <Mchip/>
+              <MDifficluty/>
             </div>
             <div className="mt-5 h-35">
               <Button className="inline-flex items-center gap-2 rounded-md bg-zinc-900 px-4 py-2.5 w-[96vw] text-sm font-medium h-10 text-white shadow-sm transition hover:bg-zinc-800 active:translate-y-px">

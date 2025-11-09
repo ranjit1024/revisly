@@ -55,7 +55,7 @@ export function DatePickerResponsive() {
           {displayText}
         </Button>
       </DrawerTrigger>
-      <DrawerContent className="h-[100%] p-3">
+      <DrawerContent className="h-[59%] p-3">
         <DialogTitle className="text-center text-gray-600 text-lg font-medium">
           Pick a date range
         </DialogTitle>
@@ -74,8 +74,11 @@ export function DatePickerResponsive() {
  
     
         </div>
-        <DrawerClose asChild className="flex justify-end w-[100%] items-end">
-              <Button className="mt-6 rounded-md w-[20%] text-end ">Done</Button>
+        <DrawerClose asChild className="text-end w-full flex justify-center items-center ">
+          <div>
+
+              <Button className="mt-6 rounded-md w-[82%]  ">Done</Button>
+          </div>
             </DrawerClose>
       
       </DrawerContent>
