@@ -15,7 +15,7 @@ function status(id: string) {
     password: process.env.REDIS_PASSWORD,
     socket: {
       host: process.env.REDIS_HOST,
-      port: 10363,
+      port: 13429,
     },
   });
   client.connect();
@@ -122,6 +122,7 @@ export async function POST(req: NextRequest) {
   );
 
   const daysLenght = zodValidation.data?.days.length;
+  console.log(zodValidation.data)
 
   if (!zodValidation.success) {
     return NextResponse.json({ message: "Invalid Input" }, { status: 400 });
@@ -146,7 +147,7 @@ export async function POST(req: NextRequest) {
     password: process.env.REDIS_PASSWORD,
     socket: {
       host: process.env.REDIS_HOST,
-      port: 10363,
+      port: 13429,
     },
   });
   // <---- Completing on the revision donrt----->

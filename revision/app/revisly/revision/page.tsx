@@ -20,145 +20,23 @@ import { createSelector } from "@reduxjs/toolkit";
 import { useMediaQuery } from "react-responsive";
 import { DatePickerResponsive } from "@/components/ui/MDatePicker";
 import { MTime } from "@/components/ui/MTime";
-import Mchip from "@/components/ui/MChip";
-import { Button } from "@/components/ui/button";
 import { MDifficluty } from "@/components/ui/MDiffculty";
-export default function Home(){
- const isMobile = useMediaQuery({ maxWidth: 768 });
-   return isMobile ? <Mobile/> :<Desktop/>
+import MNotesLoader from "@/components/ui/MNotesloader";
+export default function Home() {
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+  return isMobile ? <Mobile /> : <Desktop />;
 }
 
-function Mobile(){
-   const [invalidInputError, setInvalidInputError] = useState<boolean>(false);
-  const [showRepeteError, setShowrepeteError] = useState<boolean>(false);
-  const [apiError, setApiError] = useState<boolean>(false);
-  const router = useRouter();
-  const dispatch = useDispatch();
-  const selectorData = createSelector(
-    [(state:RootState) => state.revision],
-    (revision) =>({
-       topic: revision.topic,
-      sessionIntervel: revision.sessionIntervel,
-      time: revision.time,
-      sessionStart: revision.startDate,
-      sessionEnd: revision.endDate,
-      difficulty: revision.difficulty,
-      days: revision.days,
-    })
-  )
-  const sessionData = useSelector(selectorData);
-  useEffect(() => {
-    apiError
-      ? setTimeout(() => {
-          router.push("/revisly/home");
-        }, 1500)
-      : null;
-  }, [apiError]);
-  useEffect(() => {
-    if (invalidInputError) {
-      const timeOut = setTimeout(() => {
-        setInvalidInputError(false);
-      }, 3000);
-      return () => clearTimeout(timeOut);
-    }
-  }, [invalidInputError]);
-  useEffect(() => {
-    if (showRepeteError) {
-      const timeOut = setTimeout(() => {
-        setShowrepeteError(false);
-      }, 3000);
-      return () => clearTimeout(timeOut);
-    }
-  }, [showRepeteError]);
-  const [sendData, setSendData] = useState<boolean>(false);
-
-  return <div className="mb-6 flex-col gap-7 w-[100vw]  max-md:mb-1 flex items-start justify-between  p-2">
-          <div>
-            <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
-              Set Revision Reminder
-            </h1>
-            <p className="mt-1 text-sm text-zinc-600  ">
-              We use
-              <span className="font-medium text-emerald-700">
-                &nbsp;spaced repetition
-              </span>{" "}
-              &nbsp; to help you retain more with less time.
-              
-            </p>
-          </div>
-           <div className="w-full flex text-start items-start gap-7  justify-start h-full">
-            <div className="w-[100%] ">
-              <label
-                className="block text-sm font-medium text-zinc-700 text-start ml-1"
-                htmlFor="topic"
-              >
-                Topic Name
-              </label>
-              <div className="mt-2">
-                <div className="relative">
-                  <input
-                    onBlur={(e) => {
-                      console.log(e.currentTarget.value);
-                      dispatch(
-                        actions.addTopic({
-                          topic: e.currentTarget.value,
-                        })
-                      );
-                    }}
-                    id="topic"
-                    placeholder="e.g., System Design — Caching"
-                    className="w-full rounded-md border border-zinc-200 bg-white px-4 py-2 text-zinc-900 shadow-sm outline-none transition placeholder:text-zinc-400 focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100"
-                  />
-                  <Layers
-                    className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400"
-                    size={16}
-                  />
-                </div>
-                </div>
-                </div>
-                </div>
-                <div>
-                <DatePickerResponsive/>
-                  </div>
-                <div>
-                <MTime/>
-                  </div>
-                  <div className="h-100">                 
-                  <label
-              className="block ml-2 mb-3 text-sm font-medium text-zinc-800 text-start "
-              htmlFor="topic"
-            >
-              Select The diffeculty level
-            </label>
-           
-            <div>
-              <MDifficluty/>
-            </div>
-            <div className="mt-5 h-35">
-              <Button onClick={()=>{
-                console.log(sessionData)
-              }} className="inline-flex items-center gap-2 rounded-md bg-zinc-900 px-4 py-2.5 w-[96vw] text-sm font-medium h-10 text-white shadow-sm transition hover:bg-zinc-800 active:translate-y-px">
-                <Send size={16} />
-              Set Revision Reminder
-              </Button>
-            </div>
-               </div>
-                  
-               
-          </div>
-}
-
-function Desktop() {
-
+function Mobile() {
   const [invalidInputError, setInvalidInputError] = useState<boolean>(false);
   const [showRepeteError, setShowrepeteError] = useState<boolean>(false);
   const [apiError, setApiError] = useState<boolean>(false);
   const router = useRouter();
   const dispatch = useDispatch();
   const selectorData = createSelector(
-    [(state:RootState) => state.revision],
-    (revision) =>({
-       topic: revision.topic,
+    [(state: RootState) => state.revision],
+    (revision) => ({
+      topic: revision.topic,
       sessionIntervel: revision.sessionIntervel,
       time: revision.time,
       sessionStart: revision.startDate,
@@ -166,7 +44,140 @@ function Desktop() {
       difficulty: revision.difficulty,
       days: revision.days,
     })
-  )
+  );
+  const sessionData = useSelector(selectorData);
+  
+  //error
+  const [errorInput, setErrorInput] = useState<boolean>(false);
+  // sendIng Data
+  const [sendData,setSendData] = useState<boolean>(false)
+  useEffect(()=>{
+    if(errorInput === true){
+      setTimeout(()=>{
+        setErrorInput(false)
+      },1500)
+    }
+  },[errorInput])
+  return (
+    <div className="mb-6 flex-col gap-7 w-[100vw]  max-md:mb-1 flex items-start justify-between  p-2">
+      {
+        errorInput ? <ErrorToast/>:null
+      }
+      {
+        //loader
+        sendData ? <MNotesLoader/>:null
+      }
+      <div>
+        <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
+          Set Revision Reminder
+        </h1>
+        <p className="mt-1 text-sm text-zinc-600  ">
+          We use
+          <span className="font-medium text-emerald-700">
+            &nbsp;spaced repetition
+          </span>{" "}
+          &nbsp; to help you retain more with less time.
+        </p>
+      </div>
+      <div className="w-full flex text-start items-start gap-7  justify-start h-full">
+        <div className="w-[100%] ">
+          <label
+            className="block text-sm font-medium text-zinc-700 text-start ml-1"
+            htmlFor="topic"
+          >
+            Topic Name
+          </label>
+          <div className="mt-2">
+            <div className="relative">
+              <input
+                onBlur={(e) => {
+                  console.log(e.currentTarget.value);
+                  dispatch(
+                    actions.addTopic({
+                      topic: e.currentTarget.value,
+                    })
+                  );
+                }}
+                id="topic"
+                placeholder="e.g., System Design — Caching"
+                className="w-full rounded-md border border-zinc-200 bg-white px-4 py-2 text-zinc-900 shadow-sm outline-none transition placeholder:text-zinc-400 focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100"
+              />
+              <Layers
+                className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400"
+                size={16}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <DatePickerResponsive />
+      </div>
+      <div>
+        <MTime />
+      </div>
+      <div className="h-100">
+        <label
+          className="block ml-2 mb-3 text-sm font-medium text-zinc-800 text-start "
+          htmlFor="topic"
+        >
+          Select The diffeculty level
+        </label>
+
+        <div>
+          <MDifficluty />
+        </div>
+        <div className="mt-5 h-35">
+          <button
+            //checking for error
+            onClick={async ()=>{
+                  try{
+                  setSendData(true)
+                  console.log(sessionData);
+                  const setRevision = await axios.post(
+                    "http://localhost:3000/api/revision",
+                    sessionData,
+                    {
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                    }
+                  );
+                  console.log(setRevision)
+                  setSendData(false)
+                }catch(e){
+                   console.log(e)
+                }
+            }}
+            className="inline-flex items-center gap-2 w-[100%] h-12 rounded-xl bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-zinc-800 active:translate-y-px"
+          >
+            <Send size={16} />
+            Set Revision Reminder
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Desktop() {
+  const [invalidInputError, setInvalidInputError] = useState<boolean>(false);
+  const [showRepeteError, setShowrepeteError] = useState<boolean>(false);
+  const [apiError, setApiError] = useState<boolean>(false);
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const selectorData = createSelector(
+    [(state: RootState) => state.revision],
+    (revision) => ({
+      topic: revision.topic,
+      sessionIntervel: revision.sessionIntervel,
+      time: revision.time,
+      sessionStart: revision.startDate,
+      sessionEnd: revision.endDate,
+      difficulty: revision.difficulty,
+      days: revision.days,
+    })
+  );
   const sessionData = useSelector(selectorData);
   useEffect(() => {
     apiError
@@ -196,12 +207,7 @@ function Desktop() {
   return (
     <div className=" ">
       <ApiError open={apiError} setOpen={setApiError}></ApiError>
-      {invalidInputError ? (
-        <ErrorToast
-         
-         
-        />
-      ) : null}
+      {invalidInputError ? <ErrorToast /> : null}
       {showRepeteError ? <TopicExistsToast /> : null}
 
       {sendData ? <NotesgeneratorLoader /> : null}
@@ -218,7 +224,6 @@ function Desktop() {
                 &nbsp;spaced repetition
               </span>{" "}
               &nbsp; to help you retain more with less time.
-              
             </p>
           </div>
           <div className="hidden rounded-xl bg-emerald-50 px-3 py-2 text-emerald-700 ring-1 ring-emerald-100 sm:flex items-center gap-2">
@@ -304,7 +309,7 @@ function Desktop() {
               onClick={async () => {
                 try {
                   setSendData(true);
-                  console.log(sessionData)
+                  console.log(sessionData);
                   const setRevision = await axios.post(
                     "http://localhost:3000/api/revision",
                     sessionData,
@@ -321,7 +326,7 @@ function Desktop() {
                     console.log(e.response?.data.message);
                     if (e.response?.data.message === "Invalid Input") {
                       console.log("data");
-                   
+
                       setSendData(false);
                       setInvalidInputError(true);
                       return;
@@ -330,7 +335,7 @@ function Desktop() {
                       e.response?.data.message ===
                       "Session Exists with same topic"
                     ) {
-                      setSendData(false)
+                      setSendData(false);
                       setShowrepeteError(true);
                       return;
                     } else {
@@ -344,8 +349,6 @@ function Desktop() {
               <Send size={16} />
               Set Revision Reminder
             </button>
-
-        
           </div>
         </div>
       </div>
@@ -353,6 +356,5 @@ function Desktop() {
   );
 }
 
-
 // {topic: 'mjhbm', sessionIntervel: Array(6), time: '5:04AM', sessionStart: 'Sun Nov 09 2025 11:06:58 GMT+0530 (India Standard Time)', sessionEnd: 'Fri Nov 21 2025 00:00:00 GMT+0530 (India Standard Time)', …}days: (3) ['monday', 'tuesday', 'wednesday']difficulty: "medium"sessionEnd: "Fri Nov 21 2025 00:00:00 GMT+0530 (India Standard Time)"sessionIntervel: (6) ['Mon Nov 10 2025', 'Tue Nov 11 2025', 'Wed Nov 12 2025', 'Mon Nov 17 2025', 'Tue Nov 18 2025', 'Wed Nov 19 2025']sessionStart: "Sun Nov 09 2025 11:06:58 GMT+0530 (India Standard Time)"time: "5:04AM"topic: "mjhbm"[[Prototype]]: Object
-// turbopack-hot-reloader-common.ts:41 
+// turbopack-hot-reloader-common.ts:41

@@ -17,7 +17,7 @@ import { useDispatch } from "react-redux";
 import { actions } from "@/store/slices/revison";
 
 export function MDifficluty() {
-  const [selected, setSelected] = useState("easy");
+  const [selected, setSelected] = useState("");
   const [opne,setOpen] = useState<boolean>(false);
   const dispatch = useDispatch()
   const levels = [

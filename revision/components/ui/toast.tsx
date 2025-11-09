@@ -9,16 +9,15 @@ interface ToastProps {
 
 export const ErrorToast = ({ 
   message = "Kindy enter valid input", 
-  onClose,
   duration = 4000 
 }: ToastProps) => {
   const [isVisible, setIsVisible] = useState(true)
 
   return (
-    <div className={`fixed top-12 w-100 right-4 z-50 transform transition-all duration-300 ease-in-out ${
+    <div className={`fixed top-12 w-100 max-md:w-[100%] max-md:top-14 max-md:z-1 right-4 max-md:p-1 max-md:right-0 z-50 transform transition-all duration-300 ease-in-out ${
       isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
     }`}>
-      <div className="bg-white dark:bg-gray-800 border border-red-200 dark:border-red-700 rounded-lg shadow-lg p-4 min-w-[320px] max-w-md">
+      <div className="bg-white dark:bg-gray-800 border border-red-200 dark:border-red-700 rounded-lg shadow-lg p-4 min-w-[320px] max-w-md ">
         <div className="flex items-start gap-3">
           <div className="flex-shrink-0">
             <div className="w-8 h-8 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center">
@@ -35,15 +34,7 @@ export const ErrorToast = ({
             </p>
           </div>
           
-          <button
-            onClick={() => {
-              setIsVisible(false)
-              setTimeout(() => onClose?.(), 300)
-            }}
-            className="flex-shrink-0 p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-          >
-            <X className="w-4 h-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
-          </button>
+         
         </div>
         
         <div className="mt-3 h-1 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
