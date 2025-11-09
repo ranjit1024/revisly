@@ -383,7 +383,7 @@ export default function Home({ children }: { children: ReactNode }) {
            <div className="flex w-full gap-2 justify-around">
 
            <button onClick={()=>{
-            router.push("/revisly/custom")
+            router.push("/revisly/pay")
            }} className="hover:cursor-pointer p-3 flex flex-col items-center gap-1  rounded-2xl active:font-semibold font-thin">
           < BookOpenCheck className="text-xs stroke-[1.2]  size-[1.4rem]   font-thin active:stroke-3 text-gray-100"/>
           <p className="text-xs font-normal">Custom</p>
