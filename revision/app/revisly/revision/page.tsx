@@ -135,7 +135,9 @@ function Mobile(){
               <MDifficluty/>
             </div>
             <div className="mt-5 h-35">
-              <Button className="inline-flex items-center gap-2 rounded-md bg-zinc-900 px-4 py-2.5 w-[96vw] text-sm font-medium h-10 text-white shadow-sm transition hover:bg-zinc-800 active:translate-y-px">
+              <Button onClick={()=>{
+                console.log(sessionData)
+              }} className="inline-flex items-center gap-2 rounded-md bg-zinc-900 px-4 py-2.5 w-[96vw] text-sm font-medium h-10 text-white shadow-sm transition hover:bg-zinc-800 active:translate-y-px">
                 <Send size={16} />
               Set Revision Reminder
               </Button>

@@ -13,10 +13,13 @@ import {
 import { useState } from "react";
 
 import { MSelectDay } from "./MSelect";
+import { useDispatch } from "react-redux";
+import { actions } from "@/store/slices/revison";
 
 export function MDifficluty() {
-  const [selected, setSelected] = useState("");
-  const [opne,setOpen] = useState<boolean>(false)
+  const [selected, setSelected] = useState("easy");
+  const [opne,setOpen] = useState<boolean>(false);
+  const dispatch = useDispatch()
   const levels = [
     { id: "easy", label: "Easy", subtitle: "Once a week" },
     { id: "medium", label: "Medium", subtitle: "Twice a week" },
@@ -35,6 +38,10 @@ export function MDifficluty() {
                     if(level.id !== "hard"){
                         setOpen(true)
                     }
+                    dispatch(actions.addDifficulty({
+                      // @ts-ignore
+                      difficulty: level.id
+                    }))
                 }}
                 className={`
               w-[96vw] p-4 rounded-xl text-left transition-all

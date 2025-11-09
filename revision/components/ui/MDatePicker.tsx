@@ -1,9 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { format } from "date-fns"
+import { format , subDays} from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
-import { DateRange } from "react-day-picker"
+import { DateRange, useDayPicker ,} from "react-day-picker"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -15,13 +15,16 @@ import {
   DrawerFooter
 } from "@/components/ui/drawer"
 import { DialogTitle } from "@radix-ui/react-dialog"
+import { useDispatch } from "react-redux"
+import { actions } from "@/store/slices/revison"
+import { date } from "zod"
 
 export function DatePickerResponsive() {
   // Calculate date range
   const today = new Date()
   const twoMonthsLater = new Date(today)
   twoMonthsLater.setMonth(today.getMonth() + 1)
-
+  const dispatch = useDispatch()
   // Initialize with default range starting from today
   const [dateRange, setDateRange] = React.useState<DateRange | undefined>({
     from: today,
@@ -36,6 +39,14 @@ export function DatePickerResponsive() {
       : format(dateRange.from, "PPP")
     : "Pick a date range"
 
+    React.useEffect(()=>{
+      dispatch(actions.addStartTime({
+        startDate:dateRange?.from ? String(subDays(dateRange.from,-1)): ''
+      }))
+      dispatch(actions.addEndTime({
+        endDate:String(dateRange?.to)
+      }))
+    },[open])
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <label 

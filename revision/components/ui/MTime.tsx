@@ -11,10 +11,13 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { useDispatch } from "react-redux";
+import { actions } from "@/store/slices/revison";
 export function MTime() {
   const [Hours, setHours] = React.useState("5");
   const [Min, setMin] = React.useState("00");
-  const [TimeZone, setTimeZone] = React.useState("AM")
+  const [TimeZone, setTimeZone] = React.useState("AM");
+  const dispatch = useDispatch()
   return (
     <Drawer>
       <label
@@ -88,7 +91,11 @@ export function MTime() {
           </div>
           <DrawerFooter className="mt-5">
             <DrawerClose asChild>
-              <Button>Done</Button>
+              <Button onClick={()=>{
+                dispatch(actions.addTime({
+                  time:`${Hours}:${Min}${TimeZone}`
+                }))
+              }}>Done</Button>
             </DrawerClose>
 
             <DrawerClose asChild>

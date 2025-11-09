@@ -59,10 +59,10 @@ async function main() {
     password: process.env.REDIS_PASSWORD,
     socket: {
       host: process.env.REDIS_HOST,
-      port: 10363,
+      port: 13429,
     },
   });
-  redis.on("error", (err) => console.log("Something Went Wronmg"));
+  redis.on("error", (err) => console.log("Something Went wrong", err));
   await redis.connect();
   while (true) {
     try {
