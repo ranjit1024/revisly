@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,77 +9,76 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button";
+} from "@/components/ui/alert-dialog";
 import { useState } from "react";
 
-
-
-
+import { MSelectDay } from "./MSelect";
 
 export function MDifficluty() {
-    const [selected, setSelected] = useState('medium');
-
+  const [selected, setSelected] = useState("medium");
+  const [opne,setOpen] = useState<boolean>(false)
   const levels = [
-    { id: 'easy', label: 'Easy', subtitle: 'Once a week' },
-    { id: 'medium', label: 'Medium', subtitle: 'Twice a week' },
-    { id: 'hard', label: 'Hard', subtitle: 'Daily' },
+    { id: "easy", label: "Easy", subtitle: "Once a week" },
+    { id: "medium", label: "Medium", subtitle: "Twice a week" },
+    { id: "hard", label: "Hard", subtitle: "Every day" },
   ];
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-         <div className="w-full max-w-md mx-auto ">
+    <AlertDialog open={opne} onOpenChange={setOpen}>
      
-      <div className="space-y-2">
-        {levels.map((level) => (
-          <button
-            key={level.id}
-            onClick={() => setSelected(level.id)}
-            className={`
+        <div className="w-full max-w-md mx-auto ">
+          <div className="space-y-2">
+            {levels.map((level) => (
+              <button
+                key={level.id}
+                onClick={() => {
+                    setSelected(level.id);
+                    if(level.id !== "hard"){
+                        setOpen(true)
+                    }
+                }}
+                className={`
               w-[96vw] p-4 rounded-xl text-left transition-all
               ${
                 selected === level.id
-                  ? 'bg-amber-50 border-2 border-amber-200'
-                  : 'bg-white border-2 border-gray-200'
+                  ? "bg-amber-50 border-2 border-amber-200"
+                  : "bg-white border-2 border-gray-200"
               }
             `}
-          >
-            <div className="flex flex-col">
-              <span
-                className={`
+              >
+                <div className="flex flex-col">
+                  <span
+                    className={`
                   text-base font-medium
-                  ${selected === level.id ? 'text-amber-900' : 'text-gray-900'}
+                  ${selected === level.id ? "text-amber-900" : "text-gray-900"}
                 `}
-              >
-                {level.label}
-              </span>
-              <span
-                className={`
+                  >
+                    {level.label}
+                  </span>
+                  <span
+                    className={`
                   text-sm
-                  ${selected === level.id ? 'text-amber-700' : 'text-gray-500'}
+                  ${selected === level.id ? "text-amber-700" : "text-gray-500"}
                 `}
-              >
-                {level.subtitle}
-              </span>
-            </div>
-          </button>
-        ))}
-      </div>
-    </div>
-      </AlertDialogTrigger>
+                  >
+                    {level.subtitle}
+                  </span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+   
+            
       <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
+        <AlertDialogTitle>Select revision days.</AlertDialogTitle>
+
+        <MSelectDay Limit={selected === "medium" ? 3 : 1} />
+        
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Continue</AlertDialogAction>
+           <AlertDialogAction>Continue</AlertDialogAction>
         </AlertDialogFooter>
+          <AlertDialogCancel>cancel</AlertDialogCancel>
       </AlertDialogContent>
     </AlertDialog>
-  )
+  );
 }

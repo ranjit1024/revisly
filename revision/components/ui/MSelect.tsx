@@ -27,7 +27,7 @@ function findSpecificWeekdaysWithDateFns(
 }
 
 
-export function SelectDay({ Limit }: {
+export function MSelectDay({ Limit }: {
     Limit: 1 | 3
 }) {
     const dispatch = useDispatch();
@@ -62,7 +62,7 @@ export function SelectDay({ Limit }: {
     }, [selectedDay])
     return (
         <div className="flex  gap-3 max-md:flex-wrap ">
-            <h1 className="">Select Day</h1>
+            
             {week
                 .map(day => <button
                     key={day}
