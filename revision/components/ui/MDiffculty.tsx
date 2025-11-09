@@ -15,7 +15,7 @@ import { useState } from "react";
 import { MSelectDay } from "./MSelect";
 
 export function MDifficluty() {
-  const [selected, setSelected] = useState("medium");
+  const [selected, setSelected] = useState("");
   const [opne,setOpen] = useState<boolean>(false)
   const levels = [
     { id: "easy", label: "Easy", subtitle: "Once a week" },

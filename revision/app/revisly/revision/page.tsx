@@ -302,6 +302,7 @@ function Desktop() {
               onClick={async () => {
                 try {
                   setSendData(true);
+                  console.log(sessionData)
                   const setRevision = await axios.post(
                     "http://localhost:3000/api/revision",
                     sessionData,

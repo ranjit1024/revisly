@@ -12,9 +12,9 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 export function MTime() {
-  const [Hours, setHours] = React.useState("");
-  const [Min, setMin] = React.useState("");
-
+  const [Hours, setHours] = React.useState("5");
+  const [Min, setMin] = React.useState("00");
+  const [TimeZone, setTimeZone] = React.useState("AM")
   return (
     <Drawer>
       <label
@@ -28,7 +28,7 @@ export function MTime() {
           variant={"outline"}
           className="w-[97vw] h-11 justify-start text-left font-normal"
         >
-          5:00 AM
+          {Hours} : {Min} {TimeZone}
         </Button>
       </DrawerTrigger>
       <DrawerContent>
@@ -74,10 +74,14 @@ export function MTime() {
               </div>
             </div>
             <div className="flex gap-1 w-full justify-center items-center-safe flex-wrap">
-              <Button className=" bg-transparent border-2 rounded-2xl w-fit text-center focus:bg-teal-600/20 font-semibold focus:border-teal-600 text-black px-6 py-5">
+              <Button onClick={()=>{
+                setTimeZone("AM");
+              }} className={` ${TimeZone === 'AM'? ' border-2 bg-teal-100 border-teal-500 rounded-2xl w-fit text-center  font-semibold px-6 py-5 text-gray-950 ':'bg-transparent border-2 rounded-2xl w-fit text-center  font-semibold  text-black px-6 py-5' } `}>
                 AM
               </Button>
-              <Button className=" bg-transparent border-2 rounded-2xl w-fit text-center text-black px-6 py-5 font-semibold">
+             <Button onClick={()=>{
+                setTimeZone("PM");
+              }} className={` ${TimeZone === 'PM'? ' border-2 bg-teal-100 border-teal-500 rounded-2xl w-fit text-center  font-semibold px-6 py-5 text-gray-950 ':'bg-transparent border-2 rounded-2xl w-fit text-center  font-semibold  text-black px-6 py-5' } `}>
                 PM
               </Button>
             </div>
