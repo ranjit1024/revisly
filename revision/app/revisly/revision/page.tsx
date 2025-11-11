@@ -28,9 +28,9 @@ export default function Home() {
 }
 
 function Mobile() {
-  const [invalidInputError, setInvalidInputError] = useState<boolean>(false);
-  const [showRepeteError, setShowrepeteError] = useState<boolean>(false);
-  const [apiError, setApiError] = useState<boolean>(false);
+  const [sendData,setSendData] = useState<boolean>(false)
+  const [errorInput, setErrorInput] = useState<boolean>(false);
+  const [repeatSub, setRepeatSub] = useState<boolean>(false)
   const router = useRouter();
   const dispatch = useDispatch();
   const selectorData = createSelector(
@@ -48,9 +48,7 @@ function Mobile() {
   const sessionData = useSelector(selectorData);
   
   //error
-  const [errorInput, setErrorInput] = useState<boolean>(false);
   // sendIng Data
-  const [sendData,setSendData] = useState<boolean>(false)
   useEffect(()=>{
     if(errorInput === true){
       setTimeout(()=>{
@@ -64,8 +62,14 @@ function Mobile() {
         errorInput ? <ErrorToast/>:null
       }
       {
+        repeatSub ? <TopicExistsToast/>:null
+      }
+      {
         //loader
         sendData ? <MNotesLoader/>:null
+      }
+      {
+
       }
       <div>
         <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
@@ -148,8 +152,26 @@ function Mobile() {
                     router.push('/revisly/all')
                   }
                   setSendData(false)
-                }catch(e){
-                   console.log(e)
+                }catch(e:unknown){
+                  if (axios.isAxiosError(e)){
+                    if (e.response?.data.message === "Invalid Input") {
+                      console.log("data");
+
+                      setSendData(false);
+                      setErrorInput(true);
+                      return;
+                    }
+                    if (
+                      e.response?.data.message ===
+                      "Session Exists with same topic"
+                    ) {
+                      setSendData(false);
+                      setRepeatSub(true);
+                      return;
+                    } else {
+                      setSendData(true);
+                    }
+                  }
                 }
             }}
             className="inline-flex items-center gap-2 w-[100%] h-12 rounded-xl bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-zinc-800 active:translate-y-px"
