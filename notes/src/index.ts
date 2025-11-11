@@ -40,18 +40,18 @@ async function getAiGeneratedNotes(params: string) {
   return chatCompletion.choices[0]?.message.content;
 }
 //storing in pdf
-function GenerateNotesPdf(notes: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const doc = new PDFDocument(); // Create new instance each time
-    const stream = fs.createWriteStream("notes.pdf");
-    doc.pipe(stream);
-    doc.fontSize(18).text(notes);
-    doc.end();
+// function GenerateNotesPdf(notes: string): Promise<void> {
+//   return new Promise((resolve, reject) => {
+//     const doc = new PDFDocument(); // Create new instance each time
+//     const stream = fs.createWriteStream("notes.pdf");
+//     doc.pipe(stream);
+//     doc.fontSize(18).text(notes);
+//     doc.end();
 
-    stream.on("finish", () => resolve());
-    stream.on("error", () => reject());
-  });
-}
+//     stream.on("finish", () => resolve());
+//     stream.on("error", () => reject());
+//   });
+// }
 //main meat of logic
 async function main() {
   const redis = createClient({
@@ -87,8 +87,7 @@ async function main() {
         const notes = await getAiGeneratedNotes(
           `generate notes for ${revisionData.topic} in clean string format `
         );
-        const notesPdf = await GenerateNotesPdf(String(notes));
-
+        // const notesPdf = await GenerateNotesPdf(String(notes));
         const fileContent = await fs.promises.readFile("notes.pdf");
         //uploading to s3
         const params = {
@@ -99,12 +98,12 @@ async function main() {
         };
         const command = new PutObjectCommand(params);
         const result = await s3Client.send(command);
-        
+        console.log(result)
         await redis.set(`status-${revisionData.id}`,JSON.stringify({
         success: true,
       }))
         console.log(
-          result.$metadata.httpStatusCode,
+          // result.$metadata.httpStatusCode,
           "Notes uploaded  succesffuly"
         );
     }

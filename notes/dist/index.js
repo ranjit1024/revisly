@@ -17,7 +17,6 @@ const client_s3_1 = require("@aws-sdk/client-s3");
 const groq_sdk_1 = __importDefault(require("groq-sdk"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const redis_1 = require("redis");
-const pdfkit_1 = __importDefault(require("pdfkit"));
 const fs_1 = __importDefault(require("fs"));
 dotenv_1.default.config();
 // llm notes init
@@ -51,17 +50,17 @@ function getAiGeneratedNotes(params) {
     });
 }
 //storing in pdf
-function GenerateNotesPdf(notes) {
-    return new Promise((resolve, reject) => {
-        const doc = new pdfkit_1.default(); // Create new instance each time
-        const stream = fs_1.default.createWriteStream("notes.pdf");
-        doc.pipe(stream);
-        doc.fontSize(18).text(notes);
-        doc.end();
-        stream.on("finish", () => resolve());
-        stream.on("error", () => reject());
-    });
-}
+// function GenerateNotesPdf(notes: string): Promise<void> {
+//   return new Promise((resolve, reject) => {
+//     const doc = new PDFDocument(); // Create new instance each time
+//     const stream = fs.createWriteStream("notes.pdf");
+//     doc.pipe(stream);
+//     doc.fontSize(18).text(notes);
+//     doc.end();
+//     stream.on("finish", () => resolve());
+//     stream.on("error", () => reject());
+//   });
+// }
 //main meat of logic
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -87,7 +86,7 @@ function main() {
                     console.log(`Processing: ${revisionData.id}`);
                     //hash sett
                     const notes = yield getAiGeneratedNotes(`generate notes for ${revisionData.topic} in clean string format `);
-                    const notesPdf = yield GenerateNotesPdf(String(notes));
+                    // const notesPdf = await GenerateNotesPdf(String(notes));
                     const fileContent = yield fs_1.default.promises.readFile("notes.pdf");
                     //uploading to s3
                     const params = {
@@ -98,10 +97,13 @@ function main() {
                     };
                     const command = new client_s3_1.PutObjectCommand(params);
                     const result = yield s3Client.send(command);
+                    console.log(result);
                     yield redis.set(`status-${revisionData.id}`, JSON.stringify({
                         success: true,
                     }));
-                    console.log(result.$metadata.httpStatusCode, "Notes uploaded  succesffuly");
+                    console.log(
+                    // result.$metadata.httpStatusCode,
+                    "Notes uploaded  succesffuly");
                 }
             }
             catch (e) {

@@ -143,7 +143,10 @@ function Mobile() {
                       },
                     }
                   );
-                  console.log(setRevision)
+                  if(setRevision.data.message === "Notes and database updated"){
+                    setSendData(false);
+                    router.push('/revisly/all')
+                  }
                   setSendData(false)
                 }catch(e){
                    console.log(e)

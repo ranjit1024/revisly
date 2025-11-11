@@ -71,7 +71,7 @@ export function DatePickerResponsive() {
         <DialogTitle className="text-center text-gray-600 text-lg font-medium">
           Pick a date range
         </DialogTitle>
-        <div className="p-3 w-[100%] ">
+        <div className="p-3 w-[100%] h-100 ">
           <Calendar
             mode="range"
             selected={dateRange}

@@ -9,6 +9,7 @@ import { createClient } from "redis";
 import { Groq } from "groq-sdk";
 import crypto from "crypto";
 
+
 function status(id: string) {
   const client = createClient({
     username: "default",
@@ -23,21 +24,21 @@ function status(id: string) {
     const pollStatus = setInterval(async()=>{
       try{
       const status = await client.get(`status-${id}`);
-      console.log(status)
+
+      console.log("1",status, id)
       if(status){
         clearInterval(pollStatus);
-        console.log(status);
+        console.log("2",status);
         await client.del(`status-${id}`)
         resolve(status)
       }
-      else{
-        clearInterval(pollStatus)
-      }
     }catch(e){
-      reject(Error('Not Found'));
       clearInterval(pollStatus);
+        await client.quit(); // Close connection on error
+        reject(new Error('Redis operation failed: '))
     }
-    },3000)
+    },3000);
+    console.log(pollStatus)
   })
 }
 
@@ -136,12 +137,24 @@ export async function POST(req: NextRequest) {
       topic: zodValidation.data.topic,
     },
   });
+
   if (ifExitstingRevison) {
     return NextResponse.json(
       { message: "Session Exists with same topic" },
       { status: 400 }
     );
   }
+  const  sessionCount = await prisma.revision.count({
+    where:{
+      email:session?.user?.email || ""
+    }
+  })
+   if(sessionCount > 5){
+     return NextResponse.json(
+      { message: "Limit Reached" },
+      { status: 400 }
+    );
+   }
   const redis = createClient({
     username: "default",
     password: process.env.REDIS_PASSWORD,
@@ -151,6 +164,7 @@ export async function POST(req: NextRequest) {
     },
   });
   // <---- Completing on the revision donrt----->
+
 
   try {
     await redis.connect();
@@ -162,8 +176,7 @@ export async function POST(req: NextRequest) {
         id: id,
       })
     );
-    await status(id);
-    
+    const data = await status(id);
     //check whethre notes process are done or not\
     // cretae db entry
     const revision = await prisma.revision.create({
@@ -185,6 +198,7 @@ export async function POST(req: NextRequest) {
         score: 0,
       },
     });
+    console.log(revision)
     //  <----- adding revisionSesions -------------------->
     if (sessionIntervels!.length > 0) {
       await prisma.revisionSession.createMany({
