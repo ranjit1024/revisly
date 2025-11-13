@@ -15,8 +15,12 @@ import { useState } from "react";
 import { MSelectDay } from "./MSelect";
 import { useDispatch } from "react-redux";
 import { actions } from "@/store/slices/revison";
-
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 export function MDifficluty() {
+   const selectDays = useSelector((data:RootState)=>{
+    return data.revision.days
+  })
   const [selected, setSelected] = useState("");
   const [opne,setOpen] = useState<boolean>(false);
   const dispatch = useDispatch()
@@ -55,23 +59,38 @@ export function MDifficluty() {
                 <div className="flex flex-col">
                   <span
                     className={`
-                  text-base font-medium
-                  ${selected === level.id ? "text-amber-900" : "text-gray-900"}
-                `}
-                  >
+                      text-base font-medium
+                      ${selected === level.id ? "text-amber-900" : "text-gray-900"}
+                      `}
+                      >
                     {level.label}
                   </span>
                   <span
                     className={`
-                  text-sm
-                  ${selected === level.id ? "text-amber-700" : "text-gray-500"}
-                `}
-                  >
+                      text-sm
+                      ${selected === level.id ? "text-amber-700" : "text-gray-500"}
+                      `}
+                      >
                     {level.subtitle}
                   </span>
                 </div>
               </button>
             ))}
+          </div>
+          <div className="px-2 py-3 flex flex-col gap-2">
+             <label
+        className="block text-sm  font-medium text-zinc-700 text-start "
+        htmlFor="session-duration"
+      >
+        Seleted Days
+      </label>
+            <p className="flex  rounded-2xl gap-1">
+            {selectDays?.map(data=>{
+              return <div className="bg-accent font-medium text-sm text-gray-950 px-2 py-1 rounded-md">
+                {data}
+              </div>
+            })}
+            </p>
           </div>
         </div>
    

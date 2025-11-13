@@ -15,9 +15,9 @@ import {
   DrawerFooter
 } from "@/components/ui/drawer"
 import { DialogTitle } from "@radix-ui/react-dialog"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { actions } from "@/store/slices/revison"
-import { date } from "zod"
+import { RootState } from "@/store/store"
 
 export function DatePickerResponsive() {
   // Calculate date range
@@ -31,7 +31,9 @@ export function DatePickerResponsive() {
     to: undefined
   })
   const [open, setOpen] = React.useState(false)
-
+  const selectDays = useSelector((data:RootState)=>{
+    return data.revision.days
+  })
   // Format the display text
   const displayText = dateRange?.from
     ? dateRange.to

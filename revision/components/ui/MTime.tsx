@@ -18,6 +18,11 @@ export function MTime() {
   const [Min, setMin] = React.useState("00");
   const [TimeZone, setTimeZone] = React.useState("AM");
   const dispatch = useDispatch()
+  React.useEffect(()=>{
+     dispatch(actions.addTime({
+                  time:`5:00AM`
+                }))
+  },[])
   return (
     <Drawer>
       <label

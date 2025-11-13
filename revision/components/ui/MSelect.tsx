@@ -34,7 +34,7 @@ export function MSelectDay({ Limit }: {
     const week = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
     const [selectedDay, setSelectdDay] = useState<string[]>([])
     const [chosseDays, setChossDay] = useState<string | null>(null);
-
+   
     const date = useSelector((state: RootState) => {
         const data = {
             from: state.revision.startDate,
@@ -76,7 +76,7 @@ export function MSelectDay({ Limit }: {
                     }
                     }
                     className={`px-5 py-[6px] rounded-full text-sm font-medium transition-all duration-300
-            ${selectedDay?.includes(day)
+            ${selectedDay?.includes(day) 
                             ? "bg-indigo-600 text-white shadow-lg scale-105"
                             : "bg-gray-100 text-gray-600 hover:bg-gray-200 hover:shadow-md"
                         }  `}
