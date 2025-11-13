@@ -2,7 +2,7 @@
 
 import { TrendingUp } from "lucide-react"
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts"
-
+import { Last5Score } from "@/lib/actions/dashBoard"
 import {
   Card,
   CardContent,
@@ -17,16 +17,12 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
+import { useEffect, useState } from "react"
+
 
 export const description = "A bar chart with a label"
 
-const chartData = [
-  { month: "January", desktop: 10},
-  { month: "February", desktop: 7 },
-  { month: "March", desktop: 5 },
-  { month: "April", desktop: 8 },
-  { month: "May", desktop: 8 },
-]
+
 
 const chartConfig = {
   desktop: {
@@ -36,6 +32,15 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function SessionHistory() {
+  const [scores, setScores] = useState<{score:number|null,topic:string}[]>();
+  useEffect(()=>{
+    async function getData() {
+      const data =await Last5Score();
+      console.log(data)
+      setScores(data)
+    }
+    getData()
+  },[])
   return (
     <Card>
       <CardHeader>
@@ -46,27 +51,27 @@ export function SessionHistory() {
         <ChartContainer config={chartConfig}>
           <BarChart
             accessibilityLayer
-            data={chartData}
+            data={scores}
             className="w-10"
             
             margin={{
-              top: 20,
+              top: 10,
             }}
           >
             <CartesianGrid vertical={false} />
             <XAxis
             className="w-fit h-fit"
-              dataKey="month"
+              dataKey="topic"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
+             
             />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={10} >
+            <Bar dataKey="score" fill="var(--color-desktop)" radius={10} >
               <LabelList
 
                 position="top"

@@ -9,7 +9,7 @@ import { getNotes } from "@/lib/actions/getNotesPdf";
 const cardVariant = {
   hidden: { opacity: 0, y: 20 },
   show: { opacity: 1, y: 0 },
-  hover: {border:'1px solid grya'}
+  hover: {border:'1px solid gray'}
 };
 
 function formatDate(d:any) {
@@ -26,8 +26,8 @@ const SessionCard = (
   brief = "Short summary about what to revise in this session.",
   progress = 0,
   id="",
-  status="PENDING"
-
+  status="PENDING",
+  score=null
 }:{
  
   title:string,
@@ -38,7 +38,7 @@ const SessionCard = (
   progress:number
   id:string
   status: 'PENDING' | 'COMPLETED' | 'MISSED'
-
+  score:number | null
 }
 ) => {
   
@@ -48,7 +48,7 @@ const router = useRouter();
     
        variants={cardVariant}
    
-    className="w-full  bg-white rounded-lg shadow  hover:shadow-lg border border-gray-100 hover:shadow-indigo-100  overflow-hidden   ">
+       className="w-full  bg-white rounded-lg shadow  hover:shadow-lg border border-gray-100 hover:shadow-indigo-100  overflow-hidden   ">
       {/* Header with date */}
       <div className="flex justify-between items-center p-4 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
         <div className="flex items-center gap-2 text-gray-500 text-sm">
@@ -62,7 +62,7 @@ const router = useRouter();
             <div className="flex gap-1">
 
           <Clock size={14} />
-          <span>10 day(s)</span>
+          <span>{endDate.getDate() - startDate.getDate()}</span>
             </div>
         </div>
       </div>
@@ -71,6 +71,9 @@ const router = useRouter();
       {/* Main content */}
       <div className="p-6">
         {/* Title section */}
+        <div className="flex justify-between">
+
+        
         <div className="flex items-center gap-4 mb-6 ">
           <div className="w-12 h-12 bg-gradient-to-br from-neutral-800 to-neutral-900 rounded-xl flex items-center justify-center shadow">
             <BookOpen className="text-white" size={20} />
@@ -79,6 +82,10 @@ const router = useRouter();
             <h2 className="text-2xl font-bold text-gray-900 mb-1">{title}</h2>
             <p className="text-gray-500 text-sm font-medium">Session #{sessionNumber}</p>
           </div>
+        </div>
+        <p className={`${score === 0 ?'text-md font-medium text-gray-50' : 'text-md font-medium text-gray-600'}`}>
+      {score}
+        </p>
         </div>
 
         {/* Description */}
@@ -93,13 +100,13 @@ const router = useRouter();
         <div className="flex gap-3 max-md:flex-col">
           <button 
           onClick={async ()=>{
-          const userNotes = await getNotes({folderKey:`${id} ${title}/notes/notes.pdf`});
-          console.log(id)
-          if(userNotes){
-
-            window.open(userNotes)
-          }}}
-          className="flex-1 bg-zinc-900 hover:bg-zinc-700 hover:cursor-pointer text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2">
+            const userNotes = await getNotes({folderKey:`${id} ${title}/notes/notes.pdf`});
+            console.log(id)
+            if(userNotes){
+              
+              window.open(userNotes)
+            }}}
+            className="flex-1 bg-zinc-900 hover:bg-zinc-700 hover:cursor-pointer text-white font-medium py-2.5 px-4 rounded-lg transition-colors duration-200 focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2">
             View Notes
           </button>
           <button 

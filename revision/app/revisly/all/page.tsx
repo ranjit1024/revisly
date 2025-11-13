@@ -27,6 +27,7 @@ type RevisionSession = {
   endSession: Date;
   brif: string;
   status: "COMPLETED" | "PENDING" | "MISSED";
+  score:number | null;
 } | null;
 
 const cardVariant = {
@@ -88,6 +89,7 @@ export default function Home() {
               id={item!.id}
               progress={30}
               status={item!.status}
+              score={Number(item?.score) } 
             />
           
         )}

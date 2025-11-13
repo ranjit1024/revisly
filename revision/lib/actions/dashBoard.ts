@@ -50,19 +50,23 @@ export async function Progress() {
     };
 }
 
-export async function totalScore(){
+export async function Last5Score(){
     const session = await getServerSession(authOption) 
-    const TotalScore = await prisma.revisionSession.findMany({
+    const scores = await prisma.revision.findMany({
         
         where:{
             email:session?.user?.email || "",
             
         },
         select:{
-            score:true,         
+            score:true, 
+            topic:true        
+        },
+        orderBy:{
+            score:'desc'
         },
         take:5
     })
-    return TotalScore;
+    return scores;
 
 }

@@ -1,8 +1,7 @@
 "use client"
-
 import { TrendingUp } from "lucide-react"
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts"
-
+import { Last5Score } from "@/lib/actions/dashBoard"
 import {
   Card,
   CardContent,
@@ -17,7 +16,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-
+import { useEffect, useState } from "react"
 export const description = "A bar chart with a label"
 
 const chartData = [
@@ -36,6 +35,15 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function MSessionHistory() {
+  const [scores, setScores] = useState<{score:number|null,topic:string}[]>();
+    useEffect(()=>{
+      async function getData() {
+        const data =await Last5Score();
+        console.log(data)
+        setScores(data)
+      }
+      getData()
+    },[])
   return (
     <Card className="h-75">
       <CardHeader>
@@ -46,7 +54,7 @@ export function MSessionHistory() {
         <ChartContainer config={chartConfig}>
           <BarChart
             accessibilityLayer
-            data={chartData}
+            data={scores}
             className=""
             
             margin={{
@@ -56,17 +64,17 @@ export function MSessionHistory() {
             <CartesianGrid vertical={false} />
             <XAxis
             className="w-fit h-fit "
-              dataKey="month"
+              dataKey="topic"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
+              
             />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Bar dataKey="desktop" fill="var(--color-desktop)" radius={10} className="size-fit" >
+            <Bar dataKey="score" fill="var(--color-desktop)" radius={10} className="size-fit" >
               <LabelList
 
                 position="top"
