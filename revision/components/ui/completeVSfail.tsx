@@ -52,7 +52,7 @@ export function SuccessvsFail() {
         
         setSessionData([
           { name: "Completed", count: completed.length,fill:"#12436d" },
-          { name: "Failed", count: failed.length, fill: "#f46a25" }
+          { name: "Failed", count: failed.length, fill: "#FFBF00" }
         ])
       } catch (error) {
         console.error("Error fetching data:", error)

@@ -91,7 +91,7 @@ export async function getFailed(){
     const data = await prisma.revisionSession.findMany({
         where:{
             email:session?.user?.email || "",
-            status:"MISSED"
+            status:"PENDING"
         },
         select:{
             status:true
