@@ -2,6 +2,7 @@
 import prisma from "../prisma"
 import { getServerSession } from "next-auth"
 import { authOption } from "../auth"
+import { da } from "date-fns/locale"
 export async function getFirst(){
     const session = await getServerSession(authOption) 
     const dashboardData = await prisma.revision.findFirst({
@@ -69,4 +70,33 @@ export async function Last5Score(){
     })
     return scores;
 
+}
+
+export async function getCompleted(){
+        const session = await getServerSession(authOption) 
+    const data = await prisma.revisionSession.findMany({
+        where:{
+            email:session?.user?.email || "",
+            status:"COMPLETED"
+        },
+        select:{
+            status:true
+        }
+     
+    })
+    return data;
+}
+export async function getFailed(){
+        const session = await getServerSession(authOption) 
+    const data = await prisma.revisionSession.findMany({
+        where:{
+            email:session?.user?.email || "",
+            status:"MISSED"
+        },
+        select:{
+            status:true
+        }
+     
+    })
+    return data;
 }

@@ -2,8 +2,9 @@
 
 import * as React from "react"
 import { TrendingUp } from "lucide-react"
-import { Label, Pie, PieChart } from "recharts"
-
+import {Pie, PieChart } from "recharts"
+import { getCompleted, getFailed } from "@/lib/actions/dashBoard"
+import { useState,useEffect } from "react"
 import {
   Card,
   CardContent,
@@ -27,34 +28,39 @@ const desktopData = [
   
 ]
 
-const mobileData = [
-  { month: "january", mobile: 80, fill: "var(--color-january)" },
-  { month: "february", mobile: 200, fill: "var(--color-february)" },
- 
-]
+
 
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  desktop: {
-    label: "Session",
-  },
-  mobile: {
-    label: "Missed",
-  },
-  january: {
+
+  session: {
     label: "Completed",
-    color: "var(--chart-3)",
+    color: "green",
   },
-  february: {
-    label: "Missed",
-    color: "var(--chart-5)",
+  fail: {
+    label: "Failed",
+    color: "red",
   },
+ 
   
 } satisfies ChartConfig
 
 export function SuccessvsFail() {
+  const[sessionData, setSessionData] = useState<{
+    count:number,
+    fill:string
+  }[]>([])
+      useEffect(()=>{
+        async function getData() {
+          const completed = await getCompleted();
+          const failed = await getFailed();
+          setSessionData(prev => [...prev, {count:completed.length,fill:"green"},{count:failed.length,fill:"red"} ])
+        }
+        getData()
+
+      },[])
+      useEffect(()=>{
+        console.log(sessionData)
+      },[sessionData])
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
@@ -73,21 +79,12 @@ export function SuccessvsFail() {
                   labelKey="visitors"
                   nameKey="month"
                   indicator="line"
-                  labelFormatter={(_, payload) => {
-                    return chartConfig[
-                      payload?.[0].dataKey as keyof typeof chartConfig
-                    ].label
-                  }}
+                  
                 />
               }
             />
-            <Pie data={desktopData} dataKey="desktop" outerRadius={120} />
-            <Pie
-              data={mobileData}
-              dataKey="mobile"
-              innerRadius={3000}
-              outerRadius={4000}
-            />
+            <Pie data={sessionData} dataKey="count" outerRadius={120} />
+         
           </PieChart>
         </ChartContainer>
       </CardContent>
