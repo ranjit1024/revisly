@@ -2,9 +2,9 @@
 
 import * as React from "react"
 import { TrendingUp } from "lucide-react"
-import {Pie, PieChart } from "recharts"
+import { Pie, PieChart, Cell } from "recharts"
 import { getCompleted, getFailed } from "@/lib/actions/dashBoard"
-import { useState,useEffect } from "react"
+import { useState, useEffect } from "react"
 import {
   Card,
   CardContent,
@@ -22,49 +22,52 @@ import {
 
 export const description = "A pie chart with stacked sections"
 
-const desktopData = [
-  { month: "january", desktop: 30, fill: "var(--color-january)" },
-  { month: "february", desktop: 205, fill: "var(--color-february)" },
-  
-]
-
-
-
 const chartConfig = {
-  
-  visitors:{
-    label:'coml'
+  count: {
+    label: "Sessions",
   },
-  session: {
+  completed: {
     label: "Completed",
-    color: "green",
+    color: "hsl(173, 100%, 40%)",
   },
-  fail: {
+  failed: {
     label: "Failed",
-    color: "red",
+    color: "hsl(0, 0%, 50%)",
   },
- 
-  
 } satisfies ChartConfig
 
 export function SuccessvsFail() {
-  const[sessionData, setSessionData] = useState<{
-    count:number,
-    fill:string
+  const [sessionData, setSessionData] = useState<{
+    name: string
+    count: number
+    fill: string
   }[]>([])
-      useEffect(()=>{
-        async function getData() {
-          const completed = await getCompleted();
-          const failed = await getFailed();
-          setSessionData(prev => [...prev, {count:completed.length,fill:"teal"},{count:failed.length,fill:"gray"} ])
-        }
-        getData()
-      },[])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        const completed = await getCompleted()
+        const failed = await getFailed()
+        
+        setSessionData([
+          { name: "Completed", count: completed.length,fill:"#12436d" },
+          { name: "Failed", count: failed.length, fill: "#f46a25" }
+        ])
+      } catch (error) {
+        console.error("Error fetching data:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    getData()
+  }, [])
+
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>Attempted Vs Missed</CardTitle>
-        <CardDescription>session Attempted vs session missed</CardDescription>
+        <CardDescription>Session Attempted vs Session Missed</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -75,24 +78,31 @@ export function SuccessvsFail() {
             <ChartTooltip
               content={
                 <ChartTooltipContent
-                  labelKey="session"
-                  nameKey="session"
+                  labelKey="name"
+                  nameKey="name"
                   indicator="line"
-                 
                 />
               }
             />
-            <Pie data={sessionData} dataKey="count" outerRadius={120} />
-         
+            <Pie 
+              data={sessionData} 
+              dataKey="count" 
+              nameKey="name"
+              outerRadius={120}
+            >
+              {sessionData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={entry.fill} />
+              ))}
+            </Pie>
           </PieChart>
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 leading-none font-medium">
-          Total session Attempted vs Total session missed <TrendingUp className="h-4 w-4" />
+          Total Session Attempted vs Total Session Missed <TrendingUp className="h-4 w-4" />
         </div>
         <div className="text-muted-foreground leading-none">
-          Showing total session Attempeted Vs session missed
+          Showing total sessions attempted vs sessions missed
         </div>
       </CardFooter>
     </Card>
