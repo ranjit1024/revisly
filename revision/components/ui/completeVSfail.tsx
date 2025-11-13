@@ -31,7 +31,10 @@ const desktopData = [
 
 
 const chartConfig = {
-
+  
+  visitors:{
+    label:'coml'
+  },
   session: {
     label: "Completed",
     color: "green",
@@ -53,14 +56,10 @@ export function SuccessvsFail() {
         async function getData() {
           const completed = await getCompleted();
           const failed = await getFailed();
-          setSessionData(prev => [...prev, {count:completed.length,fill:"green"},{count:failed.length,fill:"red"} ])
+          setSessionData(prev => [...prev, {count:completed.length,fill:"teal"},{count:failed.length,fill:"gray"} ])
         }
         getData()
-
       },[])
-      useEffect(()=>{
-        console.log(sessionData)
-      },[sessionData])
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
@@ -76,10 +75,10 @@ export function SuccessvsFail() {
             <ChartTooltip
               content={
                 <ChartTooltipContent
-                  labelKey="visitors"
-                  nameKey="month"
+                  labelKey="session"
+                  nameKey="session"
                   indicator="line"
-                  
+                 
                 />
               }
             />
