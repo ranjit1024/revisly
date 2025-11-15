@@ -103,7 +103,7 @@ const week = [
 
 const validation = z.object({
   topic: z.string(),
-  sessionIntervel: z.array(z.string()),
+  sessionIntervel: z.array(z.string()).min(1),
   time: z
     .string()
     .min(6)

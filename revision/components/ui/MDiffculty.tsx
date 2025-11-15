@@ -98,13 +98,13 @@ export function MDifficluty() {
           </div>
 }
         </div>
-        {
-          selected ==="hard" ? <Hard></Hard>:null
-        }
+        
             
+       {
+        selected === "hard" ? <Hard/>:null
+       }
       <AlertDialogContent>
         <AlertDialogTitle>Select revision days.</AlertDialogTitle>
-       
         <MSelectDay Limit={selected === "medium" ? 3 : 1} />
         
         <AlertDialogFooter>
