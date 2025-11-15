@@ -31,9 +31,7 @@ export function DatePickerResponsive() {
     to: undefined
   })
   const [open, setOpen] = React.useState(false)
-  const selectDays = useSelector((data:RootState)=>{
-    return data.revision.days
-  })
+ 
   // Format the display text
   const displayText = dateRange?.from
     ? dateRange.to

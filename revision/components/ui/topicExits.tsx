@@ -12,12 +12,10 @@ export const TopicExistsToast = ({
   onClose,
   duration = 4000 
 }: ToastProps) => {
-  const [isVisible, setIsVisible] = useState(true)
+
 
   return (
-    <div className={`fixed top-12 right-4 z-50 transform transition-all duration-300 ease-in-out ${
-      isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
-    }`}>
+    <div className={`fixed top-15 right-4 z-50 transform transition-all duration-300 ease-in-out`}>
       <div className="bg-white dark:bg-gray-800 border border-orange-200 dark:border-orange-700 rounded-lg shadow-lg p-4 min-w-[320px] max-w-md">
         <div className="flex items-start gap-3">
           <div className="flex-shrink-0">
@@ -35,15 +33,7 @@ export const TopicExistsToast = ({
             </p>
           </div>
           
-          <button
-            onClick={() => {
-              setIsVisible(false)
-              setTimeout(() => onClose?.(), 300)
-            }}
-            className="flex-shrink-0 p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-          >
-            <X className="w-4 h-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
-          </button>
+          
         </div>
         
         <div className="mt-3 h-1 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">

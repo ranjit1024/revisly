@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { actions } from "@/store/slices/revison";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { Hard } from "./hard";
 export function MDifficluty() {
    const selectDays = useSelector((data:RootState)=>{
     return data.revision.days
@@ -77,27 +78,33 @@ export function MDifficluty() {
               </button>
             ))}
           </div>
-          <div className="px-2 py-3 flex flex-col gap-2">
+          {
+            selectDays === undefined ? null: <div 
+            
+             className="px-2 py-3 flex flex-col gap-2">
              <label
         className="block text-sm  font-medium text-zinc-700 text-start "
         htmlFor="session-duration"
       >
         Seleted Days
       </label>
-            <p className="flex  rounded-2xl gap-1">
-            {selectDays?.map(data=>{
-              return <div className="bg-accent font-medium text-sm text-gray-950 px-2 py-1 rounded-md">
+            <p className="flex  rounded-2xl gap-1 flex-wrap">
+            {selectDays?.map((data,index)=>{
+              return <div key={index} className="bg-accent font-medium text-sm text-gray-950 px-2 py-1 rounded-md">
                 {data}
               </div>
             })}
             </p>
           </div>
+}
         </div>
-   
+        {
+          selected ==="hard" ? <Hard></Hard>:null
+        }
             
       <AlertDialogContent>
         <AlertDialogTitle>Select revision days.</AlertDialogTitle>
-
+       
         <MSelectDay Limit={selected === "medium" ? 3 : 1} />
         
         <AlertDialogFooter>

@@ -22,6 +22,7 @@ import { DatePickerResponsive } from "@/components/ui/MDatePicker";
 import { MTime } from "@/components/ui/MTime";
 import { MDifficluty } from "@/components/ui/MDiffculty";
 import MNotesLoader from "@/components/ui/MNotesloader";
+import { Milscc } from "@/components/ui/wrong";
 export default function Home() {
   const isMobile = useMediaQuery({ maxWidth: 768 });
   return isMobile ? <Mobile /> : <Desktop />;
@@ -30,7 +31,8 @@ export default function Home() {
 function Mobile() {
   const [sendData,setSendData] = useState<boolean>(false)
   const [errorInput, setErrorInput] = useState<boolean>(false);
-  const [repeatSub, setRepeatSub] = useState<boolean>(false)
+  const [repeatSub, setRepeatSub] = useState<boolean>(false);
+  const [open,setOpen] = useState<boolean>(false)
   const router = useRouter();
   const dispatch = useDispatch();
   const selectorData = createSelector(
@@ -54,8 +56,17 @@ function Mobile() {
       setTimeout(()=>{
         setErrorInput(false)
       },1500)
+      return
     }
+   
   },[errorInput])
+  useEffect(()=>{
+     if(repeatSub === true){
+      setTimeout(()=>{
+        setRepeatSub(false)
+      },1500)
+    }
+  },[repeatSub])
   return (
     <div className="mb-6 flex-col gap-7 w-[100vw]  max-md:mb-1 flex items-start justify-between  p-2">
       {
@@ -69,7 +80,7 @@ function Mobile() {
         sendData ? <MNotesLoader/>:null
       }
       {
-
+        <Milscc open={open} setOpen={setOpen}/>
       }
       <div>
         <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
@@ -104,7 +115,7 @@ function Mobile() {
                 }}
                 id="topic"
                 placeholder="e.g., System Design — Caching"
-                className="w-full rounded-md border border-zinc-200 bg-white px-4 py-2 text-zinc-900 shadow-sm outline-none transition placeholder:text-zinc-400 focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100"
+                className="w-[100%] rounded-md border border-zinc-200 bg-white px-4 py-2 text-zinc-900 shadow-sm outline-none transition placeholder:text-zinc-400 focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100"
               />
               <Layers
                 className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400"
@@ -168,7 +179,13 @@ function Mobile() {
                       setSendData(false);
                       setRepeatSub(true);
                       return;
-                    } else {
+                    }
+                    if(e.response?.data.message === "Cannot Process Your Request"){
+                       setSendData(false);
+                      setOpen(true);
+                      return;
+                    }
+                    else {
                       setSendData(true);
                     }
                   }
