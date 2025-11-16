@@ -2,7 +2,6 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import Groq from "groq-sdk";
 import dotenv from "dotenv";
 import { createClient } from "redis";
-import PDFDocument from "pdfkit";
 import fs from "fs";
 dotenv.config();
 //all config

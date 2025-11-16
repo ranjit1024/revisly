@@ -88,7 +88,9 @@ function getSelectedDateAndTime(time: string): Date {
 function calculateAfterDays(value: number, createDate: Date): Date {
   const date = new Date();
   date.setDate(createDate.getDate() + value);
+  
   return date;
+
 }
 // all zod schemas
 const week = [
@@ -104,6 +106,7 @@ const week = [
 const validation = z.object({
   topic: z.string(),
   sessionIntervel: z.array(z.string()).min(1),
+
   time: z
     .string()
     .min(6)
