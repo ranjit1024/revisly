@@ -70,20 +70,7 @@ async function gerateBrif(sub: string) {
 }
 
 //function to get user selected time into date type
-function getSelectedDateAndTime(time: string): Date {
-  const today = new Date().toISOString().split("T")[0];
-  const [year, month, day] = today.split("-").map(Number);
-  console.log(month);
-  const perido = String(time).slice(-2);
-  const [hours, minute] = String(time).slice(0, -2).split(":").map(Number);
 
-  let hours24 = Number(hours);
-  if (perido === "PM") hours24 += 12;
-  if (perido === "AM") hours24;
-
-  const convertedDate = new Date(year, month - 1, day, hours24, minute, 0, 0);
-  return convertedDate;
-}
 //function for calculating endsesionDate
 function calculateAfterDays(value: number, createDate: Date): Date {
   const date = new Date();
@@ -106,17 +93,6 @@ const week = [
 const validation = z.object({
   topic: z.string(),
   sessionIntervel: z.array(z.string()).min(1),
-
-  time: z
-    .string()
-    .min(6)
-    .max(7)
-    .regex(/^\d{1,2}:\d{2}[AP]M$/, "Invalid time format")
-    .refine((time) => {
-      const timepart = time.slice(0, -2);
-      const [hours, minutes] = timepart.split(":").map(Number);
-      return hours >= 1 && hours <= 12 && minutes >= 0 && minutes <= 59;
-    }),
   days: z.array(z.enum(week)),
   difficulty: z.enum(["easy", "medium", "hard"]),
   sessionStart: z.string(),
@@ -208,7 +184,6 @@ export async function POST(req: NextRequest) {
         id: id,
         email: session?.user?.email ?? "",
         topic: zodValidation.data.topic,
-        time: getSelectedDateAndTime(zodValidation.data.time)?.toISOString(),
         startSesion: getCorrectDate(zodValidation?.data?.sessionStart),
         endSession: new Date(zodValidation.data.sessionEnd),
         totalDays: 12,
@@ -235,7 +210,6 @@ export async function POST(req: NextRequest) {
             revisionid: revision.id,
             reminderDate: new Date(date).toISOString(),
             status: "PENDING",
-            time: revision.time,
           })) || [],
       });
     }

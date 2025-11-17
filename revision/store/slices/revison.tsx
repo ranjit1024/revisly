@@ -4,7 +4,6 @@ type diffeculty = {
 }
 interface sessionType {
   topic?: string;
-  time?: string ;
   sessionIntervel?: String[];
   totalDays?: number;
   id?:string;
@@ -21,9 +20,6 @@ export const sessionSlice = createSlice({
   reducers: {
     addTopic(state, action: PayloadAction<sessionType>) {
       state.topic = action.payload.topic;
-    },
-    addTime(state, action: PayloadAction<sessionType>) {
-      state.time = action.payload.time;
     },
     addSessionInterl(state, action: PayloadAction<sessionType>) {
       state.sessionIntervel = action.payload.sessionIntervel;
@@ -46,7 +42,6 @@ export const sessionSlice = createSlice({
     addDays(state, action:PayloadAction<sessionType>){
       state.days = action.payload.days
     }
-    
   },
 });
 

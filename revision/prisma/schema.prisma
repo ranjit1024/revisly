@@ -29,7 +29,6 @@ model Revision {
   sessionsintervel DateTime[]
   sessions         Int
   days             String[]
-  time             DateTime
   createdSession   DateTime          @default(now())
   startSesion      DateTime
   endSession       DateTime
@@ -48,7 +47,6 @@ model RevisionSession {
   topic         String
   revisionid    String
   reminderDate  DateTime
-  time          DateTime
   status        Status
   answer        Json?
   revision      Revision @relation(fields: [revisionid], references: [id])

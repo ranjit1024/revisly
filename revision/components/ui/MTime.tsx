@@ -18,11 +18,7 @@ export function MTime() {
   const [Min, setMin] = React.useState("00");
   const [TimeZone, setTimeZone] = React.useState("AM");
   const dispatch = useDispatch()
-  React.useEffect(()=>{
-     dispatch(actions.addTime({
-                  time:`5:00AM`
-                }))
-  },[])
+ 
   return (
     <Drawer>
       <label
@@ -96,11 +92,7 @@ export function MTime() {
           </div>
           <DrawerFooter className="mt-5">
             <DrawerClose asChild>
-              <Button onClick={()=>{
-                dispatch(actions.addTime({
-                  time:`${Hours}:${Min}${TimeZone}`
-                }))
-              }}>Done</Button>
+              
             </DrawerClose>
 
             <DrawerClose asChild>

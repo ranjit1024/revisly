@@ -2,7 +2,6 @@
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
-import TimePicker from "@/components/ui/time";
 import { useDispatch } from "react-redux";
 import { actions } from "@/store/slices/revison";
 import React, { useEffect, useState } from "react";
@@ -19,7 +18,6 @@ import { TopicExistsToast } from "@/components/ui/topicExits";
 import { createSelector } from "@reduxjs/toolkit";
 import { useMediaQuery } from "react-responsive";
 import { DatePickerResponsive } from "@/components/ui/MDatePicker";
-import { MTime } from "@/components/ui/MTime";
 import { MDifficluty } from "@/components/ui/MDiffculty";
 import MNotesLoader from "@/components/ui/MNotesloader";
 import { Milscc } from "@/components/ui/wrong";
@@ -29,10 +27,10 @@ export default function Home() {
 }
 
 function Mobile() {
-  const [sendData,setSendData] = useState<boolean>(false)
+  const [sendData, setSendData] = useState<boolean>(false);
   const [errorInput, setErrorInput] = useState<boolean>(false);
   const [repeatSub, setRepeatSub] = useState<boolean>(false);
-  const [open,setOpen] = useState<boolean>(false)
+  const [open, setOpen] = useState<boolean>(false);
   const router = useRouter();
   const dispatch = useDispatch();
   const selectorData = createSelector(
@@ -40,7 +38,6 @@ function Mobile() {
     (revision) => ({
       topic: revision.topic,
       sessionIntervel: revision.sessionIntervel,
-      time: revision.time,
       sessionStart: revision.startDate,
       sessionEnd: revision.endDate,
       difficulty: revision.difficulty,
@@ -48,40 +45,33 @@ function Mobile() {
     })
   );
   const sessionData = useSelector(selectorData);
-  
+
   //error
   // sendIng Data
-  useEffect(()=>{
-    if(errorInput === true){
-      setTimeout(()=>{
-        setErrorInput(false)
-      },1500)
-      return
+  useEffect(() => {
+    if (errorInput === true) {
+      setTimeout(() => {
+        setErrorInput(false);
+      }, 1500);
+      return;
     }
-   
-  },[errorInput])
-  useEffect(()=>{
-     if(repeatSub === true){
-      setTimeout(()=>{
-        setRepeatSub(false)
-      },1500)
+  }, [errorInput]);
+  useEffect(() => {
+    if (repeatSub === true) {
+      setTimeout(() => {
+        setRepeatSub(false);
+      }, 1500);
     }
-  },[repeatSub])
+  }, [repeatSub]);
   return (
     <div className="mb-6 flex-col gap-7 w-[100vw]  max-md:mb-1 flex items-start justify-between  p-2">
-      {
-        errorInput ? <ErrorToast/>:null
-      }
-      {
-        repeatSub ? <TopicExistsToast/>:null
-      }
+      {errorInput ? <ErrorToast /> : null}
+      {repeatSub ? <TopicExistsToast /> : null}
       {
         //loader
-        sendData ? <MNotesLoader/>:null
+        sendData ? <MNotesLoader /> : null
       }
-      {
-        <Milscc open={open} setOpen={setOpen}/>
-      }
+      {<Milscc open={open} setOpen={setOpen} />}
       <div>
         <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
           Set Revision Reminder
@@ -128,9 +118,7 @@ function Mobile() {
       <div>
         <DatePickerResponsive />
       </div>
-      <div>
-        <MTime />
-      </div>
+
       <div className="h-100">
         <label
           className="block ml-2 mb-3 text-sm font-medium text-zinc-800 text-start "
@@ -145,51 +133,52 @@ function Mobile() {
         <div className="mt-5 h-35">
           <button
             //checking for error
-            onClick={async ()=>{
-                  try{
-                  setSendData(true)
-                  console.log(sessionData);
-                  const setRevision = await axios.post(
-                    "http://localhost:3000/api/revision",
-                    sessionData,
-                    {
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                    }
-                  );
-                  if(setRevision.data.message === "Notes and database updated"){
-                    setSendData(false);
-                    router.push('/revisly/all')
+            onClick={async () => {
+              try {
+                setSendData(true);
+                console.log(sessionData);
+                const setRevision = await axios.post(
+                  "http://localhost:3000/api/revision",
+                  sessionData,
+                  {
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
                   }
-                  setSendData(false)
-                }catch(e:unknown){
-                  if (axios.isAxiosError(e)){
-                    if (e.response?.data.message === "Invalid Input") {
-                      console.log("data");
+                );
+                if (setRevision.data.message === "Notes and database updated") {
+                  setSendData(false);
+                  router.push("/revisly/all");
+                }
+                setSendData(false);
+              } catch (e: unknown) {
+                if (axios.isAxiosError(e)) {
+                  if (e.response?.data.message === "Invalid Input") {
+                    console.log("data");
 
-                      setSendData(false);
-                      setErrorInput(true);
-                      return;
-                    }
-                    if (
-                      e.response?.data.message ===
-                      "Session Exists with same topic"
-                    ) {
-                      setSendData(false);
-                      setRepeatSub(true);
-                      return;
-                    }
-                    if(e.response?.data.message === "Cannot Process Your Request"){
-                       setSendData(false);
-                      setOpen(true);
-                      return;
-                    }
-                    else {
-                      setSendData(true);
-                    }
+                    setSendData(false);
+                    setErrorInput(true);
+                    return;
+                  }
+                  if (
+                    e.response?.data.message ===
+                    "Session Exists with same topic"
+                  ) {
+                    setSendData(false);
+                    setRepeatSub(true);
+                    return;
+                  }
+                  if (
+                    e.response?.data.message === "Cannot Process Your Request"
+                  ) {
+                    setSendData(false);
+                    setOpen(true);
+                    return;
+                  } else {
+                    setSendData(true);
                   }
                 }
+              }
             }}
             className="inline-flex items-center gap-2 w-[100%] h-12 rounded-xl bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-zinc-800 active:translate-y-px"
           >
@@ -203,6 +192,7 @@ function Mobile() {
 }
 
 function Desktop() {
+  const [open, setOpen] = useState<boolean>(false);
   const [invalidInputError, setInvalidInputError] = useState<boolean>(false);
   const [showRepeteError, setShowrepeteError] = useState<boolean>(false);
   const [apiError, setApiError] = useState<boolean>(false);
@@ -213,7 +203,6 @@ function Desktop() {
     (revision) => ({
       topic: revision.topic,
       sessionIntervel: revision.sessionIntervel,
-      time: revision.time,
       sessionStart: revision.startDate,
       sessionEnd: revision.endDate,
       difficulty: revision.difficulty,
@@ -253,7 +242,7 @@ function Desktop() {
       {showRepeteError ? <TopicExistsToast /> : null}
 
       {sendData ? <NotesgeneratorLoader /> : null}
-
+          {<Milscc open={open} setOpen={setOpen} />}
       <div className="bg-white shadow p-5 rounded-md h-[120vh] max-md:p-3 ">
         <div className="mb-6 max-md:mb-1 flex items-start justify-between gap-4">
           <div>
@@ -310,11 +299,6 @@ function Desktop() {
             // Limit to 30 days
             />
           </div>
-
-          <div className="w-100 mt-10 hover:cursor-pointer  ">
-            <TimePicker />
-          </div>
-
           <div>{/* <Progress value={33} /> */}</div>
           <div className="flex flex-col mt-2">
             <label
@@ -379,6 +363,13 @@ function Desktop() {
                     ) {
                       setSendData(false);
                       setShowrepeteError(true);
+                      return;
+                    }
+                    if (
+                      e.response?.data.message === "Cannot Process Your Request"
+                    ) {
+                      setSendData(false);
+                      setOpen(true);
                       return;
                     } else {
                       setSendData(true);
