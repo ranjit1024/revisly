@@ -6,7 +6,7 @@ interface sessionType {
    id: string;
         email: string;
         topic: string;
-        time: Date;
+        
          status: "PENDING" | "MISSED" | "COMPLETED";
         score: number;
         sessionNumber: number;

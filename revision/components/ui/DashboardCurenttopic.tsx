@@ -11,7 +11,6 @@ interface type {
   sessionsintervel: Date[];
   sessions: number;
   days: string[];
-  time: Date;
   createdSession: Date;
   startSesion: Date;
   endSession: Date;
@@ -24,13 +23,13 @@ interface sessionType {
    id: string;
         email: string;
         topic: string;
-        time: Date;
-         status: "PENDING" | "MISSED" | "COMPLETED";
+        status: "PENDING" | "MISSED" | "COMPLETED";
         score: number;
         sessionNumber: number;
         revisionid: string;
         reminderDate: Date;
         answer: JsonValue | null;
+       
 }
 interface sessionData {
   total: sessionType[];

@@ -22,7 +22,7 @@ type RevisionSession = {
   topic: string;
   sessionsintervel: Date[];
   sessions: number;
-  time: Date;
+ 
   createdSession: Date;
   endSession: Date;
   brif: string;

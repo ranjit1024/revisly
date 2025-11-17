@@ -11,7 +11,6 @@ type RevisionSession = {
     sessionsintervel: Date[];
     sessions: number;
     days: string[];
-    time: Date;
     createdSession: Date;
     startSesion: Date;
     endSession: Date;

@@ -2,7 +2,6 @@
 import prisma from "../prisma"
 import { getServerSession } from "next-auth"
 import { authOption } from "../auth"
-import { da } from "date-fns/locale"
 export async function getFirst(){
     const session = await getServerSession(authOption) 
     const dashboardData = await prisma.revision.findFirst({

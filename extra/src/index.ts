@@ -27,7 +27,7 @@ const endOfDayISO = endOfDay.toISOString();
     password: process.env.REDIS_PASSWORD,
     socket: {
       host: process.env.REDIS_HOST,
-      port: 10363,
+      port: 13429,
     },
   });
   try {
@@ -38,7 +38,6 @@ const endOfDayISO = endOfDay.toISOString();
         topic: true,
         email: true,
         reminderDate: true,
-        time: true,
         revisionid: true,
       },
       orderBy: {
@@ -57,7 +56,6 @@ const endOfDayISO = endOfDay.toISOString();
       await redis.lPush(
         "reminder",
         JSON.stringify({
-          time: reminderTime.time,
           topic: reminderTime.topic,
           email: reminderTime.email,
           revision_id: reminderTime.revisionid,
