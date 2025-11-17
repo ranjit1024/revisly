@@ -142,15 +142,15 @@ redis.connect()
   }
   private async processReminder(reminder: reminderType | null) {
     try {
-      const client = createClient({
-  username: 'default',
-  password: process.env.REDIS_PASSWORD,
-  socket: {
+    const redis = createClient({
+    username: "default",
+    password: process.env.REDIS_PASSWORD,
+    socket: {
       host: process.env.REDIS_HOST,
-      port: 10363
-  }
-});
-client.connect()
+      port: 13429,
+    },
+  });
+    redis.connect()
 
       console.log("Procesing Reminder", reminder);
       if (!reminder?.email.trim() || !reminder.id.trim()) {
@@ -198,7 +198,7 @@ client.connect()
         }
       );
       console.log("Successfully processed reminder:", reminder.id);
-      client.lpush(
+      redis.lpush(
         "reminderTime",
         JSON.stringify({
           email: reminder.email,
@@ -207,7 +207,7 @@ client.connect()
           time:this.reminderTime(reminder.time)
         })
       );
-      await client.quit()
+      await redis.quit()
     } catch (err) {
       console.log("Something Went wrong");
     }

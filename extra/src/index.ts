@@ -43,13 +43,8 @@ const endOfDayISO = endOfDay.toISOString();
       orderBy: {
         reminderDate: "asc",
       },
-      where:{
-        reminderDate:{
-          gte:startDateIso,
-          lte:endOfDayISO
-        },
-       status:"PENDING"
-      }
+    
+      
     });
     console.log(data);
     data.forEach(async (reminderTime) => {
