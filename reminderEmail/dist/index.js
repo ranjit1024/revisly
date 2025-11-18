@@ -17,7 +17,6 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const client_s3_1 = require("@aws-sdk/client-s3");
 const s3_request_presigner_1 = require("@aws-sdk/s3-request-presigner");
 const nodemailer_1 = __importDefault(require("nodemailer"));
-//
 dotenv_1.default.config();
 //
 const s3Client = new client_s3_1.S3Client({
@@ -181,12 +180,12 @@ function semdMail(to, subject, link) {
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const redis = (0, redis_1.createClient)({
-            username: 'default',
+            username: "default",
             password: process.env.REDIS_PASSWORD,
             socket: {
                 host: process.env.REDIS_HOST,
-                port: 10363
-            }
+                port: 13429,
+            },
         });
         redis.connect();
         while (1) {
@@ -194,7 +193,7 @@ function main() {
                 const res = yield redis.brPop("reminderTime", 60);
                 if (res) {
                     const reminderData = JSON.parse(res === null || res === void 0 ? void 0 : res.element);
-                    if (reminderData && reminderData.email !== "") {
+                    if (reminderData && reminderData.email !== "" && reminderData.time === new Date().toISOString()) {
                         const link = yield getQuizLInk(reminderData === null || reminderData === void 0 ? void 0 : reminderData.id);
                         console.log(link);
                         yield semdMail(reminderData.email, reminderData.topic, link);

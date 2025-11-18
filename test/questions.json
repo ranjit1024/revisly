@@ -1,0 +1,111 @@
+[  {
+    "id": 1,
+    "question": "Which of the following is a key difference between Python 2 and Python 3 string handling?",
+    "options": [
+      "A) Python 2 uses bytes for strings, Python 3 uses str",
+      "B) Python 2 uses ASCII, Python 3 uses UTF-8",
+      "C) Python 3 uses Unicode strings (str), Python 2 uses ASCII by default",
+      "D) Python 2 supports multibyte strings, Python 3 does not"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "id": 2,
+    "question": "What happens when using a mutable default argument in a Python function?",
+    "options": [
+      "A) Each call creates a new default instance",
+      "B) The default value is fixed at function definition",
+      "C) Subsequent calls reuse the modified default argument",
+      "D) It raises a SyntaxError at runtime"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "id": 3,
+    "question": "What is the purpose of lambda functions in Python?",
+    "options": [
+      "A) To define multi-line functions",
+      "B) To create anonymous functions",
+      "C) To set default function parameters",
+      "D) To override built-in functions"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "id": 4,
+    "question": "What is the correct syntax for an if statement in Python?",
+    "options": [
+      "A) if x = 5: do_something()",
+      "B) if x == 5 do_something()",
+      "C) if x == 5 -> do_something()",
+      "D) if x == 5: do_something()"
+    ],
+    "correctAnswer": 3
+  },
+  {
+    "id": 5,
+    "question": "Which comprehension correctly generates squares of even numbers from 0-9?",
+    "options": [
+      "A) [x**2 for x in range(10) if x % 3 == 0]",
+      "B) [x for x in range(10) if x%2 ==0]**2",
+      "C) {x**2: for x in range(10) if x%2==0}",
+      "D) [x**2 for x in range(10) if x % 2 == 0]"
+    ],
+    "correctAnswer": 3
+  },
+  {
+    "id": 6,
+    "question": "What parameter is automatically passed to a class method when called?",
+    "options": [
+      "A) self (instance context)",
+      "B) cls (class context)",
+      "C) self, cls (both contexts)",
+      "D) No parameter is passed automatically"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 7,
+    "question": "What is the correct syntax for reading a file using a context manager?",
+    "options": [
+      "A) with open('file.txt') as f: content = f.read()",
+      "B) open('file.txt', 'r') as f: content = f.read()",
+      "C) with open('file.txt', 'r') as f: content = f.read()",
+      "D) file = open('file.txt') content = file.read()"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "id": 8,
+    "question": "What is the correct type hint for a list of integers?",
+    "options": [
+      "A) [int]",
+      "B) List[int]",
+      "C) <int list>",
+      "D) list[int]"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "id": 9,
+    "question": "Which command activates a virtual environment on Windows?",
+    "options": [
+      "A) venv\\bin\\activate",
+      "B) venv\\Scripts\\activate.bat",
+      "C) source venv\\activate",
+      "D) python venv\\activate"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "id": 10,
+    "question": "Which import statement correctly imports a sibling module within a package?",
+    "options": [
+      "A) from . import sibling",
+      "B) from ..sibling import Module",
+      "C) import sibling",
+      "D) from package import sibling"
+    ],
+    "correctAnswer": 0
+  }
+]
