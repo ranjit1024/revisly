@@ -78,7 +78,7 @@ function Mobile() {
       Set a spaced repetition schedule for your new topic.
     </p>
   </div>
-      <div className="w-full flex text-start items-start gap-7  justify-start h-full">
+      <div className="w-full flex text-start items-start gap-0  justify-start h-full">
         <div className="w-[100%] ">
           <label className="text-sm font-medium text-gray-700 ml-1">Topic</label>
           <div className="mt-2">
@@ -104,7 +104,7 @@ function Mobile() {
           </div>
         </div>
       </div>
-      <div>
+      <div className="-mt-2">
         <DatePickerResponsive />
       </div>
 
