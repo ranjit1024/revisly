@@ -342,7 +342,7 @@ export default function Home() {
           </div>
 
           <div className="mt-20">
-            <div className="p-10 bg-gray-200 rounded-xl max-md:grid-cols-1  grid grid-cols-[60%_40%] w-full items-center">
+            <div className="p-10 bg-gray-100 rounded-xl max-md:grid-cols-1  grid grid-cols-[60%_40%] w-full items-center">
               <motion.div
                 initial={{ y: 20, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
@@ -395,12 +395,12 @@ export default function Home() {
         </div>
       </div>
 
-      <footer className="mt-20">
-        <footer className="w-full bg-white p-8">
-          <div className="flex flex-row flex-wrap items-center justify-center gap-y-6 gap-x-12 bg-white text-center md:justify-between">
+
+        <footer className="w-full bg-gray-50 pt-20 p-8">
+          <div className="flex flex-row flex-wrap items-center justify-center gap-y-6 gap-x-12 bg-gray-50 text-center md:justify-between">
             <Image src={Logo} height={100} width={50} alt="logo" />
 
-            <ul className="flex flex-wrap items-center gap-y-2 gap-x-8">
+            <ul className="flex flex-wrap items-center gap-y-2 gap-x-8 bg-gray-50">
               <li>
                 <a
                   onClick={() => {
@@ -421,7 +421,7 @@ export default function Home() {
             .
           </p>
         </footer>
-      </footer>
+      
     </div>
   );
 }
@@ -536,7 +536,7 @@ function SpacedRepetitionTable() {
   ];
 
   return (
-    <div className="max-w-md mx-auto mt-6 bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+    <div className=" mx-auto mt-6 bg-white rounded-xl  border border-gray-100 overflow-hidden">
       <div className="bg-gray-50 p-4 border-b text-center text-lg font-semibold text-gray-800">
         Spaced Repetition Schedule
       </div>
@@ -557,7 +557,7 @@ function SpacedRepetitionTable() {
 
 function CustomRevisionSessionCard() {
   return (
-    <div className=" mx-auto max-h-fit w-full bg-white rounded-2xl shadow-lg border border-gray-100 p-6 space-y-4 ">
+    <div className=" mx-auto max-h-full w-[100%] bg-white rounded-2xl shadow-lg border border-gray-100 p-6 space-y-4 ">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-semibold text-gray-800">
           Custom Revision Session
