@@ -272,17 +272,15 @@ function Desktop() {
               </div>
             </div>
           </div>
-          <div className="mt-6">
+          <div className="mt-8">
             <MaxRangeDatePicker
             // Limit to 30 days
             />
           </div>
           <div>{/* <Progress value={33} /> */}</div>
-          <div className="flex flex-col mt-5">
-            <label className="text-sm font-medium text-gray-700 ml-2 mb-3 mt-5">
-              Select The diffeculty level
-            </label>
-            <div className="flex ml-1 gap-2">
+          <div className="flex flex-col mt-9">
+             <label className="text-sm font-medium text-gray-700 ml-1 mb-2">Select Difficulty</label>
+            <div className="flex  gap-2">
               <Chip></Chip>
             </div>
 
