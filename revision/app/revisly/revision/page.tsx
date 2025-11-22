@@ -110,7 +110,7 @@ function Mobile() {
 
       <div className="h-100">
         <label
-          className="block ml-2 mb-3 text-sm font-medium text-zinc-800 text-start "
+          className="  text-sm font-medium text-gray-700 ml-1"
           htmlFor="topic"
         >
           Select The diffeculty level

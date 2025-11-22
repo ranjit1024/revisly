@@ -33,7 +33,7 @@ export function MDifficluty() {
   return (
     <AlertDialog open={opne} onOpenChange={setOpen}>
      
-        <div className="w-full max-w-md mx-auto ">
+        <div className="w-full max-w-md mx-auto mt-2 ">
           <div className="space-y-2">
             {levels.map((level) => (
               <button
@@ -49,7 +49,7 @@ export function MDifficluty() {
                     }))
                 }}
                 className={`
-              w-[96vw] p-4 rounded-xl text-left transition-all
+              w-[96vw] p-4 rounded-md text-left transition-all
               ${
                 selected === level.id
                   ? "bg-amber-50 border-2 border-amber-200"

@@ -50,7 +50,7 @@ export function DatePickerResponsive() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <label 
-        className="text-sm font-medium text-gray-700 ml-1" 
+        className="text-sm font-medium text-gray-700 ml-1 " 
         htmlFor="session-duration"
       >
         Date
@@ -59,7 +59,7 @@ export function DatePickerResponsive() {
         <Button
           variant={"outline"}
           className={cn(
-            "w-[97vw] border-none bg-gray-50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-al",
+            "w-[97vw] mt-2 border-none bg-gray-50 rounded-lg max-md:h-10 text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-al",
             !dateRange?.from && "text-muted-foreground"
           )}
         >
@@ -68,7 +68,7 @@ export function DatePickerResponsive() {
         </Button>
       </DrawerTrigger>
       <DrawerContent className="h-fit p-3">
-        <DialogTitle className="text-center text-gray-600 text-lg font-medium">
+        <DialogTitle className="text-sm font-medium text-gray-700 ml-1">
           Pick a date range
         </DialogTitle>
         <div className="p-3 w-[100%] h-100 ">
