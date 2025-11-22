@@ -61,7 +61,7 @@ export function SelectDay({ Limit }: {
       
     }, [selectedDay])
     return (
-        <div className="flex  gap-3 max-md:flex-wrap ">
+        <div className="flex  gap-3 max-md:flex-wrap mt-2 ">
             
             {week
                 .map(day => <button
@@ -75,10 +75,10 @@ export function SelectDay({ Limit }: {
                         });
                     }
                     }
-                    className={`px-5 py-[6px] rounded-full text-sm font-medium transition-all duration-300
+                    className={`px-5 py-[6px] rounded-md text-sm  font-medium transition-all duration-300
             ${selectedDay?.includes(day)
                             ? "bg-indigo-600 text-white shadow-lg scale-105"
-                            : "bg-gray-100 text-gray-600 hover:bg-gray-200 hover:shadow-md"
+                            : "bg-gray-100 text-gray-800 hover:bg-gray-200 hover:shadow-md"
                         }  `}
                 >
                     {day.slice(0, 3)}

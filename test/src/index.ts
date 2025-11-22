@@ -30,9 +30,8 @@ class RevionsTest {
 
       if (this.count > 5 && this.revisionData === null) {
         this.stop();
-        
       }
-      console.log(this.count)
+      console.log(this.count);
       // getting data from redis queue and store in private veriable
       const reminderData = await redis.brPop("reminder", 60);
       const revisionInfo: {
@@ -42,7 +41,7 @@ class RevionsTest {
         id: string;
       } = JSON.parse(reminderData?.element || "");
       this.revisionData = revisionInfo;
-      console.log(this.revisionData)
+      console.log(this.revisionData);
       const notes = await this.generateNotes(this.revisionData.topic);
       // console.log(notes)
       // done here
@@ -50,18 +49,18 @@ class RevionsTest {
   };
 
   // genertaing questions
-  private generateNotes = async (topic:string) => {
-    try{
-
+  private generateNotes = async (topic: string) => {
+    try {
       const groq = new Groq({
         apiKey: process.env.GROQ_API_KEY,
       });
-    
-    const chatCompletion = await groq.chat.completions.create({
-      messages: [
-        {
-          role: "user",
-          content: `
+
+      const chatCompletion = await groq.chat.completions.create({
+           model: "openai/gpt-oss-20b",
+        messages: [
+          {
+            role: "user",
+            content: `
         Generate 10 mid to hard multiple-choice interview questions focusing on ${topic}
         Strictly output the result as a raw JSON array of objects. Do not include markdown formatting like
         Use this exact JSON structure for each object:
@@ -77,15 +76,14 @@ class RevionsTest {
   "correctAnswer": <index of the correct option, e.g., 0 for A, 1 for B>
 }
         `,
-        },
-      ],
-      model:"openai/gpt-oss-20b",
-    });
-    console.log(chatCompletion.choices[0].message.content)
-  }
-  catch(e){
-    console.log(e)
-  }
+          },
+        ],
+     
+      }); 
+      console.log(chatCompletion.choices[0]?.message.content);
+    } catch (e) {
+      console.log(e);
+    }
   };
   // stoping the intervel
   private stop = () => {

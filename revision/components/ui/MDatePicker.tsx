@@ -50,16 +50,16 @@ export function DatePickerResponsive() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <label 
-        className="block text-sm mb-1 font-medium text-zinc-700 text-start ml-1" 
+        className="text-sm font-medium text-gray-700 ml-1" 
         htmlFor="session-duration"
       >
-        How long would you like your session to be
+        Date
       </label>
       <DrawerTrigger asChild>
         <Button
           variant={"outline"}
           className={cn(
-            "w-[97vw] h-11 justify-start text-left font-normal",
+            "w-[97vw] border-none bg-gray-50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-al",
             !dateRange?.from && "text-muted-foreground"
           )}
         >

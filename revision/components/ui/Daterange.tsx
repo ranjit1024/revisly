@@ -65,9 +65,7 @@ export function MaxRangeDatePicker() {
 
     <div className="grid gap-2">
       <Popover open={open} onOpenChange={setOpen} >
-        <label className="block text-sm font-medium text-zinc-700 text-start ml-1" htmlFor="topic">
-          How long would you like your session to be
-        </label>
+       <label className="text-sm ml-1 font-medium text-gray-700">Date</label>
         <PopoverTrigger asChild>
 
           <Button
@@ -76,7 +74,7 @@ export function MaxRangeDatePicker() {
             id="date"
             variant="outline"
             className={cn(
-              "w-[400px]  justify-start text-left font-normal h-11 rounded-2xl",
+              "w-[500px]  h-10 text-start bg-gray-50 rounded-lg text-gray-600  border-none text-sm focus:outline-none focus:ring-2 focus:ring-black/5",
               !date && "text-white"
             )}
           

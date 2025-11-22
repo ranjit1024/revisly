@@ -72,26 +72,15 @@ function Mobile() {
         sendData ? <MNotesLoader /> : null
       }
       {<Milscc open={open} setOpen={setOpen} />}
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
-          Set Revision Reminder
-        </h1>
-        <p className="mt-1 text-sm text-zinc-600  ">
-          We use
-          <span className="font-medium text-emerald-700">
-            &nbsp;spaced repetition
-          </span>{" "}
-          &nbsp; to help you retain more with less time.
-        </p>
-      </div>
+      <div className="mt-2">
+    <h1 className="text-xl font-bold text-gray-900">New Revision</h1>
+    <p className="text-sm text-gray-500 mt-1">
+      Set a spaced repetition schedule for your new topic.
+    </p>
+  </div>
       <div className="w-full flex text-start items-start gap-7  justify-start h-full">
         <div className="w-[100%] ">
-          <label
-            className="block text-sm font-medium text-zinc-700 text-start ml-1"
-            htmlFor="topic"
-          >
-            Topic Name
-          </label>
+          <label className="text-sm font-medium text-gray-700 ml-1">Topic</label>
           <div className="mt-2">
             <div className="relative">
               <input
@@ -105,7 +94,7 @@ function Mobile() {
                 }}
                 id="topic"
                 placeholder="e.g., System Design — Caching"
-                className="w-[100%] rounded-md border border-zinc-200 bg-white px-4 py-2 text-zinc-900 shadow-sm outline-none transition placeholder:text-zinc-400 focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100"
+                className="w-full p-3 bg-gray-50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-all"
               />
               <Layers
                 className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400"
@@ -244,19 +233,13 @@ function Desktop() {
       {sendData ? <NotesgeneratorLoader /> : null}
           {<Milscc open={open} setOpen={setOpen} />}
       <div className="bg-white shadow p-5 rounded-md h-[120vh] max-md:p-3 ">
-        <div className="mb-6 max-md:mb-1 flex items-start justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
-              Set Revision Reminder
-            </h1>
-            <p className="mt-1 text-sm text-zinc-600 flex max-md:flex-col max-md:hidden max-md:items-start">
-              We use
-              <span className="font-medium text-emerald-700">
-                &nbsp;spaced repetition
-              </span>{" "}
-              &nbsp; to help you retain more with less time.
-            </p>
-          </div>
+        <div className=" max-md:mb-1 flex items-start justify-between gap-4">
+           <div className="mb-2">
+    <h1 className="text-xl font-bold text-gray-900">New Revision</h1>
+    <p className="text-sm text-gray-500 mt-1">
+      Set a spaced repetition schedule for your new topic.
+    </p>
+  </div>
           <div className="hidden rounded-xl bg-emerald-50 px-3 py-2 text-emerald-700 ring-1 ring-emerald-100 sm:flex items-center gap-2">
             <CalendarDays size={16} />
             <span className="text-sm font-medium">Revise Smartly</span>
@@ -265,12 +248,7 @@ function Desktop() {
         <div className="pt-6 w-full">
           <div className="w-full flex text-start items-start gap-4  justify-start h-full">
             <div className="w-[100%] ">
-              <label
-                className="block text-sm font-medium text-zinc-700 text-start ml-1"
-                htmlFor="topic"
-              >
-                Topic Name
-              </label>
+             <label className="text-sm font-medium text-gray-700 ml-1">Topic</label>
               <div className="mt-2">
                 <div className="relative">
                   <input
@@ -284,7 +262,7 @@ function Desktop() {
                     }}
                     id="topic"
                     placeholder="e.g., System Design — Caching"
-                    className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-zinc-900 shadow-sm outline-none transition placeholder:text-zinc-400 focus:border-emerald-300 focus:ring-4 focus:ring-emerald-100"
+                    className="w-full p-3 bg-gray-50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-all"
                   />
                   <Layers
                     className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400"
@@ -294,17 +272,14 @@ function Desktop() {
               </div>
             </div>
           </div>
-          <div className="mt-10  ">
+          <div className="mt-6">
             <MaxRangeDatePicker
             // Limit to 30 days
             />
           </div>
           <div>{/* <Progress value={33} /> */}</div>
-          <div className="flex flex-col mt-2">
-            <label
-              className="block mt-7 ml-2 mb-3 text-sm font-medium text-zinc-700 text-start "
-              htmlFor="topic"
-            >
+          <div className="flex flex-col mt-5">
+            <label className="text-sm font-medium text-gray-700 ml-2 mb-3 mt-5">
               Select The diffeculty level
             </label>
             <div className="flex ml-1 gap-2">
@@ -315,13 +290,8 @@ function Desktop() {
               sessionData.difficulty === "hard" ? (
                 <div>{<Hard />}</div>
               ) : (
-                <div className="mt-9 ml-2 transition">
-                  <label
-                    className="block mb-3 text-sm font-medium text-zinc-700 text-start "
-                    htmlFor="topic"
-                  >
-                    Which day of week you want to shedule your revision
-                  </label>
+                <div className="mt-8 ml-2 transition">
+                   <label className="text-sm font-medium text-gray-700  ml-1">Select Day</label>
 
                   <SelectDay
                     Limit={sessionData.difficulty === "medium" ? 3 : 1}
@@ -377,11 +347,15 @@ function Desktop() {
                   }
                 }
               }}
-              className="inline-flex items-center gap-2 rounded-xl bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-zinc-800 active:translate-y-px"
+              className="inline-flex items-center gap-2 rounded-md bg-zinc-900  py-2.5 h-11 text-sm font-medium text-white shadow-sm transition hover:bg-zinc-800 w-[50%] ml-1 active:translate-y-px pl-4"
             >
-              <Send size={16} />
+              
               Set Revision Reminder
             </button>
+
+
+
+            
           </div>
         </div>
       </div>
