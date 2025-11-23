@@ -1,110 +1,111 @@
-[  {
+[
+  {
     "id": 1,
-    "question": "Which of the following is a key difference between Python 2 and Python 3 string handling?",
+    "question": "Which of the following statements about Python's GIL is correct?",
     "options": [
-      "A) Python 2 uses bytes for strings, Python 3 uses str",
-      "B) Python 2 uses ASCII, Python 3 uses UTF-8",
-      "C) Python 3 uses Unicode strings (str), Python 2 uses ASCII by default",
-      "D) Python 2 supports multibyte strings, Python 3 does not"
+      "A) It allows multiple threads to execute Python bytecode simultaneously for CPU-bound tasks.",
+      "B) It prevents the creation of more than one thread in a Python process.",
+      "C) It can be removed by using the PyPy interpreter.",
+      "D) It ensures that only one thread executes Python bytecode at a time, which can be a bottleneck for CPU-bound multithreaded programs."
     ],
-    "correctAnswer": 2
+    "correctAnswer": 3
   },
   {
     "id": 2,
-    "question": "What happens when using a mutable default argument in a Python function?",
+    "question": "Consider the following code:\n\n```python\nclass Meta(type):\n    def __new__(cls, name, bases, dct):\n        dct['created'] = True\n        return super().__new__(cls, name, bases, dct)\n\nclass A(metaclass=Meta):\n    pass\n```",
     "options": [
-      "A) Each call creates a new default instance",
-      "B) The default value is fixed at function definition",
-      "C) Subsequent calls reuse the modified default argument",
-      "D) It raises a SyntaxError at runtime"
+      "A) `A.created` is a method that returns True.",
+      "B) `A.created` is a class variable set to True.",
+      "C) The code raises a TypeError because `Meta` cannot be used as a metaclass.",
+      "D) `A.created` is a property that evaluates to False."
     ],
-    "correctAnswer": 2
+    "correctAnswer": 1
   },
   {
     "id": 3,
-    "question": "What is the purpose of lambda functions in Python?",
+    "question": "What will be the output of the following code snippet?",
     "options": [
-      "A) To define multi-line functions",
-      "B) To create anonymous functions",
-      "C) To set default function parameters",
-      "D) To override built-in functions"
+      "A) 6",
+      "B) 7",
+      "C) 5",
+      "D) 8"
     ],
     "correctAnswer": 1
   },
   {
     "id": 4,
-    "question": "What is the correct syntax for an if statement in Python?",
+    "question": "Which of the following is the most Pythonic way to read a file line by line without loading the entire file into memory?",
     "options": [
-      "A) if x = 5: do_something()",
-      "B) if x == 5 do_something()",
-      "C) if x == 5 -> do_something()",
-      "D) if x == 5: do_something()"
+      "A) `content = file.read()`",
+      "B) `for line in open('file.txt'): process(line)`",
+      "C) `lines = open('file.txt').readlines()`",
+      "D) `data = json.load(open('file.txt'))`"
     ],
-    "correctAnswer": 3
+    "correctAnswer": 1
   },
   {
     "id": 5,
-    "question": "Which comprehension correctly generates squares of even numbers from 0-9?",
+    "question": "Which decorator will correctly enforce that the wrapped function receives no more than one argument?",
     "options": [
-      "A) [x**2 for x in range(10) if x % 3 == 0]",
-      "B) [x for x in range(10) if x%2 ==0]**2",
-      "C) {x**2: for x in range(10) if x%2==0}",
-      "D) [x**2 for x in range(10) if x % 2 == 0]"
+      "A) `@functools.wraps`",
+      "B) `@functools.wraps(lambda f: f if len(inspect.getfullargspec(f).args) <= 1 else ValueError)`",
+      "C) `@functools.wraps` with a wrapper that checks `len(args)`",
+      "D) `@functools.wraps` with a wrapper that raises an exception if `len(args) > 1`"
     ],
     "correctAnswer": 3
   },
   {
     "id": 6,
-    "question": "What parameter is automatically passed to a class method when called?",
+    "question": "Which of the following statements about Python's `asyncio` event loop is false?",
     "options": [
-      "A) self (instance context)",
-      "B) cls (class context)",
-      "C) self, cls (both contexts)",
-      "D) No parameter is passed automatically"
+      "A) `asyncio.run()` automatically creates and closes the event loop.",
+      "B) `await` can only be used inside `async def` functions.",
+      "C) `asyncio.create_task()` schedules a coroutine to run concurrently.",
+      "D) The event loop can run on multiple threads without restrictions."
     ],
-    "correctAnswer": 0
+    "correctAnswer": 3
   },
   {
     "id": 7,
-    "question": "What is the correct syntax for reading a file using a context manager?",
+    "question": "In Python, what is the difference between a generator expression and a list comprehension?",
     "options": [
-      "A) with open('file.txt') as f: content = f.read()",
-      "B) open('file.txt', 'r') as f: content = f.read()",
-      "C) with open('file.txt', 'r') as f: content = f.read()",
-      "D) file = open('file.txt') content = file.read()"
+      "A) A generator expression creates a generator object; a list comprehension creates a list.",
+      "B) A generator expression requires parentheses; a list comprehension requires brackets.",
+      "C) A generator expression evaluates eagerly; a list comprehension evaluates lazily.",
+      "D) Both A and B are correct."
     ],
-    "correctAnswer": 2
+    "correctAnswer": 3
   },
   {
     "id": 8,
-    "question": "What is the correct type hint for a list of integers?",
+    "question": "Which of the following statements about type hints and `typing` module is true?",
     "options": [
-      "A) [int]",
-      "B) List[int]",
-      "C) <int list>",
-      "D) list[int]"
+      "A) Type hints are enforced at runtime by default.",
+      "B) `typing.Literal` allows you to specify a variable can only be one of a fixed set of values.",
+      "C) The `typing` module is only available in Python 3.5 and later.",
+      "D) `typing.Dict[str, Any]` is equivalent to `dict`."
     ],
     "correctAnswer": 1
   },
   {
     "id": 9,
-    "question": "Which command activates a virtual environment on Windows?",
+    "question": "What will the following code output?",
     "options": [
-      "A) venv\\bin\\activate",
-      "B) venv\\Scripts\\activate.bat",
-      "C) source venv\\activate",
-      "D) python venv\\activate"
+      "A) 4",
+      "B) 5",
+      "C) 6",
+      "D) 7"
     ],
     "correctAnswer": 1
   },
   {
     "id": 10,
-    "question": "Which import statement correctly imports a sibling module within a package?",
+    "question": "Which of the following best describes a memoryview object in Python?",
     "options": [
-      "A) from . import sibling",
-      "B) from ..sibling import Module",
-      "C) import sibling",
-      "D) from package import sibling"
+      "A) A memoryview is a read-only view of an object that supports the buffer protocol.",
+      "B) A memoryview creates a copy of the underlying data to prevent side-effects.",
+      "C) A memoryview can only be created from a bytearray.",
+      "D) A memoryview is equivalent to a byte string."
     ],
     "correctAnswer": 0
   }

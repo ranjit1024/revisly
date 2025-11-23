@@ -50,40 +50,41 @@ class RevionsTest {
 
   // genertaing questions
   private generateNotes = async (topic: string) => {
-    try {
       const groq = new Groq({
         apiKey: process.env.GROQ_API_KEY,
       });
-
+      // genrta notes from LLM
       const chatCompletion = await groq.chat.completions.create({
-           model: "openai/gpt-oss-20b",
+        model: "openai/gpt-oss-20b",
         messages: [
           {
             role: "user",
-            content: `
-        Generate 10 mid to hard multiple-choice interview questions focusing on ${topic}
-        Strictly output the result as a raw JSON array of objects. Do not include markdown formatting like
-        Use this exact JSON structure for each object:
-{
-  "id": <number>,
-  "question": "<The technical question string>",
-  "options": [
-    "A) <Option 1>",
-    "B) <Option 2>",
-    "C) <Option 3>",
-    "D) <Option 4>"
-  ],
-  "correctAnswer": <index of the correct option, e.g., 0 for A, 1 for B>
-}
-        `,
+            content: `Generate 10 mid to hard multiple-choice interview questions focusing on ${topic}Strictly output the result as a raw JSON array of objects. Do not include markdown formatting likeUse this exact JSON structure for each object:
+            {
+              "id": <number>,
+              "question": "<The technical question string>",
+              "options": [
+                "A) <Option 1>",
+                "B) <Option 2>",
+                "C) <Option 3>",
+                "D) <Option 4>"
+              ],
+              "correctAnswer": <index of the correct option, e.g., 0 for A, 1 for B>
+            }`,
           },
         ],
-     
-      }); 
-      console.log(chatCompletion.choices[0]?.message.content);
-    } catch (e) {
-      console.log(e);
-    }
+      });
+      // storing in loca 
+      const question = fs.writeFile("questions.json",chatCompletion.choices[0].message.content || "{}", 'utf-8', (err)=>{
+        if(err){
+          console.log("Error while Storing",err)
+        }
+        else{
+          console.log("Data successfully stored")
+        }
+      } )
+      return chatCompletion.choices[0].message.content;
+    
   };
   // stoping the intervel
   private stop = () => {

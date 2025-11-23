@@ -122,7 +122,7 @@ export default function Home({ children }: { children: ReactNode }) {
             <div className="flex gap-3 items-center  ">
               <div className="inline-flex ">
                 <button
-                  className="inline-flex  hover:cursor-pointer items-center gap-2 rounded-xl border border-zinc-200 bg-white px-3 py-2 text-sm font-medium text-zinc-700 shadow-xm hover:bg-zinc-50 active:shadow-none"
+                  className="inline-flex  hover:cursor-pointer items-center  gap-2 rounded-md border-gray-100 border-[0.1px]   bg-white px-3 py-2 text-sm font-medium text-zinc-700 shadow-xm hover:bg-zinc-50 active:shadow-none"
                   onClick={() => {
                     router.push("/revisly/revision");
                   }}
