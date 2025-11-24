@@ -4,6 +4,7 @@ import fs from "fs";
 import { Groq } from "groq-sdk";
 import { S3Client, PutObjectCommand, PutObjectCommandInput } from "@aws-sdk/client-s3";
 import path from "path";
+import { time } from "console";
 dotenv.config();
 
 class RevionsTest {
@@ -42,13 +43,18 @@ class RevionsTest {
       if (this.revisionData) {
         const notes = await this.generateNotes(this.revisionData.topic);
       
-        this.Store('data.json', JSON.stringify(this.revisionData));
-        this.Store('questions.json', JSON.stringify(notes));
+        this.Store('data.json', JSON.parse(JSON.stringify(this.revisionData)));
+        this.Store('questions.json', notes || "",true);
         this.Upload([{filePath:'./index.html', key:`${this.revisionData.id}/index`},
 
           {filePath:'./data.json', key:`${this.revisionData.id}/data`},
           {filePath:'./questions.json', key:`${this.revisionData.id}/qus`},
         ])
+        await redis.lPush("reminderTime", JSON.stringify({
+          email:this.revisionData.email,
+          id:this.revisionData.id,
+          topic:this.revisionData.topic
+        }))
       }
     }, this.intervel);
   };
@@ -82,10 +88,16 @@ class RevionsTest {
     return chatCompletion.choices[0].message.content;
   };
   // storing in hard disk
-  private Store = (filename: string, content: string) => {
+  private Store = (filename: string, content:string, question?:boolean) => {
     try {
-      fs.writeFileSync(filename, content, "utf-8");
-      console.log("file Written Successfully");
+      if(question === true){
+              fs.writeFileSync(filename, content, "utf-8");  
+              console.log("questoin Written Successfully");      
+      }
+      else{
+        fs.writeFileSync(filename, JSON.stringify(content), "utf-8");
+        console.log("file Written Successfully");
+      }
     } catch (err) {
       console.log("Error while storing file", err);
     }
@@ -113,6 +125,7 @@ class RevionsTest {
     })
     try{
       const results = await Promise.all(uploadPromise);
+      console.log('Uploded')
       return results;
     }
     catch(err){

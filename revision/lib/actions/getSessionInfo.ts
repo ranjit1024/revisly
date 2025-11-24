@@ -2,11 +2,8 @@
 import {
   S3Client,
   GetObjectCommand,
-  PutObjectCommandInput,
-  PutObjectCommand,
 } from "@aws-sdk/client-s3";
 
-import { NextResponse } from "next/server";
 import { JsonValue } from "@prisma/client/runtime/library";
 
 const s3Client = new S3Client({
@@ -25,7 +22,7 @@ export async function GetDetailSession(id: string): Promise<
       answers:JsonValue[]
     }
 > {
-  const Bucket_Name = "ranjit-dev-test";
+  const Bucket_Name = "revisly-test";
   let answers:JsonValue[] = [];
   const revisionSession = await prisma?.revisionSession.findFirst({
     where: {

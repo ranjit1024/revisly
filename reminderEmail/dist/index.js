@@ -193,7 +193,7 @@ function main() {
                 const res = yield redis.brPop("reminderTime", 60);
                 if (res) {
                     const reminderData = JSON.parse(res === null || res === void 0 ? void 0 : res.element);
-                    if (reminderData && reminderData.email !== "" && reminderData.time === new Date().toISOString()) {
+                    if (reminderData && reminderData.email !== "") {
                         const link = yield getQuizLInk(reminderData === null || reminderData === void 0 ? void 0 : reminderData.id);
                         console.log(link);
                         yield semdMail(reminderData.email, reminderData.topic, link);

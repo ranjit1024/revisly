@@ -1,1 +1,112 @@
-"[\n  {\n    \"id\": 1,\n    \"question\": \"Which statement is true about Python's Global Interpreter Lock (GIL)?\",\n    \"options\": [\n      \"A) Allows multiple threads to run Python bytecode in parallel on multi-core processors.\",\n      \"B) Prevents a single thread from executing Python bytecode while another thread is executing C extensions.\",\n      \"C) Has no effect on the multiprocessing module.\",\n      \"D) Eliminates race conditions in Python programs.\"\n    ],\n    \"correctAnswer\": 1\n  },\n  {\n    \"id\": 2,\n    \"question\": \"What will the following decorator with arguments return when applied to a function?\",\n    \"options\": [\n      \"A) It will raise a TypeError because decorators cannot accept arguments.\",\n      \"B) It will return the original function unchanged.\",\n      \"C) It will return a function that accepts the same arguments and adds the argument value to the function's return.\",\n      \"D) It will return a function that ignores its arguments and always returns the argument passed to the decorator.\"\n    ],\n    \"correctAnswer\": 2\n  },\n  {\n    \"id\": 3,\n    \"question\": \"Which of the following statements best describes the difference between a @contextmanager function and a class implementing __enter__ and __exit__?\",\n    \"options\": [\n      \"A) A @contextmanager function can only be used with a single with statement, while a class can be reused.\",\n      \"B) The @contextmanager function automatically handles exception propagation, whereas the class must do it manually.\",\n      \"C) The @contextmanager function is syntactic sugar for a class that defines __enter__ and __exit__.\",\n      \"D) A class context manager cannot yield values to the with block, while @contextmanager can.\"\n    ],\n    \"correctAnswer\": 2\n  },\n  {\n    \"id\": 4,\n    \"question\": \"Which statement is true about generator expressions compared to list comprehensions?\",\n    \"options\": [\n      \"A) Generator expressions always evaluate faster because they use less memory.\",\n      \"B) List comprehensions can be lazily evaluated using the 'lazy' flag.\",\n      \"C) Generator expressions produce elements one at a time and do not store the entire list in memory.\",\n      \"D) Generator expressions can be used to create mutable lists.\"\n    ],\n    \"correctAnswer\": 2\n  },\n  {\n    \"id\": 5,\n    \"question\": \"What is a metaclass in Python?\",\n    \"options\": [\n      \"A) A special type of function that returns a class instance.\",\n      \"B) A class that defines how other classes are created and can modify class attributes.\",\n      \"C) A built-in decorator for class methods.\",\n      \"D) An object that behaves like a dictionary but stores methods instead of attributes.\"\n    ],\n    \"correctAnswer\": 1\n  },\n  {\n    \"id\": 6,\n    \"question\": \"When using asyncio.gather to run coroutines concurrently, what is the default order of results in the returned list?\",\n    \"options\": [\n      \"A) Results are sorted alphabetically by coroutine name.\",\n      \"B) Results are returned in the order of completion.\",\n      \"C) Results are returned in the same order as the coroutines were passed to gather.\",\n      \"D) Results are always returned in reverse order of the input list.\"\n    ],\n    \"correctAnswer\": 2\n  },\n  {\n    \"id\": 7,\n    \"question\": \"Which of the following best describes the use of memoryview in Python?\",\n    \"options\": [\n      \"A) memoryview is a tool for reading and writing binary data in a memory-efficient way without copying.\",\n      \"B) memoryview creates a deep copy of the underlying data for safe mutation.\",\n      \"C) memoryview is only usable with numpy arrays and not with Python bytearrays.\",\n      \"D) memoryview automatically converts any object to a bytes-like object.\"\n    ],\n    \"correctAnswer\": 0\n  },\n  {\n    \"id\": 8,\n    \"question\": \"In the Python typing module, which statement accurately describes Optional[T]?\",\n    \"options\": [\n      \"A) Optional[T] is equivalent to Union[T, int] because int is the default value.\",\n      \"B) Optional[T] is a shorthand for Union[T, None].\",\n      \"C) Optional[T] means the type T may or may not be present in a list.\",\n      \"D) Optional[T] automatically casts the value to type T if it is not None.\"\n    ],\n    \"correctAnswer\": 1\n  },\n  {\n    \"id\": 9,\n    \"question\": \"What does itertools.chain do that is different from the built-in sum of iterables?\",\n    \"options\": [\n      \"A) itertools.chain creates a single list by concatenating all iterables immediately.\",\n      \"B) itertools.chain returns an iterator that yields elements from each iterable one after another without creating intermediate lists.\",\n      \"C) itertools.chain sorts the elements of each iterable before chaining them.\",\n      \"D) itertools.chain can only chain iterables of the same type.\"\n    ],\n    \"correctAnswer\": 1\n  },\n  {\n    \"id\": 10,\n    \"question\": \"Why is using pickle considered insecure for untrusted data sources?\",\n    \"options\": [\n      \"A) Pickle can only serialize simple data types and will throw an exception for complex objects.\",\n      \"B) The pickle protocol encrypts data, making it difficult to debug.\",\n      \"C) Untrusted pickled data can execute arbitrary code during unpickling.\",\n      \"D) Pickle does not support Unicode strings, leading to data corruption.\"\n    ],\n    \"correctAnswer\": 2\n  }\n]"
+[
+  {
+    "id": 1,
+    "question": "What will be the output of the following code snippet?",
+    "options": [
+      "A) 3",
+      "B) 4",
+      "C) 5",
+      "D) 6"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "id": 2,
+    "question": "Which of the following statements about Python descriptors is FALSE?",
+    "options": [
+      "A) A descriptor defines __get__",
+      "B) A descriptor can be used to create property objects",
+      "C) Descriptors can only be used with classes, not instances",
+      "D) The __set__ method of a descriptor is called when an attribute is assigned"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "id": 3,
+    "question": "Given the following decorator, what will be printed when f() is called?",
+    "options": [
+      "A) Original function called",
+      "B) Wrapped function called",
+      "C) Both 'Original function called' and 'Wrapped function called'",
+      "D) No output"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 4,
+    "question": "What is the main difference between a generator function and a coroutine in Python?",
+    "options": [
+      "A) Generators can yield multiple values, coroutines can only yield once",
+      "B) Coroutines use the 'async' keyword, generators do not",
+      "C) Generators are defined with * and yield, coroutines are defined with **",
+      "D) Coroutines cannot be awaited"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "id": 5,
+    "question": "Which of the following will create a new class object at runtime?",
+    "options": [
+      "A) type('MyClass', (object,), {'x': 1})",
+      "B) class MyClass: x = 1",
+      "C) MyClass = type('MyClass', (), {})",
+      "D) Both A and C"
+    ],
+    "correctAnswer": 3
+  },
+  {
+    "id": 6,
+    "question": "What is the output of the following code?",
+    "options": [
+      "A) [1, 2, 3]",
+      "B) [1, 2, 3, 4]",
+      "C) [1, 2, 3, 5]",
+      "D) [1, 2, 3, 4, 5]"
+    ],
+    "correctAnswer": 3
+  },
+  {
+    "id": 7,
+    "question": "Which of the following statements about the GIL (Global Interpreter Lock) is TRUE?",
+    "options": [
+      "A) It allows true parallelism in CPython",
+      "B) It prevents multiple threads from executing Python bytecode simultaneously",
+      "C) It can be removed by using C extensions",
+      "D) It is only present in PyPy"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "id": 8,
+    "question": "What does the following code print?",
+    "options": [
+      "A) 3",
+      "B) 6",
+      "C) 9",
+      "D) 12"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "id": 9,
+    "question": "Which of the following is NOT a valid way to open a context manager?",
+    "options": [
+      "A) with open('file.txt') as f:",
+      "B) with contextlib.closing(resource):",
+      "C) with resource:",
+      "D) with open('file.txt'):"
+    ],
+    "correctAnswer": 3
+  },
+  {
+    "id": 10,
+    "question": "What is the result of evaluating '3' + 5 in Python?",
+    "options": [
+      "A) 8",
+      "B) '35'",
+      "C) TypeError",
+      "D) '3 5'"
+    ],
+    "correctAnswer": 2
+  }
+]

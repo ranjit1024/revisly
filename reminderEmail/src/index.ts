@@ -82,7 +82,7 @@ async function semdMail(to:string,subject:string,link:string) {
                             <div style="padding: 16px; text-align: center; background-color: #fef2f2; border-top: 1px solid #fecaca; border-bottom: 1px solid #fecaca;">
                                 <div style="font-size: 14px; font-weight: 600; color: #dc2626;">
                                     <span style="font-size: 16px;">⏰</span>
-                                    Link expires in 10 minutes - Start now!
+                                    Link expires in 24 hours minutes - Start now!
                                 </div>
                             </div>
                         </td>
@@ -185,7 +185,7 @@ async function main() {
         const res = await redis.brPop("reminderTime", 60);
         if(res){
             const reminderData: reminderType | null = JSON.parse(res?.element);
-            if (reminderData && reminderData.email !== "" && reminderData.time === new Date().toISOString() ) {
+            if (reminderData && reminderData.email !== "" ) {
               const link = await getQuizLInk(reminderData?.id);
               console.log(link)
               await semdMail(reminderData.email, reminderData.topic, link)

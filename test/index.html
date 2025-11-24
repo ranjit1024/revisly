@@ -282,7 +282,7 @@
         async function initializeQuiz() {
             const userData = await fetch("./data.json");
             const topic = await userData.json()
-            
+            console.log(topic)
             const title = document.getElementById('title');
             title.innerText = `${topic.topic} Quiz`
             quizData = await loadJSONData();
