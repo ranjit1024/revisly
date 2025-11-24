@@ -2,9 +2,6 @@
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Calendar, Clock, Hash,BookOpen,BarChart3  } from "lucide-react";
-import { useEffect,useState } from "react";
-import { ViewNotes } from "./notesPdf";
-import { getSessionBrif } from "@/lib/actions/getDetailsSession";
 import { getNotes } from "@/lib/actions/getNotesPdf";
 const cardVariant = {
   hidden: { opacity: 0, y: 20 },
