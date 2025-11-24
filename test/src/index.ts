@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 import { createClient } from "redis";
 import fs from "fs";
 import { Groq } from "groq-sdk";
+import { S3Client, PutObjectCommand, PutObjectCommandInput } from "@aws-sdk/client-s3";
+import path from "path";
 dotenv.config();
 
 class RevionsTest {
@@ -39,9 +41,14 @@ class RevionsTest {
       console.log(this.revisionData);
       if (this.revisionData) {
         const notes = await this.generateNotes(this.revisionData.topic);
-        this.Store('data.json', this.revisionData);
-        this.Store('questions.json', notes);
-        
+      
+        this.Store('data.json', JSON.stringify(this.revisionData));
+        this.Store('questions.json', JSON.stringify(notes));
+        this.Upload([{filePath:'./index.html', key:`${this.revisionData.id}/index`},
+
+          {filePath:'./data.json', key:`${this.revisionData.id}/data`},
+          {filePath:'./questions.json', key:`${this.revisionData.id}/qus`},
+        ])
       }
     }, this.intervel);
   };
@@ -75,7 +82,7 @@ class RevionsTest {
     return chatCompletion.choices[0].message.content;
   };
   // storing in hard disk
-  private Store = (filename: string, content:any) => {
+  private Store = (filename: string, content: string) => {
     try {
       fs.writeFileSync(filename, content, "utf-8");
       console.log("file Written Successfully");
@@ -84,6 +91,35 @@ class RevionsTest {
     }
   };
   // stoping the intervel
+  private Upload = async (
+    files:{filePath: string,
+    key: string}[]
+  ) => {
+    const s3Client = new S3Client({
+      region: process.env.AWS_REGION || "us-east-1",
+      credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+      },
+    });
+    const uploadPromise = files.map(file =>{
+      const fileContent = fs.readFileSync(file.filePath);
+      const params: PutObjectCommandInput = {
+        Bucket: process.env.S3_BUCKET,
+        Key: file.key,
+        Body: fileContent,
+      };
+      return s3Client.send(new PutObjectCommand(params));
+    })
+    try{
+      const results = await Promise.all(uploadPromise);
+      return results;
+    }
+    catch(err){
+      console.error('Upload Filest', err)
+    }
+  
+  }
   private stop = () => {
     if (this.intervelId) {
       clearInterval(this.intervelId);
