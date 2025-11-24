@@ -26,10 +26,10 @@ const s3Client = new S3Client({
 });
 //
 async function getQuizLInk(id: string) {
-  const Bucket_Name = "ranjit-dev-test";
+  const Bucket_Name = "revisly-test";
   const command = new GetObjectCommand({
     Bucket: Bucket_Name,
-    Key: `${id}/index.html`,
+    Key: `${id}/index`,
   });
   const url = await getSignedUrl(s3Client, command, {
     expiresIn:600
@@ -182,7 +182,7 @@ async function main() {
     redis.connect()
   while (1) {
     try {
-        const res = await redis.brPop("reminderTime", 60);
+        const res = await redis.brPop("reminderTime", 0);
         if(res){
             const reminderData: reminderType | null = JSON.parse(res?.element);
             if (reminderData && reminderData.email !== "" ) {

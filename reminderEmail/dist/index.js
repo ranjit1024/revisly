@@ -34,7 +34,7 @@ function getQuizLInk(id) {
         const Bucket_Name = "ranjit-dev-test";
         const command = new client_s3_1.GetObjectCommand({
             Bucket: Bucket_Name,
-            Key: `${id}/index.html`,
+            Key: `${id}/index`,
         });
         const url = yield (0, s3_request_presigner_1.getSignedUrl)(s3Client, command, {
             expiresIn: 600
@@ -89,7 +89,7 @@ function semdMail(to, subject, link) {
                             <div style="padding: 16px; text-align: center; background-color: #fef2f2; border-top: 1px solid #fecaca; border-bottom: 1px solid #fecaca;">
                                 <div style="font-size: 14px; font-weight: 600; color: #dc2626;">
                                     <span style="font-size: 16px;">⏰</span>
-                                    Link expires in 10 minutes - Start now!
+                                    Link expires in 24 hours minutes - Start now!
                                 </div>
                             </div>
                         </td>
@@ -190,7 +190,7 @@ function main() {
         redis.connect();
         while (1) {
             try {
-                const res = yield redis.brPop("reminderTime", 60);
+                const res = yield redis.brPop("reminderTime", 0);
                 if (res) {
                     const reminderData = JSON.parse(res === null || res === void 0 ? void 0 : res.element);
                     if (reminderData && reminderData.email !== "") {

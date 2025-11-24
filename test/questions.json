@@ -1,111 +1,111 @@
 [
   {
     "id": 1,
-    "question": "What will be the output of the following code snippet?",
+    "question": "What is the primary purpose of React's Strict Mode?",
     "options": [
-      "A) 3",
-      "B) 4",
-      "C) 5",
-      "D) 6"
-    ],
-    "correctAnswer": 1
-  },
-  {
-    "id": 2,
-    "question": "Which of the following statements about Python descriptors is FALSE?",
-    "options": [
-      "A) A descriptor defines __get__",
-      "B) A descriptor can be used to create property objects",
-      "C) Descriptors can only be used with classes, not instances",
-      "D) The __set__ method of a descriptor is called when an attribute is assigned"
-    ],
-    "correctAnswer": 2
-  },
-  {
-    "id": 3,
-    "question": "Given the following decorator, what will be printed when f() is called?",
-    "options": [
-      "A) Original function called",
-      "B) Wrapped function called",
-      "C) Both 'Original function called' and 'Wrapped function called'",
-      "D) No output"
+      "A) To activate additional checks and warnings in development",
+      "B) To enable performance optimizations in production",
+      "C) To automatically wrap every component with a context provider",
+      "D) To enforce strict type-checking of props"
     ],
     "correctAnswer": 0
   },
   {
-    "id": 4,
-    "question": "What is the main difference between a generator function and a coroutine in Python?",
+    "id": 2,
+    "question": "Does React Strict Mode affect production builds?",
     "options": [
-      "A) Generators can yield multiple values, coroutines can only yield once",
-      "B) Coroutines use the 'async' keyword, generators do not",
-      "C) Generators are defined with * and yield, coroutines are defined with **",
-      "D) Coroutines cannot be awaited"
+      "A) Yes, it adds additional runtime checks in production",
+      "B) It only runs in development and does not affect production",
+      "C) It removes all console warnings in production",
+      "D) It minifies component code in production"
     ],
     "correctAnswer": 1
+  },
+  {
+    "id": 3,
+    "question": "Which lifecycle methods are explicitly warned about in Strict Mode?",
+    "options": [
+      "A) componentDidMount and componentDidUpdate",
+      "B) componentWillMount, componentWillReceiveProps, and componentWillUpdate",
+      "C) getDerivedStateFromProps and shouldComponentUpdate",
+      "D) render and componentDidCatch"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "id": 4,
+    "question": "How do you enable Strict Mode for the entire application?",
+    "options": [
+      "A) Wrap <React.StrictMode> around the root element in JSX",
+      "B) Add a global flag in index.html",
+      "C) Use a custom Babel plugin",
+      "D) Set process.env.NODE_ENV to \"strict\""
+    ],
+    "correctAnswer": 0
   },
   {
     "id": 5,
-    "question": "Which of the following will create a new class object at runtime?",
+    "question": "What is the \"double-invoke\" behavior introduced by Strict Mode?",
     "options": [
-      "A) type('MyClass', (object,), {'x': 1})",
-      "B) class MyClass: x = 1",
-      "C) MyClass = type('MyClass', (), {})",
-      "D) Both A and C"
-    ],
-    "correctAnswer": 3
-  },
-  {
-    "id": 6,
-    "question": "What is the output of the following code?",
-    "options": [
-      "A) [1, 2, 3]",
-      "B) [1, 2, 3, 4]",
-      "C) [1, 2, 3, 5]",
-      "D) [1, 2, 3, 4, 5]"
-    ],
-    "correctAnswer": 3
-  },
-  {
-    "id": 7,
-    "question": "Which of the following statements about the GIL (Global Interpreter Lock) is TRUE?",
-    "options": [
-      "A) It allows true parallelism in CPython",
-      "B) It prevents multiple threads from executing Python bytecode simultaneously",
-      "C) It can be removed by using C extensions",
-      "D) It is only present in PyPy"
+      "A) Rendering a component twice in the same lifecycle cycle",
+      "B) Double-invoking certain lifecycle methods and functions to detect side effects",
+      "C) Rendering both server-side and client-side versions of a component",
+      "D) Calling setState twice per update"
     ],
     "correctAnswer": 1
   },
   {
-    "id": 8,
-    "question": "What does the following code print?",
+    "id": 6,
+    "question": "Which of the following React features require Strict Mode for proper behavior?",
     "options": [
-      "A) 3",
-      "B) 6",
-      "C) 9",
-      "D) 12"
+      "A) useSyncExternalStore and useInsertionEffect",
+      "B) findDOMNode and unsafe lifecycle methods",
+      "C) createPortal and suspense",
+      "D) lazy loading and memoization"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "id": 7,
+    "question": "Strict Mode will warn about which of the following?",
+    "options": [
+      "A) Using ReactDOM.render instead of createRoot",
+      "B) Usage of setState inside componentDidMount",
+      "C) Mutating state directly",
+      "D) All of the above"
+    ],
+    "correctAnswer": 3
+  },
+  {
+    "id": 8,
+    "question": "What impact does Strict Mode have on legacy context APIs?",
+    "options": [
+      "A) It removes legacy context entirely",
+      "B) It does not affect them; they still behave normally",
+      "C) It converts legacy context to the new Context API automatically",
+      "D) It issues warnings but otherwise has no effect"
     ],
     "correctAnswer": 1
   },
   {
     "id": 9,
-    "question": "Which of the following is NOT a valid way to open a context manager?",
+    "question": "Can Strict Mode be applied to only a part of the component tree?",
     "options": [
-      "A) with open('file.txt') as f:",
-      "B) with contextlib.closing(resource):",
-      "C) with resource:",
-      "D) with open('file.txt'):"
+      "A) Yes, any subtree can be wrapped in <React.StrictMode>",
+      "B) No, it must wrap the entire application",
+      "C) Only top-level components can be wrapped",
+      "D) It must be applied via a higher-order component"
     ],
-    "correctAnswer": 3
+    "correctAnswer": 0
   },
   {
     "id": 10,
-    "question": "What is the result of evaluating '3' + 5 in Python?",
+    "question": "How does Strict Mode influence React's async rendering?",
     "options": [
-      "A) 8",
-      "B) '35'",
-      "C) TypeError",
-      "D) '3 5'"
+      "A) It forces all rendering to be synchronous",
+      "B) It prevents use of Suspense",
+      "C) It intentionally double-invokes rendering but does not alter the actual output",
+      "D) It disables concurrent mode"
     ],
     "correctAnswer": 2
   }

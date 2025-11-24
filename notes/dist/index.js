@@ -49,19 +49,6 @@ function getAiGeneratedNotes(params) {
         return (_a = chatCompletion.choices[0]) === null || _a === void 0 ? void 0 : _a.message.content;
     });
 }
-//storing in pdf
-// function GenerateNotesPdf(notes: string): Promise<void> {
-//   return new Promise((resolve, reject) => {
-//     const doc = new PDFDocument(); // Create new instance each time
-//     const stream = fs.createWriteStream("notes.pdf");
-//     doc.pipe(stream);
-//     doc.fontSize(18).text(notes);
-//     doc.end();
-//     stream.on("finish", () => resolve());
-//     stream.on("error", () => reject());
-//   });
-// }
-//main meat of logic
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const redis = (0, redis_1.createClient)({

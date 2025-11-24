@@ -13,13 +13,3 @@ export default async function GetdetailSession(id:string){
     return session;
 }
 
-export  async function getSessionBrif(id:string){
-    const session = await prisma.revisionSession.findFirst({
-        where:{
-            revision:{id}
-        },
-        include:{revision:true}
-
-    })
-    return session;
-}

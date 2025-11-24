@@ -3,8 +3,6 @@ import { createClient } from "redis";
 import fs from "fs";
 import { Groq } from "groq-sdk";
 import { S3Client, PutObjectCommand, PutObjectCommandInput } from "@aws-sdk/client-s3";
-import path from "path";
-import { time } from "console";
 dotenv.config();
 
 class RevionsTest {
@@ -15,8 +13,8 @@ class RevionsTest {
     revision_id: string;
     id: string;
   } | null = null;
-  private count: number = 0;
-  private intervelId: NodeJS.Timeout | null = null;
+
+
 
   start = async () => {
     const redis = createClient({
@@ -28,16 +26,14 @@ class RevionsTest {
       },
     });
     await redis.connect();
-    /// creating
-    this.intervelId = setInterval(async () => {
-      this.count++;
 
-      if (this.count > 5 && this.revisionData === null) {
-        this.stop();
-      }
-      console.log(this.count);
-      // getting data from redis queue and store in private veriable
-      const reminderData = await redis.brPop("reminder", 60);
+      while(1){
+
+      try{
+
+      
+      const reminderData = await redis.brPop("reminder", 0);
+      
       this.revisionData = JSON.parse(reminderData?.element || "");
       console.log(this.revisionData);
       if (this.revisionData) {
@@ -56,8 +52,14 @@ class RevionsTest {
           topic:this.revisionData.topic
         }))
       }
-    }, this.intervel);
-  };
+      else{
+        console.log("Not found")
+      }
+    }catch(e){
+      console.log('something Went wrong ', e)
+    }
+    }
+  }
 
   // genertaing questions
   private generateNotes = async (topic: string) => {
@@ -133,12 +135,7 @@ class RevionsTest {
     }
   
   }
-  private stop = () => {
-    if (this.intervelId) {
-      clearInterval(this.intervelId);
-      this.intervelId = null;
-    }
-  };
+ 
 }
 const revision = new RevionsTest();
 revision.start();

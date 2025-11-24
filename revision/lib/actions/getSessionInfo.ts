@@ -40,7 +40,7 @@ export async function GetDetailSession(id: string): Promise<
   const res = await s3Client.send(
     new GetObjectCommand({
       Bucket: Bucket_Name,
-      Key: `${id}/questions.json`,
+      Key: `${id}/qus`,
     })
   );
 
