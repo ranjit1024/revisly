@@ -44,13 +44,7 @@ export default function Home() {
   >(null);
 
   useEffect(() => {
-    async function getRevisionSession() {
-      const getrevisionSesion  = await getUserSession();
-      setRevisionSessionInfo(getrevisionSesion);
-     
-    }
-    getRevisionSession();
-    console.log(revisionSessionInfo)
+   getUserSession().then(data => setRevisionSessionInfo(data))
   }, []);
 
 
