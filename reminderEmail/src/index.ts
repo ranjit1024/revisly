@@ -29,10 +29,10 @@ async function getQuizLInk(id: string) {
   const Bucket_Name = "revisly-test";
   const command = new GetObjectCommand({
     Bucket: Bucket_Name,
-    Key: `${id}/index`,
+    Key: `${id}/index.html`,
   });
   const url = await getSignedUrl(s3Client, command, {
-    expiresIn:600
+    expiresIn:86400
   });
   return url;
 }

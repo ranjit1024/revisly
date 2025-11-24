@@ -41,10 +41,10 @@ class RevionsTest {
       
         this.Store('data.json', JSON.parse(JSON.stringify(this.revisionData)));
         this.Store('questions.json', notes || "",true);
-        this.Upload([{filePath:'./index.html', key:`${this.revisionData.id}/index`},
+        this.Upload([{filePath:'./index.html', key:`${this.revisionData.id}/index.html`,content_type:'text/html'},
 
-          {filePath:'./data.json', key:`${this.revisionData.id}/data`},
-          {filePath:'./questions.json', key:`${this.revisionData.id}/qus`},
+          {filePath:'./data.json', key:`${this.revisionData.id}/data.json`,content_type:'application/json'},
+          {filePath:'./questions.json', key:`${this.revisionData.id}/questions.json`,content_type:'application/json'},
         ])
         await redis.lPush("reminderTime", JSON.stringify({
           email:this.revisionData.email,
@@ -107,7 +107,7 @@ class RevionsTest {
   // stoping the intervel
   private Upload = async (
     files:{filePath: string,
-    key: string}[]
+    key: string,content_type:string}[]
   ) => {
     const s3Client = new S3Client({
       region: process.env.AWS_REGION || "us-east-1",
@@ -122,6 +122,7 @@ class RevionsTest {
         Bucket: process.env.S3_BUCKET,
         Key: file.key,
         Body: fileContent,
+        ContentType:file.content_type
       };
       return s3Client.send(new PutObjectCommand(params));
     })

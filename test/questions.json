@@ -1,111 +1,111 @@
 [
   {
     "id": 1,
-    "question": "What is the primary purpose of React's Strict Mode?",
+    "question": "What is the primary purpose of React Strict Mode?",
     "options": [
-      "A) To activate additional checks and warnings in development",
-      "B) To enable performance optimizations in production",
-      "C) To automatically wrap every component with a context provider",
-      "D) To enforce strict type-checking of props"
+      "A) To enforce stricter styling rules",
+      "B) To identify potential problems in an application",
+      "C) To enable server-side rendering",
+      "D) To optimize bundle size"
     ],
-    "correctAnswer": 0
+    "correctAnswer": 1
   },
   {
     "id": 2,
-    "question": "Does React Strict Mode affect production builds?",
+    "question": "Which of the following lifecycle methods will React Strict Mode double-invoke during development?",
     "options": [
-      "A) Yes, it adds additional runtime checks in production",
-      "B) It only runs in development and does not affect production",
-      "C) It removes all console warnings in production",
-      "D) It minifies component code in production"
+      "A) componentDidUpdate",
+      "B) componentWillMount",
+      "C) componentWillReceiveProps",
+      "D) componentWillUnmount"
     ],
     "correctAnswer": 1
   },
   {
     "id": 3,
-    "question": "Which lifecycle methods are explicitly warned about in Strict Mode?",
+    "question": "React Strict Mode will cause which of these to run twice during development?",
     "options": [
-      "A) componentDidMount and componentDidUpdate",
-      "B) componentWillMount, componentWillReceiveProps, and componentWillUpdate",
-      "C) getDerivedStateFromProps and shouldComponentUpdate",
-      "D) render and componentDidCatch"
+      "A) All useEffect callbacks",
+      "B) All useLayoutEffect callbacks",
+      "C) All component constructors",
+      "D) All component render methods"
     ],
-    "correctAnswer": 2
+    "correctAnswer": 1
   },
   {
     "id": 4,
-    "question": "How do you enable Strict Mode for the entire application?",
+    "question": "Which hook is affected by React Strict Mode in React 18?",
     "options": [
-      "A) Wrap <React.StrictMode> around the root element in JSX",
-      "B) Add a global flag in index.html",
-      "C) Use a custom Babel plugin",
-      "D) Set process.env.NODE_ENV to \"strict\""
+      "A) useRef",
+      "B) useState",
+      "C) useReducer",
+      "D) useId"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "id": 5,
+    "question": "What will happen if you use a class component that relies on componentWillMount inside Strict Mode?",
+    "options": [
+      "A) It will execute twice during mounting",
+      "B) It will never execute",
+      "C) It will execute once but with a warning",
+      "D) It will be replaced by componentDidMount"
     ],
     "correctAnswer": 0
   },
   {
-    "id": 5,
-    "question": "What is the \"double-invoke\" behavior introduced by Strict Mode?",
-    "options": [
-      "A) Rendering a component twice in the same lifecycle cycle",
-      "B) Double-invoking certain lifecycle methods and functions to detect side effects",
-      "C) Rendering both server-side and client-side versions of a component",
-      "D) Calling setState twice per update"
-    ],
-    "correctAnswer": 1
-  },
-  {
     "id": 6,
-    "question": "Which of the following React features require Strict Mode for proper behavior?",
+    "question": "Which of the following is NOT a side effect that Strict Mode checks for?",
     "options": [
-      "A) useSyncExternalStore and useInsertionEffect",
-      "B) findDOMNode and unsafe lifecycle methods",
-      "C) createPortal and suspense",
-      "D) lazy loading and memoization"
-    ],
-    "correctAnswer": 1
-  },
-  {
-    "id": 7,
-    "question": "Strict Mode will warn about which of the following?",
-    "options": [
-      "A) Using ReactDOM.render instead of createRoot",
-      "B) Usage of setState inside componentDidMount",
-      "C) Mutating state directly",
-      "D) All of the above"
+      "A) Unexpected side effects in render",
+      "B) Mutating props directly",
+      "C) Using deprecated lifecycle methods",
+      "D) Accessing localStorage in constructor"
     ],
     "correctAnswer": 3
   },
   {
-    "id": 8,
-    "question": "What impact does Strict Mode have on legacy context APIs?",
+    "id": 7,
+    "question": "How can you opt out of Strict Mode for a specific part of your component tree?",
     "options": [
-      "A) It removes legacy context entirely",
-      "B) It does not affect them; they still behave normally",
-      "C) It converts legacy context to the new Context API automatically",
-      "D) It issues warnings but otherwise has no effect"
+      "A) Wrap that part with <React.StrictMode fallback={null}>",
+      "B) Use <React.StrictMode={false}>",
+      "C) Wrap that part with a normal <div>",
+      "D) Wrap that part with <React.Fragment>"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "id": 8,
+    "question": "Which feature does React Strict Mode enable that is not available in normal mode?",
+    "options": [
+      "A) Suspense for data fetching",
+      "B) StrictMode warnings for legacy string ref API",
+      "C) Concurrent rendering",
+      "D) Server-side rendering"
     ],
     "correctAnswer": 1
   },
   {
     "id": 9,
-    "question": "Can Strict Mode be applied to only a part of the component tree?",
+    "question": "What is the result of enabling Strict Mode in a production build?",
     "options": [
-      "A) Yes, any subtree can be wrapped in <React.StrictMode>",
-      "B) No, it must wrap the entire application",
-      "C) Only top-level components can be wrapped",
-      "D) It must be applied via a higher-order component"
+      "A) Same as normal mode, no additional checks",
+      "B) Additional runtime warnings appear",
+      "C) Components render twice",
+      "D) Code is automatically minified"
     ],
     "correctAnswer": 0
   },
   {
     "id": 10,
-    "question": "How does Strict Mode influence React's async rendering?",
+    "question": "Which of the following best describes the impact of Strict Mode on the useEffect cleanup function?",
     "options": [
-      "A) It forces all rendering to be synchronous",
-      "B) It prevents use of Suspense",
-      "C) It intentionally double-invokes rendering but does not alter the actual output",
-      "D) It disables concurrent mode"
+      "A) It never runs",
+      "B) It runs twice if the effect sets a timeout",
+      "C) It runs before the component is removed from the tree",
+      "D) It runs after the component updates"
     ],
     "correctAnswer": 2
   }

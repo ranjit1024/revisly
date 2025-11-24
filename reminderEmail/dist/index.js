@@ -31,13 +31,13 @@ const s3Client = new client_s3_1.S3Client({
 //
 function getQuizLInk(id) {
     return __awaiter(this, void 0, void 0, function* () {
-        const Bucket_Name = "ranjit-dev-test";
+        const Bucket_Name = "revisly-test";
         const command = new client_s3_1.GetObjectCommand({
             Bucket: Bucket_Name,
-            Key: `${id}/index`,
+            Key: `${id}/index.html`,
         });
         const url = yield (0, s3_request_presigner_1.getSignedUrl)(s3Client, command, {
-            expiresIn: 600
+            expiresIn: 86400
         });
         return url;
     });
