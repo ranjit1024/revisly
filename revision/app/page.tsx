@@ -166,7 +166,7 @@ export default function Home() {
           <div className="flex justify-center items-center flex-col">
             <p className="text-[2.2rem] font-normal">Revise, Review, Done</p>
 
-            <div className="mt-7 bg-gray-200 rounded-xl p-4 w-[100%]">
+            <div className="mt-7 bg-gray-200 rounded-xl p-4 max-md:p-1 w-[100%]">
               <div className="grid grid-cols-[70%_30%] max-md:grid-cols-1 gap-2">
                 <motion.div
                   initial={{ x: -20, opacity: 0 }}
@@ -176,18 +176,18 @@ export default function Home() {
                     amount: 0.3,
                   }}
                   transition={{ delay: 0.2, duration: 0.5, ease: "easeOut" }}
-                  className="bg-white p-10 rounded-2xl shadow "
+                  className="bg-white p-10 max-md:px-2 rounded-2xl shadow "
                 >
                   <div>
-                    <p className="text-center text-[1.6rem] font-medium">
-                      With Revisly, every test you take is scored and analyzed{" "}
+                    <p className="text-center text-[1.6rem]  font-medium">
+                      With Revisly, every test you take is scored and analyzed
                     </p>
                     <p className="text-center text-[1.6rem] font-medium">
                       to guide your future improvements
                     </p>
                   </div>
-                  <div className="flex justify-center mt-13 h-100 w-full relative">
-                    <div className="absolute bottom-10  right-30 max-md:-right-2 rounded-full bg-indigo-600/20">
+                  <div className="flex justify-center mt-13 h-100 w-full relative ">
+                    <div className="absolute bottom-10  right-30 max-lg:right-4 max-lg:-bottom-2 rounded-full bg-indigo-600/20">
                       <Image
                         width="50"
                         height="64"
@@ -195,7 +195,7 @@ export default function Home() {
                         alt="external-maths-data-science-becris-lineal-color-becris"
                       />
                     </div>
-                    <div className="absolute bottom-10 p-3 left-30 max-md:-left-4 rounded-full bg-lime-600/20">
+                    <div className="absolute bottom-10  max-lg:-bottom-3 max-lg:left-3 p-3 left-30  rounded-full bg-lime-600/20">
                       <img
                         width="40"
                         height="64"
@@ -203,7 +203,7 @@ export default function Home() {
                         alt="external-science-literary-genres-becris-lineal-color-becris"
                       />
                     </div>
-                    <div className="absolute bg-purple-600/50 top-10 right-40 max-md:-right-2 rounded-full p-3">
+                    <div className="absolute  bg-purple-600/50 top-10 right-40 max-lg:right-5 max-lg:-top-5 rounded-full p-3">
                       <Image
                         width="40"
                         height="64"
@@ -211,7 +211,7 @@ export default function Home() {
                         alt="external-economics-university-courses-wanicon-lineal-color-wanicon"
                       />
                     </div>
-                    <div className="absolute top-10 left-40 p-3 rounded-full max-md:-left-2 bg-accent/50">
+                    <div className="absolute top-10  left-40 p-3 rounded-full  max-lg:left-5 max-lg:-top-5  bg-accent/50">
                       <Image
                         width="40"
                         height="64"
@@ -342,7 +342,7 @@ export default function Home() {
           </div>
 
           <div className="mt-20">
-            <div className="p-10 bg-gray-100 rounded-xl max-md:grid-cols-1  grid grid-cols-[60%_40%] w-full items-center">
+            <div className="p-10 bg-gray-100 rounded-xl max-lg:grid-cols-1 max-lg:p-1  grid grid-cols-[60%_40%] w-full items-center">
               <motion.div
                 initial={{ y: 20, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
@@ -397,7 +397,7 @@ export default function Home() {
 
 
         <footer className="w-full bg-gray-50 pt-20 p-8">
-          <div className="flex flex-row flex-wrap items-center justify-center gap-y-6 gap-x-12 bg-gray-50 text-center md:justify-between">
+          <div className="flex flex-row flex-wrap items-center justify-between gap-y-6 gap-x-12 bg-gray-50 text-center md:justify-between  ">
             <Image src={Logo} height={100} width={50} alt="logo" />
 
             <ul className="flex flex-wrap items-center gap-y-2 gap-x-8 bg-gray-50">
