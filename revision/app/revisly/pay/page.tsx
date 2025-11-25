@@ -1,6 +1,5 @@
 "use client"
 import { Sparkles } from "lucide-react"
-import BuyCard from "@/components/ui/Bye";
 export default function Home(){
     const handleBuy = async () => {
     // Your buy logic here
