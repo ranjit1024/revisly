@@ -74,12 +74,12 @@ export function MaxRangeDatePicker() {
             id="date"
             variant="outline"
             className={cn(
-              "w-[500px]  h-10 text-start bg-gray-50 rounded-lg text-gray-600  border-none text-sm focus:outline-none focus:ring-2 focus:ring-black/5",
+              "w-[500px]  h-11 text-start border-1 bg-gray-50 rounded-lg text-gray-600  text-sm focus:outline-none hover:cursor-pointer focus:ring-2 flex justify-start focus:ring-black/5",
               !date && "text-white"
             )}
           
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
+            <CalendarIcon className="mr-2 h-4 " />
             {date?.from ? (
               date.to ? (
                 <>
@@ -120,7 +120,7 @@ export function MaxRangeDatePicker() {
             </div>
           
            <div className="text-end m-2 ">
-         <Button className="bg-linear-120 hover:shadow-2xl hover:cursor-pointer from-indigo-600 to-indigo-500" onClick={()=>{
+         <Button className="bg-linear-120 hover:shadow-2xl  hover:cursor-pointer from-indigo-600 to-indigo-500" onClick={()=>{
          setOpen(prev  => !prev);
          
          }}>OK</Button>

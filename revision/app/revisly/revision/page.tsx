@@ -94,7 +94,7 @@ function Mobile() {
                 }}
                 id="topic"
                 placeholder="e.g., System Design — Caching"
-                className="w-full p-3 bg-gray-50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-all"
+                className="w-full p-3 bg-gray-50 rounded-md border-1 border-border text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-all"
               />
               <Layers
                 className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400"
@@ -262,12 +262,9 @@ function Desktop() {
                     }}
                     id="topic"
                     placeholder="e.g., System Design — Caching"
-                    className="w-full p-3 bg-gray-50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-all"
+                    className="w-[70%] p-3 border bg-gray-50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-all"
                   />
-                  <Layers
-                    className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400"
-                    size={16}
-                  />
+                  
                 </div>
               </div>
             </div>

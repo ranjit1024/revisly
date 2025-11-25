@@ -79,71 +79,7 @@ export default function Home({ children }: { children: ReactNode }) {
   return (
     <Provider store={store}>
       <div className="h-[100%] relative bg-gray-100  ">
-        <motion.div
-          initial={{
-            y: -20,
-            opacity: 0,
-          }}
-          animate={{
-            y: 0,
-            opacity: 1,
-          }}
-          transition={{
-            duration: 0.6,
-          }}
-          className=" bg-white max-md:hidden z-400 border-b-gray-200 border-b-1 grid grid-cols-[20%_80%] fixed w-full"
-        >
-          <div className="hover:cursor-pointer border-r-1 max-md:hidden border-r-gray-100 p-2 max-md:border-none ">
-            <div
-              onClick={() => {
-                router.push("/revisly/home");
-              }}
-              className="flex items-center gap-2 max-md:ml-0 "
-            >
-              <Image src={logo} height={50} width={25} alt="logo"/>
-              <p className="font-semibold text-[1.2rem]  text-input/90">
-                Revisly
-              </p>
-            </div>
-          </div>
-          
-          
-          <div className="  flex px-3 justify-between items-center">
-            <div className="flex items-center gap-3">
-              <div className="grid h-9 w-9 place-items-center rounded-full bg-emerald-600 text-white shadow-sm">
-                <BookOpen size={18} />
-              </div>
-              <div className="leading-tight">
-                <p className="text-sm text-zinc-500">Hello</p>
-                <p className="font-semibold">{session.user?.name}</p>
-              </div>
-            </div>
-
-            <div className="flex gap-3 items-center  ">
-              <div className="inline-flex ">
-                <button
-                  className="inline-flex  hover:cursor-pointer items-center  gap-2 rounded-md border-gray-100 border-[0.1px]   bg-white px-3 py-2 text-sm font-medium text-zinc-700 shadow-xm hover:bg-zinc-50 active:shadow-none"
-                  onClick={() => {
-                    router.push("/revisly/revision");
-                  }}
-                >
-                  <PlusCircle size={16} />
-                  Set Revision
-                </button>
-              </div>
-
-              <div className="bg-gradient-to-r to-purple-50 from-fuchsia-100 border-1 border-pink-50  hover:border-pink-100  px-3 py-[5px] flex rounded-lg gap-3 hover:cursor-pointer ">
-                <img
-                  width="20"
-                  height="50"
-                  src="https://img.icons8.com/parakeet-line/50/coins--v2.png"
-                  alt="coins--v2"
-                />
-                <p className="text-sm font-bold text-gray-700">0</p>
-              </div>
-            </div>
-          </div>
-        </motion.div>
+       
         {/* mobile header */}
            <header className="bg-gray-100 py-2 border-b md:hidden border-gray-200/80 backdrop-blur-xl sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-3 ">
@@ -170,8 +106,10 @@ export default function Home({ children }: { children: ReactNode }) {
       </div>
     </header>
         {/* //done */}
-        <div className="h-[100%] w-[100%] relative  grid grid-cols-[20%_80%]">
-          <div className="mt-2 max-md:hidden">
+        <div className="h-[100vh] w-[100%] relative  grid grid-cols-[20%_80%]">
+          <div>
+
+          
             <motion.div
               initial={{
                 x: -20,
@@ -184,13 +122,28 @@ export default function Home({ children }: { children: ReactNode }) {
               transition={{
                 duration: 0.6,
               }}
-              className=" bg-white    h-[100vh] w-[20%]   left-0 fixed z-2  border-r-1  border-gray-200/90   "
+              className=" bg-white flex p-2 gap-10    h-[100vh] w-[20%] max-md:hidden  left-0 fixed z-2  border-r-1  border-gray-200/90   "
             >
+                 
+              
               <div
-                className=" p-4  pt-15 space-y-1  
+                className=" p-2 pt-2   space-y-1  
         
         "
               >
+
+                   
+              <div
+              onClick={() => {
+                router.push("/revisly/home");
+              }}
+              className="flex items-center gap-2  max-md:ml-0 px-1 py-4 pl-2"
+            >
+              <Image src={logo} height={80} width={26} alt="logo"/>
+              <p className="text-xl font-semibold text-gray-900">
+                Revisly
+              </p>
+            </div>
                 <motion.div
                   className="mb-3"
                   initial={{
@@ -217,7 +170,7 @@ export default function Home({ children }: { children: ReactNode }) {
                 </motion.div>
 
                 <motion.div
-                  className="mb-1"
+                  className="mb-3"
                   initial={{
                     x: -25,
                     opacity: 0,
@@ -352,7 +305,7 @@ export default function Home({ children }: { children: ReactNode }) {
             </motion.div>
           </div>
 
-          <div className="p-3 max-md:p-0 w-[99%] pt-15 h-[100%] max-md:w-[100vw] max-md:mt-1 ">{children}</div>
+          <div className="p-3 max-md:p-0 w-[100%]  h-[100%] max-md:w-[100vw]  max-md:mt-1 ">{children}</div>
         </div>
       </div>
         <div className="fixed bottom-0 md:hidden p-1 rounded-tr-lg rounded-tl-lg bg-black text-white w-[100%] grid grid-cols-[42.5%_15%_42.5%]">
