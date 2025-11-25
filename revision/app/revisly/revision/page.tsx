@@ -235,7 +235,7 @@ function Desktop() {
       <div className="bg-white shadow p-5 rounded-md h-[120vh] max-md:p-3 ">
         <div className=" max-md:mb-1 flex items-start justify-between gap-4">
            <div className="mb-2">
-    <h1 className="text-xl font-bold text-gray-900">New Revision</h1>
+    <h1 className="text-4xl  text-gray-900  mb-4">New Revision</h1>
     <p className="text-sm text-gray-500 mt-1">
       Set a spaced repetition schedule for your new topic.
     </p>
