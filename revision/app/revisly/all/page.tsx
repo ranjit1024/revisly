@@ -45,7 +45,7 @@ export default function Home() {
 
   useEffect(() => {
    getUserSession().then(data => setRevisionSessionInfo(data))
-  }, []);
+  }, [router]);
 
 
   if(revisionSessionInfo === null){
