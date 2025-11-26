@@ -45,11 +45,11 @@ const ProjectList = () => {
   ];
 
   return (
-    <div className=" mx-auto bg-emerald-50 rounded-2xl  p-6">
+    <div className=" mx-auto bg-blend-darken bg-background rounded-2xl  p-6">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-semibold text-gray-800 pl-1 ">Project</h2>
-        <button className="px-4 py-2 border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+        <button className="px-4 py-2 border border-zinc-300 rounded-full text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
           + New
         </button>
       </div>
@@ -59,7 +59,7 @@ const ProjectList = () => {
         {projects.map((project) => (
           <div
             key={project.id}
-            className="flex items-center gap-4 p-3  rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+            className="flex items-center gap-4 p-3  rounded-lg hover:bg-teal-100 transition-colors cursor-pointer"
           >
             {/* Icon */}
             <div className={`w-10 h-10 ${project.bgColor} rounded-lg flex items-center justify-center text-xl`}>
