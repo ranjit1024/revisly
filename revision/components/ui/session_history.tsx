@@ -20,14 +20,7 @@ import {
 
 export const description = "A bar chart"
 
-// const chartData = [
-//   { month: "January", desktop: 8 },
-//   { month: "February", desktop: 6 },
-//   { month: "March", desktop: 10 },
-//   { month: "April", desktop: 7 },
-//   { month: "May", desktop: 5 },
 
-// ]
 
 const chartConfig = {
   desktop: {

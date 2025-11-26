@@ -6,36 +6,17 @@ import ProjectList from "@/components/ui/list_of_project"
 import { ChartBarDefault } from "@/components/ui/session_history"
 import { useRouter } from "next/navigation"
 import { JsonValue } from "@prisma/client/runtime/library"
-import { useActionState, useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { getuserData } from "@/lib/actions/dashBoard"
-import { da } from "date-fns/locale"
-import { resourceUsage } from "process"
+
 interface mainSessionType {
-  id: string;
-    email: string;
-    sessinNumber: number;
-    topic: string;
-    sessionsintervel: Date[];
-    sessions: number;
-    days: string[];
-    createdSession: Date;
-    startSesion: Date;
-    endSession: Date;
-    totalDays: number;
-    brif: string;
-    status:"COMPLETED" | "PENDING" | "MISSED",
+    topic:string;
     score: number | null;
 }
 interface sessionType {
-   id: string;
-    email: string;
     topic: string;
     status: "COMPLETED" | "PENDING" | "MISSED",
-    score: number;
-    sessionNumber: number;
-    revisionid: string;
     reminderDate: Date;
-    answer: JsonValue | null;
 }
 export default function Home() {
   const [userData, setUserdata] = useState<[mainSessionType[],sessionType[]] | null>(null);
@@ -69,13 +50,13 @@ export default function Home() {
 
   useMemo(()=>{
     if(!userData) return;
-    console.log(userData[0]);
-    let result = [];
-    const data = userData[0].map(data => {
+    console.log(userData[1])
+    userData[0].map(data => {
       const desiredData = {topic:data.topic, score:data.score || 0};
       setSessionscore([desiredData])
     });
-    console.log(sessionScore)
+
+
   },[userData])
   const router = useRouter();
   return <div className="p-5 bg-white rounded-sm max-md:p-2 max-md:pb-[15vh]">
@@ -107,7 +88,9 @@ export default function Home() {
             } />
         <TopicCard />
       </div>
-      <ProjectList />
+      <ProjectList projects={
+      
+        userData? userData[1] : []} />
     </div>
   </div>
 }
