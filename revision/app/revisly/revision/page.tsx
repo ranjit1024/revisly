@@ -73,8 +73,8 @@ function Mobile() {
       }
       {<Milscc open={open} setOpen={setOpen} />}
       <div className="mt-2">
-    <h1 className="text-xl font-bold text-gray-900">New Revision</h1>
-    <p className="text-sm text-gray-500 mt-1">
+    <h1 className="text-4xl font-medium text-gray-900">New Revision</h1>
+    <p className="text-sm text-gray-500 mt-4">
       Set a spaced repetition schedule for your new topic.
     </p>
   </div>
@@ -94,17 +94,14 @@ function Mobile() {
                 }}
                 id="topic"
                 placeholder="e.g., System Design — Caching"
-                className="w-full p-3 bg-gray-50 rounded-md border-1 border-border text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-all"
+                className="w-full p-3 bg-gray-50  rounded-md border-1 border-border text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-all"
               />
-              <Layers
-                className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400"
-                size={16}
-              />
+             
             </div>
           </div>
         </div>
       </div>
-      <div className="-mt-2">
+      <div className="mb-2">
         <DatePickerResponsive />
       </div>
 
@@ -119,7 +116,7 @@ function Mobile() {
         <div>
           <MDifficluty />
         </div>
-        <div className="mt-5 h-35">
+        <div className="mt-10 h-35">
           <button
             //checking for error
             onClick={async () => {

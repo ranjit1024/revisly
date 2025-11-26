@@ -106,8 +106,8 @@ export default function Home({ children }: { children: ReactNode }) {
       </div>
     </header>
         {/* //done */}
-        <div className="h-[100vh] w-[100%] relative  grid grid-cols-[20%_80%]">
-          <div>
+        <div className="h-[100vh] w-[100%] relative  grid grid-cols-[20%_80%]  ">
+          <div className="max-md:hidden">
 
           
             <motion.div
@@ -305,7 +305,7 @@ export default function Home({ children }: { children: ReactNode }) {
             </motion.div>
           </div>
 
-          <div className="p-3 max-md:p-0 w-[100%]  h-[100%] max-md:w-[100vw]  max-md:mt-1 ">{children}</div>
+          <div className="p-3 max-md:p-0 w-[100%]  h-[100%] max-md:w-[100vw]  max-md:mt-1   ">{children}</div>
         </div>
       </div>
         <div className="fixed bottom-0 md:hidden p-1 rounded-tr-lg rounded-tl-lg bg-black text-white w-[100%] grid grid-cols-[42.5%_15%_42.5%]">

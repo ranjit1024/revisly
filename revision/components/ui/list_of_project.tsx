@@ -45,7 +45,7 @@ const ProjectList = () => {
   ];
 
   return (
-    <div className=" mx-auto bg-teal-50 rounded-2xl  p-6">
+    <div className=" mx-auto bg-emerald-50 rounded-2xl  p-6">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl font-semibold text-gray-800">Project</h2>

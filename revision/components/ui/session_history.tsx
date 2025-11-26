@@ -38,14 +38,14 @@ const chartConfig = {
 
 export function ChartBarDefault() {
   return (
-    <Card className="w-[100%] h-80 shadow-none bg-gray-50 border border-gray-50">
+    <Card className="w-[100%] h-80 max-md:h-[10%] shadow-none bg-gray-100 border border-gray-50">
       <CardHeader>
         <CardTitle>Bar Chart</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <BarChart accessibilityLayer data={chartData} className="-mt-10">
+          <BarChart accessibilityLayer data={chartData} className="-mt-10 max-md:-mt-4">
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="month"

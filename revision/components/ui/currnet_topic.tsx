@@ -3,7 +3,7 @@ import { ArrowRight } from "lucide-react";
 
 export function TopicCard() {
   return (
-    <div className="relative bg-gray-50   rounded-3xl p-8 w-full max-w-lg  hover:border-slate-300/50 transition-all duration-300">
+    <div className="relative bg-gray-100   rounded-3xl p-8 w-full max-w-lg  hover:border-slate-300/50 transition-all duration-300">
       {/* Accent Dot */}
       <div className="absolute top-8 right-8 w-2.5 h-2.5 bg-teal-600 rounded-full"></div>
       
