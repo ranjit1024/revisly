@@ -2,7 +2,7 @@
 
 import { TrendingUp } from "lucide-react"
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
-
+import { Cell } from "recharts"
 import {
   Card,
   CardContent,
@@ -20,14 +20,14 @@ import {
 
 export const description = "A bar chart"
 
-const chartData = [
-  { month: "January", desktop: 8 },
-  { month: "February", desktop: 6 },
-  { month: "March", desktop: 10 },
-  { month: "April", desktop: 7 },
-  { month: "May", desktop: 5 },
-  { month: "June", desktop: 4 },
-]
+// const chartData = [
+//   { month: "January", desktop: 8 },
+//   { month: "February", desktop: 6 },
+//   { month: "March", desktop: 10 },
+//   { month: "April", desktop: 7 },
+//   { month: "May", desktop: 5 },
+
+// ]
 
 const chartConfig = {
   desktop: {
@@ -36,29 +36,31 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function ChartBarDefault() {
+export function ChartBarDefault({revisionData}:{revisionData:any}) {
   return (
     <Card className="w-[100%] h-80 max-md:h-[10%] shadow-none bg-lime-50 border border-gray-50">
       <CardHeader>
-        <CardTitle>Bar Chart</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Session score</CardTitle>
+        <CardDescription>score of the Last 5 sessions</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <BarChart accessibilityLayer data={chartData} className="-mt-10 max-md:-mt-4">
+          <BarChart accessibilityLayer data={revisionData} className="-mt-5 max-md:-mt-4">
             <CartesianGrid vertical={false} />
             <XAxis
-              dataKey="month"
+              dataKey="topic"
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
+              tickFormatter={(value) => value.slice()}
             />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Bar dataKey="desktop" fill="#66B2B2" radius={13}    />
+             <Bar dataKey="score" radius={13} barSize={40}>
+             
+            </Bar>
           </BarChart>
         </ChartContainer>
       </CardContent>

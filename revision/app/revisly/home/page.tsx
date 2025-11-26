@@ -1,40 +1,113 @@
 "use client"
 import { Plus } from "lucide-react"
-import {TopicCard} from "@/components/ui/currnet_topic"
+import { TopicCard } from "@/components/ui/currnet_topic"
 import ProjectsCard from "@/components/ui/indicator"
 import ProjectList from "@/components/ui/list_of_project"
-import { ChartBarDefault} from "@/components/ui/session_history"
+import { ChartBarDefault } from "@/components/ui/session_history"
 import { useRouter } from "next/navigation"
-export default function Home(){
+import { JsonValue } from "@prisma/client/runtime/library"
+import { useActionState, useEffect, useMemo, useState } from "react"
+import { getuserData } from "@/lib/actions/dashBoard"
+import { da } from "date-fns/locale"
+import { resourceUsage } from "process"
+interface mainSessionType {
+  id: string;
+    email: string;
+    sessinNumber: number;
+    topic: string;
+    sessionsintervel: Date[];
+    sessions: number;
+    days: string[];
+    createdSession: Date;
+    startSesion: Date;
+    endSession: Date;
+    totalDays: number;
+    brif: string;
+    status:"COMPLETED" | "PENDING" | "MISSED",
+    score: number | null;
+}
+interface sessionType {
+   id: string;
+    email: string;
+    topic: string;
+    status: "COMPLETED" | "PENDING" | "MISSED",
+    score: number;
+    sessionNumber: number;
+    revisionid: string;
+    reminderDate: Date;
+    answer: JsonValue | null;
+}
+export default function Home() {
+  const [userData, setUserdata] = useState<[mainSessionType[],sessionType[]] | null>(null);
+  const [indicatorData, setIndicatorData] = useState<{
+    total:number|undefined;
+    completed:number | undefined;
+    missed:number | undefined;
+    pending:number | undefined;
+  }| null>(null);
+  const [sessionScore, setSessionscore] = useState<{
+    topic:string,
+    score:number
+  }[] | null>(null);
+
+  useEffect(() => {
+   getuserData().then(data => setUserdata(data));
+  }, []);
+
+  useMemo(()=>{
+    if(!userData)
+    {
+      return;
+    }
+
+    const total = userData[1].length;
+    const completed = userData[1]?.filter(item => item.status === 'COMPLETED').length;
+    const missed = userData[1]?.filter(item => item.status === 'MISSED').length;
+    const pending = userData[1]?.filter(item => item.status === 'PENDING').length;
+    setIndicatorData({total,completed,missed,pending })
+  },[userData]);
+
+  useMemo(()=>{
+    if(!userData) return;
+    console.log(userData[0]);
+    let result = [];
+    const data = userData[0].map(data => {
+      const desiredData = {topic:data.topic, score:data.score || 0};
+      setSessionscore([desiredData])
+    });
+    console.log(sessionScore)
+  },[userData])
   const router = useRouter();
   return <div className="p-5 bg-white rounded-sm max-md:p-2 max-md:pb-[15vh]">
     <div className="flex justify-between items-center">
       <div className="max-md:pl-1">
-    <h1 className="text-5xl font-normal">Dashboard</h1>
-    <h2 className="mt-3 text-sm text-gray-500 ml-1 ">Plan, prioritize, and accomplish your task with ease</h2>
+        <h1 className="text-5xl font-normal">Dashboard</h1>
+        <h2 className="mt-3 text-sm text-gray-500 ml-1 ">Plan, prioritize, and accomplish your task with ease</h2>
       </div>
-       <button 
-      className="flex max-md:hidden items-center gap-2 bg-gradient-to-t from-teal-500 to-gray-700 hover:bg-emerald-800 active:bg-emerald-900 text-white font-medium text-sm px-5 py-2.5 rounded-xl hover:cursor-pointer transition-all duration-200 hover:shadow-md"
-      onClick={() => router.push('/revisly/revision')}
-    >
-      <Plus className="w-4 h-4" />
-      Add Session
-    </button>
+      <button
+        className="flex max-md:hidden items-center gap-2 bg-gradient-to-t from-teal-500 to-gray-700 hover:bg-emerald-800 active:bg-emerald-900 text-white font-medium text-sm px-5 py-2.5 rounded-xl hover:cursor-pointer transition-all duration-200 hover:shadow-md"
+        onClick={() => router.push('/revisly/revision')}
+      >
+        <Plus className="w-4 h-4" />
+        Add Session
+      </button>
     </div>
     <div className="space-y-10">
 
- 
-    <div className="mt-10 ml-1 flex gap-3 justify-between w-full max-md:flex-wrap">
-      <ProjectsCard main={true}/>
-      <ProjectsCard/>
-      <ProjectsCard/>
-      
+
+      <div className="mt-10 ml-1 flex gap-3 justify-between w-full max-md:flex-wrap">
+        <ProjectsCard main={true} title="Total Session" count={indicatorData?.total || 0} />
+        <ProjectsCard title="Completed Session" count={indicatorData?.completed || 0} />
+        <ProjectsCard title="Missed Session" count={indicatorData?.missed || 0} />
+        <ProjectsCard title="Pending Session" count={indicatorData?.pending || 0} />
+      </div>
+      <div className="grid grid-cols-[50%_50%] gap-2 max-md:flex max-md:flex-wrap ">
+        <ChartBarDefault revisionData={
+          sessionScore
+            } />
+        <TopicCard />
+      </div>
+      <ProjectList />
     </div>
-    <div className="grid grid-cols-[50%_50%] gap-2 max-md:flex max-md:flex-wrap ">
-    <ChartBarDefault/>
-    <TopicCard/>
-    </div>
-    <ProjectList/>
-</div>
   </div>
 }
