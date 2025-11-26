@@ -22,7 +22,7 @@ export const description = "A bar chart"
 
 const chartData = [
   { month: "January", desktop: 8 },
-  { month: "February", desktop: 3 },
+  { month: "February", desktop: 6 },
   { month: "March", desktop: 10 },
   { month: "April", desktop: 7 },
   { month: "May", desktop: 5 },
@@ -38,7 +38,7 @@ const chartConfig = {
 
 export function ChartBarDefault() {
   return (
-    <Card className="w-[100%] h-80 max-md:h-[10%] shadow-none bg-gray-100 border border-gray-50">
+    <Card className="w-[100%] h-80 max-md:h-[10%] shadow-none bg-lime-50 border border-gray-50">
       <CardHeader>
         <CardTitle>Bar Chart</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
@@ -58,7 +58,7 @@ export function ChartBarDefault() {
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Bar dataKey="desktop" fill="#66B2B2" radius={20}    />
+            <Bar dataKey="desktop" fill="#66B2B2" radius={13}    />
           </BarChart>
         </ChartContainer>
       </CardContent>
