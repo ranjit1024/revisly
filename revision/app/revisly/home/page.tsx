@@ -60,7 +60,6 @@ export default function Home() {
   setSessionscore(scores);
 },[userData])
   const router = useRouter();
-
   if(userData === null) return <DashboardSpinner/>
    if(userData[0].length === 0 && userData[1].length ===0) return <EmptySessionState/>
   return <div className="p-5 bg-white rounded-sm max-md:p-2 max-md:pb-[15vh]">

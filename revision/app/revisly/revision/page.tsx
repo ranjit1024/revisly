@@ -27,6 +27,7 @@ export default function Home() {
 }
 
 function Mobile() {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
   const [sendData, setSendData] = useState<boolean>(false);
   const [errorInput, setErrorInput] = useState<boolean>(false);
   const [repeatSub, setRepeatSub] = useState<boolean>(false);
@@ -124,7 +125,7 @@ function Mobile() {
                 setSendData(true);
                 console.log(sessionData);
                 const setRevision = await axios.post(
-                  "lkjkojklj",
+                  `${API_URL}/api/revision`,
                   sessionData,
                   {
                     headers: {
