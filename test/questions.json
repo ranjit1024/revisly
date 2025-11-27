@@ -1,112 +1,112 @@
 [
   {
     "id": 1,
-    "question": "What is the primary purpose of React Strict Mode?",
+    "question": "Which hook is best suited to perform side effects after a component renders?",
     "options": [
-      "A) To enforce stricter styling rules",
-      "B) To identify potential problems in an application",
-      "C) To enable server-side rendering",
-      "D) To optimize bundle size"
+      "A) useState",
+      "B) useEffect",
+      "C) useMemo",
+      "D) useLayoutEffect"
     ],
     "correctAnswer": 1
   },
   {
     "id": 2,
-    "question": "Which of the following lifecycle methods will React Strict Mode double-invoke during development?",
+    "question": "What is the purpose of React.memo?",
     "options": [
-      "A) componentDidUpdate",
-      "B) componentWillMount",
-      "C) componentWillReceiveProps",
-      "D) componentWillUnmount"
+      "A) Prevent re-renders for pure components",
+      "B) Cache network requests",
+      "C) Optimize list rendering",
+      "D) Manage local component state"
     ],
-    "correctAnswer": 1
+    "correctAnswer": 0
   },
   {
     "id": 3,
-    "question": "React Strict Mode will cause which of these to run twice during development?",
+    "question": "Which API change in React 18 allows rendering into multiple roots concurrently?",
     "options": [
-      "A) All useEffect callbacks",
-      "B) All useLayoutEffect callbacks",
-      "C) All component constructors",
-      "D) All component render methods"
+      "A) ReactDOM.render",
+      "B) createRoot",
+      "C) StrictMode",
+      "D) useEffect"
     ],
-    "correctAnswer": 1
+    "correctAnswer": 0
   },
   {
     "id": 4,
-    "question": "Which hook is affected by React Strict Mode in React 18?",
+    "question": "What is the key concept of React's reconciliation algorithm?",
     "options": [
-      "A) useRef",
-      "B) useState",
-      "C) useReducer",
-      "D) useId"
+      "A) Diffing entire DOM",
+      "B) Diffing virtual DOM trees",
+      "C) Hashing props",
+      "D) Using component names"
     ],
     "correctAnswer": 1
   },
   {
     "id": 5,
-    "question": "What will happen if you use a class component that relies on componentWillMount inside Strict Mode?",
+    "question": "Which hook should you use to memoize a value that only changes when its dependencies change?",
     "options": [
-      "A) It will execute twice during mounting",
-      "B) It will never execute",
-      "C) It will execute once but with a warning",
-      "D) It will be replaced by componentDidMount"
+      "A) useState",
+      "B) useMemo",
+      "C) useCallback",
+      "D) useRef"
     ],
-    "correctAnswer": 0
+    "correctAnswer": 1
   },
   {
     "id": 6,
-    "question": "Which of the following is NOT a side effect that Strict Mode checks for?",
+    "question": "When using useEffect, what happens if you omit the dependency array?",
     "options": [
-      "A) Unexpected side effects in render",
-      "B) Mutating props directly",
-      "C) Using deprecated lifecycle methods",
-      "D) Accessing localStorage in constructor"
+      "A) The effect runs once",
+      "B) The effect never runs",
+      "C) The effect runs on every render",
+      "D) The effect runs on component unmount"
     ],
-    "correctAnswer": 3
+    "correctAnswer": 2
   },
   {
     "id": 7,
-    "question": "How can you opt out of Strict Mode for a specific part of your component tree?",
+    "question": "Which component type can catch JavaScript errors anywhere in its child component tree?",
     "options": [
-      "A) Wrap that part with <React.StrictMode fallback={null}>",
-      "B) Use <React.StrictMode={false}>",
-      "C) Wrap that part with a normal <div>",
-      "D) Wrap that part with <React.Fragment>"
+      "A) React.Component",
+      "B) PureComponent",
+      "C) ErrorBoundary",
+      "D) ContextProvider"
     ],
     "correctAnswer": 2
   },
   {
     "id": 8,
-    "question": "Which feature does React Strict Mode enable that is not available in normal mode?",
+    "question": "In the Context API, what must you do to provide a value to descendants?",
     "options": [
-      "A) Suspense for data fetching",
-      "B) StrictMode warnings for legacy string ref API",
-      "C) Concurrent rendering",
-      "D) Server-side rendering"
+      "A) useContext",
+      "B) Wrap with Provider",
+      "C) useMemo",
+      "D) useEffect"
     ],
     "correctAnswer": 1
   },
   {
     "id": 9,
-    "question": "What is the result of enabling Strict Mode in a production build?",
+    "question": "How does the key prop in list rendering help React?",
     "options": [
-      "A) Same as normal mode, no additional checks",
-      "B) Additional runtime warnings appear",
-      "C) Components render twice",
-      "D) Code is automatically minified"
+      "A) Prevent duplicate keys",
+      "B) Speed up rendering",
+      "C) Identify items for diffing",
+      "D) Store component state"
     ],
-    "correctAnswer": 0
+    "correctAnswer": 2
   },
   {
     "id": 10,
-    "question": "Which of the following best describes the impact of Strict Mode on the useEffect cleanup function?",
+    "question": "What is the purpose of the useRef hook?",
     "options": [
-      "A) It never runs",
-      "B) It runs twice if the effect sets a timeout",
-      "C) It runs before the component is removed from the tree",
-      "D) It runs after the component updates"
+      "A) Store a mutable value that persists across renders",
+      "B) Manage component lifecycle",
+      "C) Trigger re-renders",
+      "D) Handle side effects"
     ],
-    "correctAnswer": 2
+    "correctAnswer": 0
   }
 ]

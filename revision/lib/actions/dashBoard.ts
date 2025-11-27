@@ -36,8 +36,9 @@ export async function currentTopic(){
     const Topic = await prisma.revision.findFirst({
          where:{
             email:session?.user?.email || "",
-            status:"PENDING"
+            status:"PENDING" 
         },
+        
         select:{
             topic:true,
             brif:true
@@ -51,8 +52,8 @@ export async function currentTopic(){
             status:true
         }
     })
-    const progress = progressData.filter(data =>  data.status === "COMPLETED").length / 
-    progressData.filter(data => data.status === 'PENDING' || data.status === 'MISSED').length
+    const progress = progressData.filter(data =>  data.status === "COMPLETED").length 
+
     const result = {...Topic, progress  }
 
     console.log(result);

@@ -25,7 +25,7 @@ export default function Home() {
         {
           id: "";
           question: "";
-            options: String[];
+          options: String[];
           correctAnswer: Number;
         }
       ]

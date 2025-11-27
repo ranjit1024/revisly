@@ -5,7 +5,6 @@ import ProjectsCard from "@/components/ui/indicator"
 import ProjectList from "@/components/ui/list_of_project"
 import { ChartBarDefault } from "@/components/ui/session_history"
 import { useRouter } from "next/navigation"
-import { JsonValue } from "@prisma/client/runtime/library"
 import { useEffect, useMemo, useState } from "react"
 import { getuserData } from "@/lib/actions/dashBoard"
 
@@ -35,7 +34,7 @@ export default function Home() {
    getuserData().then(data => setUserdata(data));
   }, []);
 
-  useMemo(()=>{
+  useEffect(()=>{
     if(!userData)
     {
       return;
@@ -48,16 +47,16 @@ export default function Home() {
     setIndicatorData({total,completed,missed,pending })
   },[userData]);
 
-  useMemo(()=>{
-    if(!userData) return;
-    console.log(userData[1])
-    userData[0].map(data => {
-      const desiredData = {topic:data.topic, score:data.score || 0};
-      setSessionscore([desiredData])
-    });
-
-
-  },[userData])
+ useEffect(()=>{
+  if(!userData) return;
+  
+  const scores = userData[0].map(data => ({
+    topic: data.topic, 
+    score: data.score || 0
+  }));
+  
+  setSessionscore(scores);
+},[userData])
   const router = useRouter();
   return <div className="p-5 bg-white rounded-sm max-md:p-2 max-md:pb-[15vh]">
     <div className="flex justify-between items-center">

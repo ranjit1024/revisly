@@ -30,6 +30,7 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function ChartBarDefault({revisionData}:{revisionData:any}) {
+  console.log(revisionData)
   return (
     <Card className="w-[100%] h-80 max-md:h-[10%] shadow-none bg-lime-50 border border-gray-50">
       <CardHeader>
