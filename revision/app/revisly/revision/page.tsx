@@ -125,7 +125,7 @@ function Mobile() {
                 setSendData(true);
                 console.log(sessionData);
                 const setRevision = await axios.post(
-                  `${API_URL}/api/revision`,
+                  "https://www.revisly.in/api/revision",
                   sessionData,
                   {
                     headers: {
