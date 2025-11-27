@@ -124,7 +124,7 @@ function Mobile() {
                 setSendData(true);
                 console.log(sessionData);
                 const setRevision = await axios.post(
-                  "https://www.revisly.in/api/revision",
+                  "lkjkojklj",
                   sessionData,
                   {
                     headers: {
@@ -135,7 +135,7 @@ function Mobile() {
                 if (setRevision.data.message === "Notes and database updated") {
                   setSendData(false);
                   router.push("/revisly/all");
-                  
+
                 }
                 setSendData(false);
               } catch (e: unknown) {
