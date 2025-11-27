@@ -7,6 +7,8 @@ import { ChartBarDefault } from "@/components/ui/session_history"
 import { useRouter } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
 import { getuserData } from "@/lib/actions/dashBoard"
+import { DashboardSpinner } from "@/components/ui/dashBoardLoader"
+import EmptySessionState from "@/components/ui/emptylist"
 
 interface mainSessionType {
     topic:string;
@@ -39,7 +41,7 @@ export default function Home() {
     {
       return;
     }
-
+    console.log(userData)
     const total = userData[1].length;
     const completed = userData[1]?.filter(item => item.status === 'COMPLETED').length;
     const missed = userData[1]?.filter(item => item.status === 'MISSED').length;
@@ -58,6 +60,9 @@ export default function Home() {
   setSessionscore(scores);
 },[userData])
   const router = useRouter();
+
+  if(userData === null) return <DashboardSpinner/>
+   if(userData[0].length === 0 && userData[1].length ===0) return <EmptySessionState/>
   return <div className="p-5 bg-white rounded-sm max-md:p-2 max-md:pb-[15vh]">
     <div className="flex justify-between items-center">
       <div className="max-md:pl-1">
