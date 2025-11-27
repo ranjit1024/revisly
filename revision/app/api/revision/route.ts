@@ -10,48 +10,7 @@ import { Groq } from "groq-sdk";
 import crypto from "crypto";
 
 
-function status(id: string) {
-  const MAX_ATTEMPTS = 5;
-  let attempts = 0;
-  const client = createClient({
-    username: "default",
-    password: process.env.REDIS_PASSWORD,
-    socket: {
-      host: process.env.REDIS_HOST,
-      port: 13429,
-    },
-  });
-  client.connect();
-  return new Promise(async(resolve, reject)=>{
-    const pollStatus = setInterval(async()=>{
-      try{
-        attempts ++;
-        console.log(attempts)
-      const status = await client.get(`status-${id}`);
 
-      console.log("1",status, id)
-      if(status){
-        clearInterval(pollStatus);
-        console.log("2",status);
-        await client.del(`status-${id}`)
-        resolve(status)
-      }
-      if(attempts > MAX_ATTEMPTS){
-        clearInterval(pollStatus);
-          await client.quit();
-          console.log("Some thing Wnet wrong")
-        return reject(new Error(`Timeout: Status not found after ${MAX_ATTEMPTS} attempts`));
-        
-      }
-    }catch(e){
-      clearInterval(pollStatus);
-        await client.quit(); // Close connection on error
-        return reject(new Error('Redis operation failed: '))
-    }
-    },3000);
-    console.log(pollStatus)
-  })
-}
 
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
@@ -166,17 +125,6 @@ export async function POST(req: NextRequest) {
         id: id,
       })
     );
-    try{
-      const statusResponse =  await status(id);
-      console.log(await statusResponse);
-    }
-    catch(error){
-      console.error(error);
-       return NextResponse.json(
-      { message: "Cannot Process Your Request" },
-      { status: 400 }
-    );
-    }
     //check whethre notes process are done or not\
     // cretae db entry
     const revision = await prisma.revision.create({
