@@ -163,7 +163,8 @@ function Mobile() {
                     return;
                   }
                   if (
-                    e.response?.data.message === "Cannot Process Your Request"
+                    e.response?.data.message === "Cannot Process Your Request" ||
+                    e.response?.data.message === "Something went wrong"
                   ) {
                     setSendData(false);
                     setOpen(true);
