@@ -70,7 +70,7 @@ export default function Home() {
         variants={containerVariant}
         initial="hidden"
         animate={inView ? "show" : "hidden"}
-        className="flex flex-col gap-3  w-[98%]  "
+        className="flex flex-col gap-3  w-[98%] max-md:h-[110vh]  "
       >
         {revisionSessionInfo?.map((item, index) =>
           <SessionCard
