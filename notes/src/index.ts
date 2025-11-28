@@ -85,7 +85,7 @@ async function main() {
         const command = new PutObjectCommand(params);
         const result = await s3Client.send(command);
         console.log(result)
-        await redis.lPush(`${revisionData.id}status`, JSON.stringify({
+        await redis.lPush(`${revisionData.id}:status`, JSON.stringify({
           status:"completed"
         }))
        

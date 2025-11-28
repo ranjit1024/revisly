@@ -85,8 +85,8 @@ function main() {
                     const command = new client_s3_1.PutObjectCommand(params);
                     const result = yield s3Client.send(command);
                     console.log(result);
-                    yield redis.set(`status-${revisionData.id}`, JSON.stringify({
-                        success: true,
+                    yield redis.lPush(`${revisionData.id}:status`, JSON.stringify({
+                        status: "completed"
                     }));
                     console.log(
                     // result.$metadata.httpStatusCode,

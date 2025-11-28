@@ -126,7 +126,7 @@ export async function POST(req: NextRequest) {
       })
     );
     //check whethre notes process are done or not
-    const status = await redis.brPop(`${id}status`, 30);
+    const status = await redis.brPop(`${id}:status`, 30);
     if (!status) {
       const items = await redis.lRange("revision", 0, -1);
       for (const item of items) {
