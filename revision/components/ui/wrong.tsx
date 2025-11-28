@@ -22,7 +22,7 @@ export function Milscc({open,setOpen}:{
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Something Went wriong</AlertDialogTitle>
+          <AlertDialogTitle>Something Went Wrong</AlertDialogTitle>
           <AlertDialogDescription>
             Currntly we can not process your request
             Kildly try after some time

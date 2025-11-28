@@ -5,14 +5,10 @@ import z from "zod";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOption } from "@/lib/auth";
-import { createClient } from "redis";
+import { createClient, RedisClientType } from "redis";
 import { Groq } from "groq-sdk";
 import crypto from "crypto";
 import { AwardIcon } from "lucide-react";
-
-
-
-
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
@@ -130,22 +126,14 @@ export async function POST(req: NextRequest) {
       })
     );
     //check whethre notes process are done or not
-
-  
-    // cretae db entry
-    try{
-      const result = await redis.brpop(`${id}status`, 500);
-      console.log(result)
-    }
-    catch(e){
+    const status =  await redis.brPop(`${id}status`,30);
+    if(!status){
       return NextResponse.json(
       { message: "Cannot Process Your Request" },
       { status: 400 }
     );
     }
-    finally{
-      await redis.del('${id}status')
-    }
+    // cretae db entry
     const revision = await prisma.revision.create({
       data: {
         id: id,
