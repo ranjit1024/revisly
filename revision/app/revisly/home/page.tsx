@@ -7,7 +7,7 @@ import { ChartBarDefault } from "@/components/ui/session_history"
 import { useRouter } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
 import { getuserData } from "@/lib/actions/dashBoard"
-import { DashboardSpinner } from "@/components/ui/dashBoardLoader"
+import DashboardLoader from "@/components/ui/dashBoardLoader"
 import EmptySessionState from "@/components/ui/emptylist"
 
 interface mainSessionType {
@@ -60,7 +60,7 @@ export default function Home() {
   setSessionscore(scores);
 },[userData])
   const router = useRouter();
-  if(userData === null) return <DashboardSpinner/>
+  if(userData === null) return <DashboardLoader/>
    if(userData[0].length === 0 && userData[1].length ===0) return <EmptySessionState/>
   return <div className="p-5 bg-white rounded-sm max-md:p-2 max-md:pb-[15vh]">
     <div className="flex justify-between items-center">

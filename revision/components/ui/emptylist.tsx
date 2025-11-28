@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 const EmptySessionState = () => {
   const router = useRouter()
   return (
-    <div className="min-h-[79vh] bg-gradient-to-br from-slate-50 to-blue-50/30 flex items-center justify-center p-4 rounded-md bg-red-50">
+    <div className="min-h-[100vh] bg-gradient-to-br from-slate-50 to-blue-50/30 flex items-center justify-center p-4 rounded-md bg-red-50">
       <div className="max-w-md w-full text-center">
         {/* Icon Container */}
         <div className="relative mb-8">

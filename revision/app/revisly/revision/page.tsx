@@ -21,13 +21,13 @@ import { DatePickerResponsive } from "@/components/ui/MDatePicker";
 import { MDifficluty } from "@/components/ui/MDiffculty";
 import MNotesLoader from "@/components/ui/MNotesloader";
 import { Milscc } from "@/components/ui/wrong";
+import { send } from "process";
 export default function Home() {
   const isMobile = useMediaQuery({ maxWidth: 768 });
   return isMobile ? <Mobile /> : <Desktop />;
 }
 
 function Mobile() {
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
   const [sendData, setSendData] = useState<boolean>(false);
   const [errorInput, setErrorInput] = useState<boolean>(false);
   const [repeatSub, setRepeatSub] = useState<boolean>(false);
@@ -47,7 +47,7 @@ function Mobile() {
   );
   const sessionData = useSelector(selectorData);
 
-  //error
+  // error handaling 
   // sendIng Data
   useEffect(() => {
     if (errorInput === true) {
@@ -123,9 +123,15 @@ function Mobile() {
             onClick={async () => {
               try {
                 setSendData(true);
+                let count = 0;
+                if(sendData && count < 10){
+                  setInterval(()=>{
+                    count ++;
+                  },4000)
+                }
                 console.log(sessionData);
                 const setRevision = await axios.post(
-                  "https://www.revisly.in/api/revision",
+                  "http://localhost:3000/api/revision",
                   sessionData,
                   {
                     headers: {

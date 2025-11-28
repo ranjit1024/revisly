@@ -8,6 +8,7 @@ import { authOption } from "@/lib/auth";
 import { createClient } from "redis";
 import { Groq } from "groq-sdk";
 import crypto from "crypto";
+import { AwardIcon } from "lucide-react";
 
 
 
@@ -62,7 +63,17 @@ function getCorrectDate(date: string) {
   return newDate.toISOString();
 }
 export async function POST(req: NextRequest) {
+    const redis = createClient({
+    username: "default",
+    password: process.env.REDIS_PASSWORD,
+    socket: {
+      host: process.env.REDIS_HOST,
+      port: 13429,
+    },
+  });
+
   const id = crypto.randomBytes(8).toString("hex");
+
   const session = await getServerSession(authOption);
   const body = await req.json();
   const zodValidation = validation.safeParse(body);
@@ -104,14 +115,7 @@ export async function POST(req: NextRequest) {
       { status: 400 }
     );
    }
-  const redis = createClient({
-    username: "default",
-    password: process.env.REDIS_PASSWORD,
-    socket: {
-      host: process.env.REDIS_HOST,
-      port: 13429,
-    },
-  });
+
   // <---- Completing on the revision donrt----->
 
 

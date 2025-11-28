@@ -25,7 +25,7 @@ export default function Page() {
   },[])
   return (
     <div className="px-6 py-8 bg-white rounded-xl max-md:px-3 max-md:py-5 max-md:bg-gray-100">
-      <h1 className="text-5xl font-semibold text-gray-900">{sessionDetails?.map(data=> data.topic)}</h1>
+      <h1 className="text-5xl font-semibold text-gray-900">{sessionDetails? sessionDetails[0].topic:null}</h1>
         
       <p className="text-md text-gray-400 mt-7">Revision / Upcoming revision</p>
 

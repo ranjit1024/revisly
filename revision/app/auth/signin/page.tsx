@@ -71,7 +71,7 @@ export default function LoginForm() {
               signIn("google", {callbackUrl:'/revisly/home'})
               console.log('Google login clicked');
             }}
-            className="group hover:cursor-pointer relative w-full bg-white hover:bg-gray-50 text-slate-900 font-semibold py-4 px-6 rounded-2xl transition-all duration-300 shadow-xl hover:shadow-2xl hover:shadow-indigo-500/50 flex items-center justify-center gap-3 overflow-hidden"
+            className="group hover:cursor-pointer relative w-full bg-white hover:bg-gray-50 text-slate-900 font-semibold py-4 px-6 rounded-2xl transition-all duration-300 border hover:shadow-2xl hover:shadow-indigo-500/50 flex items-center justify-center gap-3 overflow-hidden"
           >
             {/* Shimmer effect on hover */}
             <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12"></div>
