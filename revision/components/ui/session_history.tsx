@@ -32,14 +32,14 @@ const chartConfig = {
 export function ChartBarDefault({revisionData}:{revisionData:any}) {
   console.log(revisionData)
   return (
-    <Card className="w-[100%] h-80 max-md:h-[10%] shadow-none bg-lime-50 border border-gray-50">
+    <Card className="w-[100%] h-85 max-md:h-[10%] shadow-none bg-lime-50 border border-gray-50">
       <CardHeader>
         <CardTitle>Session score</CardTitle>
         <CardDescription>score of the Last 5 sessions</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <BarChart accessibilityLayer data={revisionData} className="-mt-5 max-md:-mt-4">
+          <BarChart accessibilityLayer data={revisionData} className="-mt-1 max-md:-mt-4">
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="topic"

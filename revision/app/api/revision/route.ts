@@ -129,8 +129,23 @@ export async function POST(req: NextRequest) {
         id: id,
       })
     );
-    //check whethre notes process are done or not\
+    //check whethre notes process are done or not
+
+  
     // cretae db entry
+    try{
+      const result = await redis.brpop(`${id}status`, 500);
+      console.log(result)
+    }
+    catch(e){
+      return NextResponse.json(
+      { message: "Cannot Process Your Request" },
+      { status: 400 }
+    );
+    }
+    finally{
+      await redis.del('${id}status')
+    }
     const revision = await prisma.revision.create({
       data: {
         id: id,

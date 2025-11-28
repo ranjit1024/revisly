@@ -31,6 +31,7 @@ export function Milscc({open,setOpen}:{
         <AlertDialogFooter>
           
           <AlertDialogAction onClick={()=>{
+            
             router.push('/revisly/home')
           }}>OK</AlertDialogAction>
         </AlertDialogFooter>
