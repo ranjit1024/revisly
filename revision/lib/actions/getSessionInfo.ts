@@ -3,7 +3,7 @@ import {
   S3Client,
   GetObjectCommand,
 } from "@aws-sdk/client-s3";
-
+import prisma from "../prisma";
 import { JsonValue } from "@prisma/client/runtime/library";
 
 const s3Client = new S3Client({
