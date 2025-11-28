@@ -131,7 +131,8 @@ function Mobile() {
                 }
                 console.log(sessionData);
                 const setRevision = await axios.post(
-                  "https://www.revisly.in/api/revision",
+
+                  "http://localhost:3000/api/revision",
                   sessionData,
                   {
                     headers: {
@@ -308,7 +309,7 @@ function Desktop() {
                   setSendData(true);
                   console.log(sessionData);
                   const setRevision = await axios.post(
-                    "https://www.revisly.in/api/revision",
+                    "http://localhost:3000/api/revision",
                     sessionData,
                     {
                       headers: {

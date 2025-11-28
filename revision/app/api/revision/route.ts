@@ -133,13 +133,17 @@ export async function POST(req: NextRequest) {
         const parsed = JSON.parse(item);
         if (parsed.id === id) {
           await redis.lRem("revision", 1, item);
-          return true;
+          console.log("done")
+          return NextResponse.json(
+            { message: "Cannot Process Your Request" },
+            { status: 400 }
+          );
         }
       }
       return NextResponse.json(
         { message: "Cannot Process Your Request" },
         { status: 400 }
-      );
+      )
     }
     // cretae db entry
     const revision = await prisma.revision.create({
