@@ -85,9 +85,10 @@ async function main() {
         const command = new PutObjectCommand(params);
         const result = await s3Client.send(command);
         console.log(result)
-        await redis.set(`status-${revisionData.id}`,JSON.stringify({
-        success: true,
-      }))
+        await redis.lPush(`${revisionData.id}status`, JSON.stringify({
+          status:"completed"
+        }))
+       
         console.log(
           // result.$metadata.httpStatusCode,
           "Notes uploaded  succesffuly"
