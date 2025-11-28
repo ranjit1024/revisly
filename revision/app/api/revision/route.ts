@@ -31,7 +31,7 @@ async function gerateBrif(sub: string) {
 function calculateAfterDays(value: number, createDate: Date): Date {
   const date = new Date();
   date.setDate(createDate.getDate() + value);
-  
+
   return date;
 
 }
@@ -59,7 +59,7 @@ function getCorrectDate(date: string) {
   return newDate.toISOString();
 }
 export async function POST(req: NextRequest) {
-    const redis = createClient({
+  const redis = createClient({
     username: "default",
     password: process.env.REDIS_PASSWORD,
     socket: {
@@ -100,17 +100,17 @@ export async function POST(req: NextRequest) {
       { status: 400 }
     );
   }
-  const  sessionCount = await prisma.revision.count({
-    where:{
-      email:session?.user?.email || ""
+  const sessionCount = await prisma.revision.count({
+    where: {
+      email: session?.user?.email || ""
     }
   })
-   if(sessionCount > 5){
-     return NextResponse.json(
+  if (sessionCount > 5) {
+    return NextResponse.json(
       { message: "Limit Reached" },
       { status: 400 }
     );
-   }
+  }
 
   // <---- Completing on the revision donrt----->
 
@@ -126,12 +126,20 @@ export async function POST(req: NextRequest) {
       })
     );
     //check whethre notes process are done or not
-    const status =  await redis.brPop(`${id}status`,30);
-    if(!status){
+    const status = await redis.brPop(`${id}status`, 30);
+    if (!status) {
+      const items = await redis.lRange("revision", 0, -1);
+      for (const item of items) {
+        const parsed = JSON.parse(item);
+        if (parsed.id === id) {
+          await redis.lRem("revision", 1, item);
+          return true;
+        }
+      }
       return NextResponse.json(
-      { message: "Cannot Process Your Request" },
-      { status: 400 }
-    );
+        { message: "Cannot Process Your Request" },
+        { status: 400 }
+      );
     }
     // cretae db entry
     const revision = await prisma.revision.create({
