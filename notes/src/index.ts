@@ -3,6 +3,8 @@ import Groq from "groq-sdk";
 import dotenv from "dotenv";
 import { createClient } from "redis";
 import fs from "fs";
+import PDFDocument from 'pdfkit';
+
 dotenv.config();
 //all config
 interface ReminderType {
@@ -37,6 +39,29 @@ async function getAiGeneratedNotes(params: string) {
     model: "openai/gpt-oss-120b",
   });
   return chatCompletion.choices[0]?.message.content;
+}
+async function  GenerateNotesPdf(filename:string, content:string):Promise<void>{
+  return new Promise((resolve,reject)=>{
+
+  
+  const doc = new PDFDocument();
+   const stream = fs.createWriteStream(filename);
+    doc.pipe(stream);
+
+    // Add your content (Synchronous operations)
+    doc.fontSize(15).text(content, 20, 20);
+
+     doc.end();
+
+    // Listen for stream events to resolve/reject the Promise
+    stream.on('finish', () => {
+      resolve(); // File is fully written
+    });
+
+     stream.on('error', (err) => {
+      reject(err); // Handle I/O errors
+    });
+  })
 }
 
 async function main() {
@@ -73,12 +98,12 @@ async function main() {
         const notes = await getAiGeneratedNotes(
           `generate notes for ${revisionData.topic} in clean string format `
         );
-        // const notesPdf = await GenerateNotesPdf(String(notes));
+        const notesPdf = await GenerateNotesPdf('notes.pdf', notes || "");
         const fileContent = await fs.promises.readFile("notes.pdf");
         //uploading to s3
         const params = {
           Bucket: String(process.env.S3_BUCKET),
-          Key: `${revisionData.id} ${revisionData.topic}/notes/notes.pdf`,
+          Key: `${revisionData.id}-${revisionData.topic}/notes/notes.pdf`,
           Body: fileContent,
           ContentType: "application/pdf",
         };

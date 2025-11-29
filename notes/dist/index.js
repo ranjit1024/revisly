@@ -18,6 +18,7 @@ const groq_sdk_1 = __importDefault(require("groq-sdk"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const redis_1 = require("redis");
 const fs_1 = __importDefault(require("fs"));
+const pdfkit_1 = __importDefault(require("pdfkit"));
 dotenv_1.default.config();
 // llm notes init
 console.log(process.env.GROQ_API_KEY);
@@ -49,6 +50,25 @@ function getAiGeneratedNotes(params) {
         return (_a = chatCompletion.choices[0]) === null || _a === void 0 ? void 0 : _a.message.content;
     });
 }
+function GenerateNotesPdf(filename, content) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return new Promise((resolve, reject) => {
+            const doc = new pdfkit_1.default();
+            const stream = fs_1.default.createWriteStream(filename);
+            doc.pipe(stream);
+            // Add your content (Synchronous operations)
+            doc.fontSize(25).text(content, 100, 100);
+            doc.end();
+            // Listen for stream events to resolve/reject the Promise
+            stream.on('finish', () => {
+                resolve(); // File is fully written
+            });
+            stream.on('error', (err) => {
+                reject(err); // Handle I/O errors
+            });
+        });
+    });
+}
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const redis = (0, redis_1.createClient)({
@@ -73,12 +93,12 @@ function main() {
                     console.log(`Processing: ${revisionData.id}`);
                     //hash sett
                     const notes = yield getAiGeneratedNotes(`generate notes for ${revisionData.topic} in clean string format `);
-                    // const notesPdf = await GenerateNotesPdf(String(notes));
+                    const notesPdf = yield GenerateNotesPdf('notes.pdf', notes || "");
                     const fileContent = yield fs_1.default.promises.readFile("notes.pdf");
                     //uploading to s3
                     const params = {
                         Bucket: String(process.env.S3_BUCKET),
-                        Key: `${revisionData.id} ${revisionData.topic}/notes/notes.pdf`,
+                        Key: `${revisionData.id}-${revisionData.topic}/notes/notes.pdf`,
                         Body: fileContent,
                         ContentType: "application/pdf",
                     };

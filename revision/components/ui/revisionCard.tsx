@@ -97,7 +97,7 @@ const router = useRouter();
         <div className="flex gap-3 max-md:flex-col">
           <button 
           onClick={async ()=>{
-            const userNotes = await getNotes({folderKey:`${id} ${title}/notes/notes.pdf`});
+            const userNotes = await getNotes({folderKey:`${id}-${title}/notes/notes.pdf`});
             console.log(id)
             if(userNotes){
               
