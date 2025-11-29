@@ -1,111 +1,111 @@
 [
   {
     "id": 1,
-    "question": "Which hook is best suited to perform side effects after a component renders?",
+    "question": "What is the result of the following code snippet?",
     "options": [
-      "A) useState",
-      "B) useEffect",
-      "C) useMemo",
-      "D) useLayoutEffect"
+      "A) 0",
+      "B) 1",
+      "C) 2",
+      "D) 3"
+    ],
+    "correctAnswer": 3
+  },
+  {
+    "id": 2,
+    "question": "Which of the following is true about Java's serialization mechanism?",
+    "options": [
+      "A) Only transient fields are serialized",
+      "B) A static field is serialized if marked transient",
+      "C) A serializable class must define a serialVersionUID",
+      "D) An ObjectOutputStream automatically encrypts data"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "id": 3,
+    "question": "Consider the following method signature: public static void foo(String... args). Which statement is correct?",
+    "options": [
+      "A) It accepts exactly one String argument",
+      "B) It accepts any number of String arguments",
+      "C) It cannot be invoked with no arguments",
+      "D) It is equivalent to public static void foo(String[] args)"
     ],
     "correctAnswer": 1
   },
   {
-    "id": 2,
-    "question": "What is the purpose of React.memo?",
-    "options": [
-      "A) Prevent re-renders for pure components",
-      "B) Cache network requests",
-      "C) Optimize list rendering",
-      "D) Manage local component state"
-    ],
-    "correctAnswer": 0
-  },
-  {
-    "id": 3,
-    "question": "Which API change in React 18 allows rendering into multiple roots concurrently?",
-    "options": [
-      "A) ReactDOM.render",
-      "B) createRoot",
-      "C) StrictMode",
-      "D) useEffect"
-    ],
-    "correctAnswer": 0
-  },
-  {
     "id": 4,
-    "question": "What is the key concept of React's reconciliation algorithm?",
+    "question": "Which Java feature ensures that two threads cannot modify the same object concurrently?",
     "options": [
-      "A) Diffing entire DOM",
-      "B) Diffing virtual DOM trees",
-      "C) Hashing props",
-      "D) Using component names"
+      "A) Final keyword",
+      "B) Synchronization",
+      "C) Volatile keyword",
+      "D) Static initializer"
     ],
     "correctAnswer": 1
   },
   {
     "id": 5,
-    "question": "Which hook should you use to memoize a value that only changes when its dependencies change?",
+    "question": "What is the output of this code?",
     "options": [
-      "A) useState",
-      "B) useMemo",
-      "C) useCallback",
-      "D) useRef"
+      "A) 5",
+      "B) 10",
+      "C) 15",
+      "D) Compile-time error"
     ],
     "correctAnswer": 1
   },
   {
     "id": 6,
-    "question": "When using useEffect, what happens if you omit the dependency array?",
+    "question": "In Java, which of the following statements about interfaces is correct?",
     "options": [
-      "A) The effect runs once",
-      "B) The effect never runs",
-      "C) The effect runs on every render",
-      "D) The effect runs on component unmount"
-    ],
-    "correctAnswer": 2
-  },
-  {
-    "id": 7,
-    "question": "Which component type can catch JavaScript errors anywhere in its child component tree?",
-    "options": [
-      "A) React.Component",
-      "B) PureComponent",
-      "C) ErrorBoundary",
-      "D) ContextProvider"
-    ],
-    "correctAnswer": 2
-  },
-  {
-    "id": 8,
-    "question": "In the Context API, what must you do to provide a value to descendants?",
-    "options": [
-      "A) useContext",
-      "B) Wrap with Provider",
-      "C) useMemo",
-      "D) useEffect"
+      "A) An interface can contain static fields only",
+      "B) A class can implement multiple interfaces",
+      "C) All interface methods are public by default",
+      "D) Interfaces cannot extend other interfaces"
     ],
     "correctAnswer": 1
   },
   {
-    "id": 9,
-    "question": "How does the key prop in list rendering help React?",
+    "id": 7,
+    "question": "Which exception is thrown when trying to divide an integer by zero?",
     "options": [
-      "A) Prevent duplicate keys",
-      "B) Speed up rendering",
-      "C) Identify items for diffing",
-      "D) Store component state"
+      "A) NullPointerException",
+      "B) ArithmeticException",
+      "C) NumberFormatException",
+      "D) IllegalArgumentException"
+    ],
+    "correctAnswer": 1
+  },
+  {
+    "id": 8,
+    "question": "What is the time complexity of HashMap's get() operation in the worst case?",
+    "options": [
+      "A) O(1)",
+      "B) O(log n)",
+      "C) O(n)",
+      "D) O(n^2)"
     ],
     "correctAnswer": 2
   },
   {
-    "id": 10,
-    "question": "What is the purpose of the useRef hook?",
+    "id": 9,
+    "question": "Which of the following is NOT a type of class loader in Java?",
     "options": [
-      "A) Store a mutable value that persists across renders",
-      "B) Manage component lifecycle",
-      "C) Trigger re-renders",
-      "D) Handle side effects"
+      "A) Bootstrap",
+      "B) Extension",
+      "C) System",
+      "D) Application"
+    ],
+    "correctAnswer": 3
+  },
+  {
+    "id": 10,
+    "question": "What will be printed by the following code?",
+    "options": [
+      "A) HelloWorld",
+      "B) Hello",
+      "C) World",
+      "D) Compile-time error"
     ],
     "correctAnswer": 0
   }
