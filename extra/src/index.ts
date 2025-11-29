@@ -31,8 +31,19 @@ async function getData() {
     },
   });
   try {
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+
+    const endOfToday = new Date();
+    endOfToday.setHours(23, 59, 59, 999);
     await redis.connect();
     const data = await prisma.revisionSession.findMany({
+      where: {
+        reminderDate: {
+          gte: startOfToday.toISOString(),
+          lte: endOfDay.toISOString()
+        }
+      },
       select: {
         id: true,
         topic: true,
@@ -63,7 +74,7 @@ async function getData() {
   }
 }
 
-async function isCompletd({ id}: { id: string }) {
+async function isCompletd({ id }: { id: string }) {
   let COMPLETED = false;
   let score = 0;
   const sessions = await prisma.revisionSession.findMany({
@@ -93,14 +104,14 @@ async function isCompletd({ id}: { id: string }) {
       where: {
         id: id,
       },
-      select:{
-        id:true,
-        revision:true
+      select: {
+        id: true,
+        revision: true
       }
     });
     await prisma.revision.update({
       where: {
-        id:userId?.revision.id
+        id: userId?.revision.id
       },
       data: {
         score: score / sessions.length
@@ -128,8 +139,8 @@ app.post("/api/score/:id", async (req, res) => {
       where: {
         id: id,
       },
-      select:{
-        id:true,
+      select: {
+        id: true,
       }
     });
 
@@ -149,8 +160,8 @@ app.post("/api/score/:id", async (req, res) => {
         status: "COMPLETED",
       },
     });
-    const response = await isCompletd({id:id});
-    
+    const response = await isCompletd({ id: id });
+
   }
   catch (e) {
     res.json({
@@ -166,4 +177,4 @@ corn.schedule('0 0 * * *', async () => {
   await getData()
 })
 
-// getData()
+getData()
