@@ -10,7 +10,7 @@ RUN npm ci --omit=dev
 
 COPY . .
 
-EXPOSE 8080
+EXPOSE 3000
 
 # Run with PM2 runtime
 CMD ["pm2-runtime", "dist/index.js"]
