@@ -1,0 +1,16 @@
+FROM node:18-alpine
+
+WORKDIR /usr/src/app
+
+# Install PM2 globally
+RUN npm install pm2 -g
+
+COPY package*.json ./
+RUN npm ci --omit=dev
+
+COPY . .
+
+EXPOSE 3000
+
+# Run with PM2 runtime
+CMD ["pm2-runtime", "dist/index.js"]

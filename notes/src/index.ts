@@ -49,7 +49,7 @@ async function  GenerateNotesPdf(filename:string, content:string):Promise<void>{
     doc.pipe(stream);
 
     // Add your content (Synchronous operations)
-    doc.fontSize(10).text(content, 200, 200);
+    doc.fontSize(12).text(content, 100, 100);
 
      doc.end();
 
