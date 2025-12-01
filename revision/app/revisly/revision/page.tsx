@@ -302,7 +302,7 @@ function Desktop() {
               )
             ) : null}
           </div>
-          <div className="mt-9 flex items-center gap-3 flex-col">
+          <div className="mt-5 flex items-center gap-3 flex-col">
              <div className="mt-6 bg-slate-50 rounded-xl py-10 px-5 border w-full border-slate-200">
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-slate-900 animate-pulse" />
