@@ -17,7 +17,7 @@ import {
 import { DialogTitle } from "@radix-ui/react-dialog"
 import { useDispatch, useSelector } from "react-redux"
 import { actions } from "@/store/slices/revison"
-import { RootState } from "@/store/store"
+import {Label} from "@/components/ui/label"
 
 export function DatePickerResponsive() {
   // Calculate date range
@@ -49,12 +49,7 @@ export function DatePickerResponsive() {
     },[open])
   return (
     <Drawer open={open} onOpenChange={setOpen}>
-      <label 
-        className="text-sm font-medium text-gray-700 ml-1 " 
-        htmlFor="session-duration"
-      >
-        Date
-      </label>
+         <Label>2. When do you want to start?</Label>
       <DrawerTrigger asChild>
         <Button
           variant={"outline"}

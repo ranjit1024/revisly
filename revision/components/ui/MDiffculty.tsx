@@ -18,24 +18,37 @@ import { actions } from "@/store/slices/revison";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { Hard } from "./hard";
+import { BookOpen, Check, Sparkle, Zap, type LucideIcon } from "lucide-react";
 export function MDifficluty() {
    const selectDays = useSelector((data:RootState)=>{
     return data.revision.days
   })
   const [selected, setSelected] = useState("");
   const [opne,setOpen] = useState<boolean>(false);
-  const dispatch = useDispatch()
-  const levels = [
-    { id: "easy", label: "Easy", subtitle: "Once a week" },
-    { id: "medium", label: "Medium", subtitle: "Twice a week" },
-    { id: "hard", label: "Hard", subtitle: "Every day" },
+  const dispatch = useDispatch();
+
+  interface LevelOption {
+  id: string;
+  label: string;
+  subtitle: string;
+  icon: LucideIcon; 
+  color: string;
+  bg:string;
+  info:string
+}
+  const levels: LevelOption[] = [
+    { id: "hard", label: "New Concept", subtitle: "I need to learn this from scratch",icon:BookOpen, color:"text-red-500", bg:"bg-red-100", info:"Every Day"},
+   {id:"medium", label:"Familiar", subtitle:"I know the basics, but need practice", icon:Zap, color:"text-yellow-500", bg:"bg-yellow-100", info:"Trice a Week" },
+   {id:"easy", label:"Expert", subtitle:"Just keep it fresh in my memory", icon:Check, color:"text-green-500", bg:"bg-green-100",info:"Once a week" }
+   
   ];
   return (
     <AlertDialog open={opne} onOpenChange={setOpen}>
      
         <div className="w-full max-w-md mx-auto mt-2 ">
-          <div className="space-y-2">
+          <div className="space-y-10">
             {levels.map((level) => (
+              <div className="relative z-10">
               <button
                 key={level.id}
                 onClick={() => {
@@ -48,40 +61,41 @@ export function MDifficluty() {
                       difficulty: level.id
                     }))
                 }}
-                className={`
-              w-[96vw] p-4 rounded-md text-left transition-all
-              ${
-                selected === level.id
-                  ? "bg-amber-50 border-2 border-amber-200"
-                  : "bg-white border-2 border-gray-200"
-              }
-            `}
+                className={`"flex   gap-10 rounded-2xl border-2  border-b-0 px-3 pr-10  bg-white hover:cursor-pointer w-85 py-3 rounded-xl"} `}
               >
-                <div className="flex flex-col">
-                  <span
+                <div className="flex    gap-4 items-center min-w-[100%]">
+                  <div className={`p-2 ${level.bg} rounded-2xl`}>
+                   <level.icon className={`${level.color}`} size={18}/>
+                  </div>
+                  <div className="flex flex-col justify-start  ">
+                    
+                  <p
                     className={`
-                      text-base font-medium
-                      ${selected === level.id ? "text-amber-900" : "text-gray-900"}
+                      font-semibold text-sm  text-slate-900
+                      ${selected === level.id ? "text-amber-900 text-start" : "text-gray-900 text-start"}
                       `}
                       >
                     {level.label}
-                  </span>
-                  <span
+                  </p>
+                  <p
                     className={`
-                      text-sm
-                      ${selected === level.id ? "text-amber-700" : "text-gray-500"}
-                      `}
+                      text-sm text-start
+                      ${selected === level.id}`}
                       >
                     {level.subtitle}
-                  </span>
+                  </p>
+                  </div>
                 </div>
               </button>
+                <div className={`h-10 w-full  justify-center rounded-xl top-12 flex items-end absolute -z-1 p text-sm font-medium ${level.color} ${level.bg}`}>{level.info}</div>
+                  
+              </div>
             ))}
           </div>
           {
             selectDays === undefined ? null: <div 
             
-             className="px-2 py-3 flex flex-col gap-2">
+             className="px-2 pt-15 flex flex-col gap-2">
              <label
         className="block text-sm  font-medium text-zinc-700 text-start "
         htmlFor="session-duration"
@@ -90,7 +104,7 @@ export function MDifficluty() {
       </label>
             <p className="flex  rounded-2xl gap-1 flex-wrap">
             {selectDays?.map((data,index)=>{
-              return <div key={index} className="bg-accent font-medium text-sm text-gray-950 px-2 py-1 rounded-md">
+              return <div key={index} className="bg-accent font-medium text-sm text-gray-950 px-4 py-1 rounded-md">
                 {data}
               </div>
             })}

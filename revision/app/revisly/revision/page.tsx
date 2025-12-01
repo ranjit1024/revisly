@@ -7,7 +7,7 @@ import { actions } from "@/store/slices/revison";
 import React, { useEffect, useState } from "react";
 import { RootState } from "@/store/store";
 import NotesgeneratorLoader from "@/components/ui/notestgenratorLading";
-import { CalendarDays, Layers, Send } from "lucide-react";
+import {ArrowRight, Send , Zap} from "lucide-react";
 import { MaxRangeDatePicker } from "@/components/ui/Daterange";
 import Chip from "@/components/ui/level";
 import { SelectDay } from "@/components/ui/days";
@@ -21,7 +21,8 @@ import { DatePickerResponsive } from "@/components/ui/MDatePicker";
 import { MDifficluty } from "@/components/ui/MDiffculty";
 import MNotesLoader from "@/components/ui/MNotesloader";
 import { Milscc } from "@/components/ui/wrong";
-import { send } from "process";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 export default function Home() {
   const isMobile = useMediaQuery({ maxWidth: 768 });
   return isMobile ? <Mobile /> : <Desktop />;
@@ -65,7 +66,7 @@ function Mobile() {
     }
   }, [repeatSub]);
   return (
-    <div className="mb-6 flex-col gap-7 w-[100vw]  max-md:mb-1 flex items-start justify-between  p-2">
+    <div className="mb-6 flex-col gap-4 w-[100vw]  max-md:mb-1 flex items-start justify-between  p-2">
       {errorInput ? <ErrorToast /> : null}
       {repeatSub ? <TopicExistsToast /> : null}
       {
@@ -73,16 +74,17 @@ function Mobile() {
         sendData ? <MNotesLoader /> : null
       }
       {<Milscc open={open} setOpen={setOpen} />}
-      <div className="mt-2">
-    <h1 className="text-4xl font-medium text-gray-900">New Revision</h1>
-    <p className="text-sm text-gray-500 mt-4">
-      Set a spaced repetition schedule for your new topic.
-    </p>
-  </div>
+        <div className=" text-center w-full mb-10 mt-5">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-100 mb-4 shadow-inner">
+            <Zap size={20} className="text-slate-900" />
+          </div>
+          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Create Revision Goal</h1>
+          <p className="text-slate-500 mt-1 text-sm">Set up a smart schedule for your new topic.</p>
+        </div>
       <div className="w-full flex text-start items-start gap-0  justify-start h-full">
         <div className="w-[100%] ">
-          <label className="text-sm font-medium text-gray-700 ml-1">Topic</label>
-          <div className="mt-2">
+          <Label> 1. What are you learning?</Label>
+          <div className="mt-3">
             <div className="relative">
               <input
                 onBlur={(e) => {
@@ -102,22 +104,22 @@ function Mobile() {
           </div>
         </div>
       </div>
-      <div className="mb-2">
+      <div className="mb-2 mt-4">
         <DatePickerResponsive />
       </div>
 
-      <div className="h-100">
-        <label
-          className="  text-sm font-medium text-gray-700 ml-1"
-          htmlFor="topic"
-        >
-          Select The diffeculty level
-        </label>
+      <div className="h-100 mt-2">
+        <Label>3. What is your current confidence?</Label>
 
-        <div>
+        <div className="mt-4">
           <MDifficluty />
+          {/* <Chip/> */}
         </div>
-        <div className="mt-10 h-35">
+        
+         
+      
+        <div className="mt-8 h-40">
+
           <button
             //checking for error
             onClick={async () => {
@@ -240,25 +242,22 @@ function Desktop() {
       {sendData ? <NotesgeneratorLoader /> : null}
           {<Milscc open={open} setOpen={setOpen} />}
       <div className="bg-white shadow p-5 rounded-md h-[120vh] max-md:p-3 ">
-        <div className=" max-md:mb-1 flex items-start justify-between gap-4">
-           <div className="mb-2">
-    <h1 className="text-4xl  text-gray-900  mb-4">New Revision</h1>
-    <p className="text-sm text-gray-500 mt-1">
-      Set a spaced repetition schedule for your new topic.
-    </p>
-  </div>
-          <div className="hidden rounded-xl bg-emerald-50 px-3 py-2 text-emerald-700 ring-1 ring-emerald-100 sm:flex items-center gap-2">
-            <CalendarDays size={16} />
-            <span className="text-sm font-medium">Revise Smartly</span>
+     
+           
+           <div className=" text-center">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-slate-100 mb-4 shadow-inner">
+            <Zap size={20} className="text-slate-900" />
           </div>
+          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Create Revision Goal</h1>
+          <p className="text-slate-500 mt-1 text-sm">Set up a smart schedule for your new topic.</p>
         </div>
         <div className="pt-6 w-full">
           <div className="w-full flex text-start items-start gap-4  justify-start h-full">
             <div className="w-[100%] ">
-             <label className="text-sm font-medium text-gray-700 ml-1">Topic</label>
-              <div className="mt-2">
+             <Label> 1. What are you learning?</Label>
+              <div className="mt-3">
                 <div className="relative">
-                  <input
+                  <Input
                     onBlur={(e) => {
                       console.log(e.currentTarget.value);
                       dispatch(
@@ -269,22 +268,23 @@ function Desktop() {
                     }}
                     id="topic"
                     placeholder="e.g., System Design — Caching"
-                    className="w-[70%] p-3 border bg-gray-50 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-all"
+                    className="w-[70%] p-3 border bg-gray-50 rounded-lg text-sm h-10 focus:outline-none focus:ring-2 focus:ring-black/5 transition-all"
                   />
                   
                 </div>
               </div>
             </div>
           </div>
-          <div className="mt-8">
+          <div className="mt-10">
             <MaxRangeDatePicker
             // Limit to 30 days
             />
           </div>
           <div>{/* <Progress value={33} /> */}</div>
           <div className="flex flex-col mt-9">
-             <label className="text-sm font-medium text-gray-700 ml-1 mb-2">Select Difficulty</label>
-            <div className="flex  gap-2">
+             <Label>3. What is your current confidence?</Label>
+                         
+            <div className="flex w-full  gap-2 mt-5 mb-5">
               <Chip></Chip>
             </div>
 
@@ -302,7 +302,28 @@ function Desktop() {
               )
             ) : null}
           </div>
-          <div className="mt-9 flex items-center gap-3">
+          <div className="mt-9 flex items-center gap-3 flex-col">
+             <div className="mt-6 bg-slate-50 rounded-xl py-10 px-5 border w-full border-slate-200">
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-slate-900 animate-pulse" />
+                <span className="text-xs font-bold text-slate-900 uppercase tracking-wider">Live Preview</span>
+              </div>
+              <div className="p-[0.3rem] relative mt-3 bg-slate-200 rounded-2xl">
+              
+                <div className="absolute top-0 flex justify-evenly  w-full ">
+                  {
+                    sessionData.sessionIntervel?.map((data,index)=>{
+                      return<div className="">
+                        <div className="p-1 bg-green-500 rounded-2xl  bord(er-indigo-100 border"></div>
+                <div className="absolute text-center mt-1 text-[11px] text-gray-900 font-medium">{`${data.split(' ')[2]} ${data.split(' ')[1]} `} <p className="font-semibold">{index+1}</p></div>
+
+                </div>
+                    })
+                  }
+               
+                </div>
+              </div>
+            </div>
             <button
               onClick={async () => {
                 try {
@@ -349,10 +370,11 @@ function Desktop() {
                   }
                 }
               }}
-              className="inline-flex items-center gap-2 rounded-md bg-zinc-900  py-2.5 h-11 text-sm font-medium text-white shadow-sm transition hover:bg-zinc-800 w-[50%] ml-1 active:translate-y-px pl-4"
+              className="group w-full bg-slate-900 hover:bg-slate-800 text-white h-12 rounded-lg font-semibold text-base transition-all flex items-center justify-center gap-2 shadow-lg shadow-slate-900/20"
             >
+               Schedule Revision
+            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               
-              Set Revision Reminder
             </button>
 
 

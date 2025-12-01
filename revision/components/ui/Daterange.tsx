@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { format, addDays, differenceInDays, subDays } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 import { DateRange, useDayPicker } from "react-day-picker"
-
+import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -65,7 +65,7 @@ export function MaxRangeDatePicker() {
 
     <div className="grid gap-2">
       <Popover open={open} onOpenChange={setOpen} >
-       <label className="text-sm ml-1 font-medium text-gray-700">Date</label>
+           <Label >2. When do you want to start?</Label>
         <PopoverTrigger asChild>
 
           <Button
