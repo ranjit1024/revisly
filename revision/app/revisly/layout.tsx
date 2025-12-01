@@ -81,7 +81,7 @@ export default function Home({ children }: { children: ReactNode }) {
       <div className="h-[100%] relative bg-gray-100  ">
        
         {/* mobile header */}
-           <header className="bg-gray-100 py-2 border-b md:hidden border-gray-200/80 backdrop-blur-xl sticky top-0 z-50">
+           <header className="bg-gray-100 py-2 border-b md:hidden border-gray-200/80 backdrop-blur-xl sticky top-0 z-100">
       <div className="max-w-7xl mx-auto px-3 ">
         <div className="flex items-center justify-between ">
           <div className="flex items-center gap-1 group cursor-pointer select-none">

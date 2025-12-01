@@ -119,7 +119,6 @@ function Mobile() {
          
       
         <div className="mt-8 h-40">
-
           <button
             //checking for error
             onClick={async () => {
