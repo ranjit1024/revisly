@@ -104,40 +104,5 @@ export default function Chip() {
         <p className="text-green-600/70 font-medium text-xs">Once a week</p>
       </div>
     </div>
-
-    {/* <div className={`  ${medium ? ' bg-amber-200 bg-gradient-to-b hover:cursor-pointer px-3 py-1.5 rounded-md from-white/60 to-transparent "text-emerald-700  ring-amber-200 dark:text-amber-300 dark:bg-emerald-900/30 dark:ring-emerald-800' : ' bg-gradient-to-b hover:cursor-pointer px-3 py-1.5 rounded-md from-white/60 to-transparent "text-amber-700 bg-amber-50 ring-emerald-200 dark:text-emerald-300 dark:bg-emerald-900/30 dark:ring-emerald-800'}`}
-
-      onClick={() => {
-        setisMedium(true);
-        setisEasy(false);
-        setisHard(false);
-        dispatch(actions.addDifficulty({
-          difficulty: "medium"
-        }))
-      }}
-    >
-      <span className="text-amber-800 font-medium text-md  mr-3 ">
-        Medium
-      </span>
-      <span className="text-gray-500">| </span>
-      <span className="text-gray-500 text-xs font-medium pl-2">Thrice a week</span>
-    </div> */}
-
-    {/* <div className={`${hard ? ' bg-rose-200 bg-gradient-to-b hover:cursor-pointer px-3 py-1.5 rounded-md from-white/60 to-transparent "text-emerald-700  ring-amber-200 dark:text-amber-300 dark:bg-emerald-900/30 dark:ring-emerald-800' : '  bg-gradient-to-b hover:cursor-pointer px-3 py-1.5 rounded-md from-white/60 to-transparent "text-amber-700 bg-rose-50 ring-emerald-200 dark:text-emerald-300 dark:bg-emerald-900/30 dark:ring-emerald-800'}`}
-      onClick={() => {
-        setisHard(true);
-        setisEasy(false);
-        setisMedium(false);
-        dispatch(actions.addDifficulty({
-          difficulty: "hard"
-        }))
-      }}
-    >
-      <span className="text-rose-800 font-medium text-md mr-3 ">
-        Hard
-      </span>
-      <span className="text-gray-600 ">| </span>
-      <span className="text-gray-500 text-xs font-medium pl-2 ">Every day</span>
-    </div> */}
   </div>
 }
