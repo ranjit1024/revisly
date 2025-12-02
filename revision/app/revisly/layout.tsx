@@ -91,16 +91,6 @@ export default function Home({ children }: { children: ReactNode }) {
               Revisly
             </h1>
           </div>
-
-          {/* User Profile */}
-          {/* <button 
-            className="w-9 h-9 rounded hover:bg-gray-200 flex items-center justify-center transition-all duration-300 group bg-gray-100 "
-            aria-label="User profile"
-          >
-            
-           <Image src={session?.user?.image || ""} height={40} width={30} alt="profile" className="rounded-full"/>
-            
-          </button> */}
           <ProfileIcon/>
         </div>
       </div>

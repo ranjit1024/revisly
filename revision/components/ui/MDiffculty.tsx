@@ -4,14 +4,11 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
-  AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useState } from "react";
-
+import {Label} from "@/components/ui/label"
 import { MSelectDay } from "./MSelect";
 import { useDispatch } from "react-redux";
 import { actions } from "@/store/slices/revison";
@@ -22,6 +19,9 @@ import { BookOpen, Check, Sparkle, Zap, type LucideIcon } from "lucide-react";
 export function MDifficluty() {
    const selectDays = useSelector((data:RootState)=>{
     return data.revision.days
+  })
+  const sessions = useSelector((data:RootState)=>{
+    return data.revision.sessionIntervel
   })
   const [selected, setSelected] = useState("");
   const [opne,setOpen] = useState<boolean>(false);
@@ -45,10 +45,10 @@ export function MDifficluty() {
   return (
     <AlertDialog open={opne} onOpenChange={setOpen}>
      
-        <div className="w-full max-w-md mx-auto mt-2 ">
-          <div className="space-y-10">
+        <div className="w-full max-w-md mx-auto mt-2  ">
+          <div className="space-y-5">
             {levels.map((level) => (
-              <div className="relative z-10">
+              <div className="relative ">
               <button
                 key={level.id}
                 onClick={() => {
@@ -61,7 +61,7 @@ export function MDifficluty() {
                       difficulty: level.id
                     }))
                 }}
-                className={`"flex   gap-10 rounded-2xl border-2  border-b-0 px-3 pr-10  bg-white hover:cursor-pointer w-85 py-3 rounded-xl"} `}
+                className={`"flex relative pb-9  gap-10 rounded-2xl border-2  border-b-0 px-3 pr-10  bg-white hover:cursor-pointer w-full py-3 rounded-xl"} `}
               >
                 <div className="flex    gap-4 items-center min-w-[100%]">
                   <div className={`p-2 ${level.bg} rounded-2xl`}>
@@ -86,26 +86,21 @@ export function MDifficluty() {
                   </p>
                   </div>
                 </div>
+                  <div className={`h-5 w-full rounded  b-10 absolute bottom-0   justify-center   flex items-end left-0 text-sm font-medium ${level.color} ${level.bg}`}>{level.info}</div>
               </button>
-                <div className={`h-10 w-full  justify-center rounded-xl top-12 flex items-end absolute -z-1 p text-sm font-medium ${level.color} ${level.bg}`}>{level.info}</div>
-                  
+                
               </div>
             ))}
           </div>
           {
             selectDays === undefined ? null: <div 
             
-             className="px-2 pt-15 flex flex-col gap-2">
-             <label
-        className="block text-sm  font-medium text-zinc-700 text-start "
-        htmlFor="session-duration"
-      >
-        Seleted Days
-      </label>
+             className="px-2 pt-10 flex flex-col gap-2">
+                       <Label>4. All sessions</Label>
             <p className="flex  rounded-2xl gap-1 flex-wrap">
-            {selectDays?.map((data,index)=>{
-              return <div key={index} className="bg-accent font-medium text-sm text-gray-950 px-4 py-1 rounded-md">
-                {data}
+            {sessions?.map((data,index)=>{
+              return <div key={index} className="bg-accent font-medium text-sm text-gray-950 px-4 py-1.5 rounded-md">
+                {`${data.split(" ")[2]} ${data.split(" ")[1]}`}
               </div>
             })}
             </p>

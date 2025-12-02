@@ -54,7 +54,7 @@ export function DatePickerResponsive() {
         <Button
           variant={"outline"}
           className={cn(
-            "w-[97vw] mt-2 border-none bg-gray-50 rounded-lg max-md:h-10 border flex justify-start text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-al",
+            "w-[95vw] mt-2 border-none bg-gray-50 rounded-lg max-md:h-10 border flex justify-start text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-al",
             !dateRange?.from && "text-muted-foreground border "
           )}
         >

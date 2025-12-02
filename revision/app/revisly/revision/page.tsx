@@ -66,7 +66,7 @@ function Mobile() {
     }
   }, [repeatSub]);
   return (
-    <div className="mb-6 flex-col gap-4 w-[100vw]  max-md:mb-1 flex items-start justify-between  p-2">
+    <div className="mb-6 flex-col gap-4 w-[100vw] p-3 flex ">
       {errorInput ? <ErrorToast /> : null}
       {repeatSub ? <TopicExistsToast /> : null}
       {
@@ -97,7 +97,7 @@ function Mobile() {
                 }}
                 id="topic"
                 placeholder="e.g., System Design — Caching"
-                className="w-full p-3 bg-gray-50  rounded-md border-1 border-border text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-all"
+                className=" p-3 bg-gray-50 w-[95vw]  rounded-md border-1 border-border text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-all"
               />
              
             </div>
@@ -108,10 +108,10 @@ function Mobile() {
         <DatePickerResponsive />
       </div>
 
-      <div className="h-100 mt-2">
+      <div className="h-100 mt-3">
         <Label>3. What is your current confidence?</Label>
 
-        <div className="mt-4">
+        <div className="mt-2">
           <MDifficluty />
           {/* <Chip/> */}
         </div>
@@ -185,6 +185,7 @@ function Mobile() {
         </div>
       </div>
     </div>
+  
   );
 }
 
@@ -280,7 +281,7 @@ function Desktop() {
             />
           </div>
           <div>{/* <Progress value={33} /> */}</div>
-          <div className="flex flex-col mt-9">
+          <div className="flex flex-col mt-12">
              <Label>3. What is your current confidence?</Label>
                          
             <div className="flex w-full  gap-2 mt-5 mb-5">
