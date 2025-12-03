@@ -10,7 +10,7 @@ export async function getuserData(){
         where:{
             email:session?.user?.email || "",
         },
-        take:5,
+     
         select:{
             status:true,
             topic:true,
@@ -23,6 +23,7 @@ export async function getuserData(){
             email:session?.user?.email || "",
 
         },
+        take:5,
         select:{
             topic:true,
             score:true

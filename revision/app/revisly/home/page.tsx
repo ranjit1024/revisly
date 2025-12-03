@@ -9,6 +9,7 @@ import { useEffect, useMemo, useState } from "react"
 import { getuserData } from "@/lib/actions/dashBoard"
 import DashboardLoader from "@/components/ui/dashBoardLoader"
 import EmptySessionState from "@/components/ui/emptylist"
+import { de } from "date-fns/locale"
 
 interface mainSessionType {
     topic:string;
@@ -94,7 +95,7 @@ export default function Home() {
         <TopicCard />
       </div>
       <ProjectList projects={
-      
+        
         userData? userData[1].slice(0,5) : []} />
     </div>
   </div>
