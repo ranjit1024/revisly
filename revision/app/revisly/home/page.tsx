@@ -95,7 +95,7 @@ export default function Home() {
       </div>
       <ProjectList projects={
       
-        userData? userData[1] : []} />
+        userData? userData[1].slice(0,5) : []} />
     </div>
   </div>
 }
