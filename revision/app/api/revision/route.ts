@@ -59,14 +59,7 @@ function getCorrectDate(date: string) {
   return newDate.toISOString();
 }
 export async function POST(req: NextRequest) {
-  const redis = createClient({
-    username: "default",
-    password: process.env.REDIS_PASSWORD,
-    socket: {
-      host: process.env.REDIS_HOST,
-      port: 13429,
-    },
-  });
+
 
   const id = crypto.randomBytes(8).toString("hex");
 
@@ -90,6 +83,7 @@ export async function POST(req: NextRequest) {
   }
   const ifExitstingRevison = await prisma.revision.findFirst({
     where: {
+      email:session?.user?.email || "",
       topic: zodValidation.data.topic,
     },
   });
@@ -116,6 +110,14 @@ export async function POST(req: NextRequest) {
 
 
   try {
+      const redis = createClient({
+    username: "default",
+    password: process.env.REDIS_PASSWORD,
+    socket: {
+      host: process.env.REDIS_HOST,
+      port: 13429,
+    },
+  });
     await redis.connect();
     //pushing in quque
     await redis.lPush(
@@ -125,8 +127,9 @@ export async function POST(req: NextRequest) {
         id: id,
       })
     );
-    //check whethre notes process are done or not
+    // check whethre notes process are done or not
     const status = await redis.brPop(`${id}:status`, 20);
+    console.log(status)
     if (!status) {
       const items = await redis.lRange("revision", 0, -1);
       for (const item of items) {

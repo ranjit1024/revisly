@@ -57,7 +57,7 @@ function GenerateNotesPdf(filename, content) {
             const stream = fs_1.default.createWriteStream(filename);
             doc.pipe(stream);
             // Add your content (Synchronous operations)
-            doc.fontSize(25).text(content, 100, 100);
+            doc.fontSize(15).text(content, 20, 20);
             doc.end();
             // Listen for stream events to resolve/reject the Promise
             stream.on('finish', () => {

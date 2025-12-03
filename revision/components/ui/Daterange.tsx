@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react"
 import { format, addDays, differenceInDays, subDays } from "date-fns"
-import { Calendar as CalendarIcon } from "lucide-react"
+import { Calendar as CalendarIcon, Info } from "lucide-react"
 import { DateRange, useDayPicker } from "react-day-picker"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
@@ -49,82 +49,86 @@ export function MaxRangeDatePicker() {
       setDate(selectedDate)
     }
   }
-  useEffect(()=>{
+  useEffect(() => {
     const dateObj = new Date();
-   
-     dispatch(actions.addStartTime({
-      startDate:String(date?.from )
-     }));
-     dispatch(actions.addEndTime({
-      endDate: date?.to ? String(subDays(date.to,1)): ''
-     }))
-     
-  },[open])
+
+    dispatch(actions.addStartTime({
+      startDate: String(date?.from)
+    }));
+    dispatch(actions.addEndTime({
+      endDate: date?.to ? String(subDays(date.to, 1)) : ''
+    }))
+
+  }, [open])
 
   return (
 
     <div className="grid gap-2">
       <Popover open={open} onOpenChange={setOpen} >
-           <Label >2. When do you want to start?</Label>
+        <Label >2. How long want to revise this concept?</Label>
         <PopoverTrigger asChild>
+          <div>
+            <Button
 
-          <Button
-            
-            
-            id="date"
-            variant="outline"
-            className={cn(
-              "w-[500px]  h-11 text-start border-1 bg-gray-50 rounded-lg text-gray-600  text-sm focus:outline-none hover:cursor-pointer focus:ring-2 flex justify-start focus:ring-black/5",
-              !date && "text-white"
-            )}
-          
-          >
-            <CalendarIcon className="mr-2 h-4 " />
-            {date?.from ? (
-              date.to ? (
-                <>
-                  {format(date.from, "LLL dd, y")} -{" "}
-                  {format(date.to, "LLL dd, y")}
-                </>
+
+              id="date"
+              variant="outline"
+              className={cn(
+                "w-[700px]  h-11 text-start border-1 bg-gray-50 rounded-lg text-gray-600  text-sm focus:outline-none hover:cursor-pointer focus:ring-2 flex justify-start focus:ring-black/5",
+                !date && "text-white"
+              )}
+
+            >
+              <CalendarIcon className="mr-2 h-4 " />
+              {date?.from ? (
+                date.to ? (
+                  <>
+                    {format(date.from, "LLL dd, y")} -{" "}
+                    {format(date.to, "LLL dd, y")}
+                  </>
+                ) : (
+                  <span>Pick a date</span>
+
+                )
               ) : (
-                format(date.from, "LLL dd, y")
-              )
-            ) : (
-              <span>Pick a date</span>
-            )}
-          </Button>
+                <span>Pick a date</span>
+              )}
+
+            </Button>
+           
+          </div>
         </PopoverTrigger>
         <div className="absolute top-0 " >
-          
-          <PopoverContent  className="w-fit absolute p-0" align="start">
-          
 
-            
+          <PopoverContent className="w-fit absolute p-0" align="start">
+
+
+
             <div className=" ">
 
-            
-            <Calendar
-              className=""
-              disabled={(date) => date < today || date > maxDate}
-              mode="range"
 
-              defaultMonth={date?.from}
-              
-              selected={date}
-              onSelect={handleDateSelect}
-              numberOfMonths={2}
-              showOutsideDays={false}
-            >
-              
-            </Calendar>
+              <Calendar
+                className=""
+                disabled={(date) => date < today || date > maxDate}
+                mode="range"
+
+                defaultMonth={date?.from}
+
+                selected={date}
+                onSelect={handleDateSelect}
+                numberOfMonths={2}
+                showOutsideDays={false}
+              >
+
+              </Calendar>
             </div>
-          
-           <div className="text-end m-2 ">
-         <Button className="bg-linear-120 hover:shadow-2xl  hover:cursor-pointer from-indigo-600 to-indigo-500" onClick={()=>{
-         setOpen(prev  => !prev);
-         
-         }}>OK</Button>
-           </div>
+
+            <div className="text-end m-2 ">
+              <Button className="bg-linear-120 hover:shadow-2xl  hover:cursor-pointer from-indigo-600 to-indigo-500" onClick={() => {
+                setOpen(prev => !prev);
+
+              }}>OK</Button>
+            </div>
           </PopoverContent>
         </div>
       </Popover>

@@ -18,11 +18,12 @@ import { TopicExistsToast } from "@/components/ui/topicExits";
 import { createSelector } from "@reduxjs/toolkit";
 import { useMediaQuery } from "react-responsive";
 import { DatePickerResponsive } from "@/components/ui/MDatePicker";
-import { MDifficluty } from "@/components/ui/MDiffculty";
+import {MDifficluty}  from "@/components/ui/MDiffculty";
 import MNotesLoader from "@/components/ui/MNotesloader";
 import { Milscc } from "@/components/ui/wrong";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { SessionLimitAlert } from "@/components/ui/morethen_5";
 export default function Home() {
   const isMobile = useMediaQuery({ maxWidth: 768 });
   return isMobile ? <Mobile /> : <Desktop />;
@@ -97,7 +98,7 @@ function Mobile() {
                 }}
                 id="topic"
                 placeholder="e.g., System Design — Caching"
-                className=" p-3 bg-gray-50 w-[95vw]  rounded-md border-1 border-border text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-all"
+                className=" py-[10px] px-2 bg-gray-50 w-[95vw]  rounded-md border-1 border-border text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-all"
               />
              
             </div>
@@ -111,7 +112,7 @@ function Mobile() {
       <div className="h-100 mt-3">
         <Label>3. What is your current confidence?</Label>
 
-        <div className="mt-2">
+        <div className="mt-4">
           <MDifficluty />
           {/* <Chip/> */}
         </div>
@@ -124,16 +125,11 @@ function Mobile() {
             onClick={async () => {
               try {
                 setSendData(true);
-                let count = 0;
-                if(sendData && count < 10){
-                  setInterval(()=>{
-                    count ++;
-                  },4000)
-                }
+                
                 console.log(sessionData);
                 const setRevision = await axios.post(
 
-                  "https://www.revisly.in/api/revision",
+                  "http://localhost:3000/api/revision",
                   sessionData,
                   {
                     headers: {
@@ -177,10 +173,10 @@ function Mobile() {
                 }
               }
             }}
-            className="inline-flex items-center gap-2 w-[100%] h-12 rounded-xl bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-zinc-800 active:translate-y-px"
-          >
-            <Send size={16} />
-            Set Revision Reminder
+             className="group w-full bg-slate-900 hover:bg-slate-800 text-white h-12 rounded-lg font-semibold text-base transition-all flex items-center justify-center gap-2 shadow-lg shadow-slate-900/20"
+            >
+               Schedule Revision
+            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
       </div>
@@ -194,6 +190,7 @@ function Desktop() {
   const [invalidInputError, setInvalidInputError] = useState<boolean>(false);
   const [showRepeteError, setShowrepeteError] = useState<boolean>(false);
   const [apiError, setApiError] = useState<boolean>(false);
+  const [showSessionLimitAlert, setShowSessionLimitAlert] = useState<boolean>(false);
   const router = useRouter();
   const dispatch = useDispatch();
   const selectorData = createSelector(
@@ -241,6 +238,10 @@ function Desktop() {
 
       {sendData ? <NotesgeneratorLoader /> : null}
           {<Milscc open={open} setOpen={setOpen} />}
+          <SessionLimitAlert isOpen={showSessionLimitAlert} onClose={()=>{
+            setShowSessionLimitAlert(false)
+             router.push("/revisly/home")
+            }}/>
       <div className="bg-white shadow p-5 rounded-md h-[120vh] max-md:p-3 ">
      
            
@@ -330,7 +331,7 @@ function Desktop() {
                   setSendData(true);
                   console.log(sessionData);
                   const setRevision = await axios.post(
-                    "https://www.revisly.in/api/revision",
+                    "http://localhost:3000/api/revision",
                     sessionData,
                     {
                       headers: {
@@ -364,7 +365,15 @@ function Desktop() {
                       setSendData(false);
                       setOpen(true);
                       return;
-                    } else {
+                    }
+                    if (
+                      e.response?.data.message === "Limit Reached"
+                    ) {
+                      setSendData(false);
+                      setShowSessionLimitAlert(true);
+                      return;
+                    }
+                     else {
                       setSendData(true);
                     }
                   }
@@ -387,5 +396,4 @@ function Desktop() {
   );
 }
 
-// {topic: 'mjhbm', sessionIntervel: Array(6), time: '5:04AM', sessionStart: 'Sun Nov 09 2025 11:06:58 GMT+0530 (India Standard Time)', sessionEnd: 'Fri Nov 21 2025 00:00:00 GMT+0530 (India Standard Time)', …}days: (3) ['monday', 'tuesday', 'wednesday']difficulty: "medium"sessionEnd: "Fri Nov 21 2025 00:00:00 GMT+0530 (India Standard Time)"sessionIntervel: (6) ['Mon Nov 10 2025', 'Tue Nov 11 2025', 'Wed Nov 12 2025', 'Mon Nov 17 2025', 'Tue Nov 18 2025', 'Wed Nov 19 2025']sessionStart: "Sun Nov 09 2025 11:06:58 GMT+0530 (India Standard Time)"time: "5:04AM"topic: "mjhbm"[[Prototype]]: Object
-// turbopack-hot-reloader-common.ts:41
+

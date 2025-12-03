@@ -49,17 +49,30 @@ export function DatePickerResponsive() {
     },[open])
   return (
     <Drawer open={open} onOpenChange={setOpen}>
-         <Label>2. When do you want to start?</Label>
+          <Label >2. How long want to revise this concept?</Label>
       <DrawerTrigger asChild>
         <Button
           variant={"outline"}
           className={cn(
-            "w-[95vw] mt-2 border-none bg-gray-50 rounded-lg max-md:h-10 border flex justify-start text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-al",
-            !dateRange?.from && "text-muted-foreground border "
+            "w-[95vw] mt-2  bg-gray-50 rounded-md max-md:h-10 border flex justify-start text-sm focus:outline-none focus:ring-2 focus:ring-black/5 transition-al",
+            !dateRange?.from && "text-muted-foreground border-2  "
           )}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {displayText}
+          <CalendarIcon className="mr-2 h-4 w-4 text-gray-500 b" />
+           {dateRange?.from ? (
+              dateRange.to ? (
+                <div className="text-gray-900">
+                  {format(dateRange.from, "LLL dd, y")} -{" "}
+                  {format(dateRange.to, "LLL dd, y")}
+                </div>
+              ) : (
+                <span className="text-balance text-gray-500">Pick a date</span>
+   
+              )
+            ) : (
+              <span>Pick a date</span>
+            )}
+        
         </Button>
       </DrawerTrigger>
       <DrawerContent className="h-fit p-3">

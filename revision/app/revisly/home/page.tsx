@@ -60,7 +60,9 @@ export default function Home() {
   setSessionscore(scores);
 },[userData])
   const router = useRouter();
-  if(userData === null) return <DashboardLoader/>
+  if(userData === null) return <div className="h-100 max-md:flex justify-center items-center">
+    <DashboardLoader/>
+  </div>
    if(userData[0].length === 0 && userData[1].length ===0) return <EmptySessionState/>
   return <div className="p-5 bg-white rounded-sm max-md:p-2 max-md:pb-[15vh]">
     <div className="flex justify-between items-center">

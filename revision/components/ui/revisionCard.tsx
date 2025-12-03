@@ -45,7 +45,7 @@ const SessionCard = (
 
       variants={cardVariant}
 
-      className="w-full  bg-white rounded-lg shadow  hover:shadow-lg border border-gray-100 hover:shadow-indigo-100  overflow-hidden   ">
+      className="w-full   bg-white rounded-lg shadow  hover:shadow-lg border border-gray-100 hover:shadow-indigo-100    ">
       {/* Header with date */}
       <div className="flex justify-between items-center p-4 bg-gradient-to-r from-gray-50 to-white border-b border-gray-100">
         <div className="flex items-center gap-2 text-gray-500 text-sm">

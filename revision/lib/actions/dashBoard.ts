@@ -2,8 +2,7 @@
 import prisma from "../prisma"
 import { getServerSession } from "next-auth"
 import { authOption } from "../auth"
-import { da } from "date-fns/locale";
-import { Nimble } from "aws-sdk";
+
 export async function getuserData(){
     const session = await getServerSession(authOption);
     // get total session count

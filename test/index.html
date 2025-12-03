@@ -378,7 +378,7 @@
             };
             const data = await userData.json();
 
-            fetch(`http://ec2-54-162-151-48.compute-1.amazonaws.com:8080/api/score/${data.id}`, requestOptions)
+            fetch(`https://api.revisly.in/api/score/${data.id}`, requestOptions)
                 .then(response => {
                     if (!response.ok) {
                         throw new error('Somehting went wrting')

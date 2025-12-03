@@ -61,16 +61,18 @@ export default function Home() {
     </motion.div>
   }
   if(revisionSessionInfo.length === 0){
-    return <EmptySessionState/>
+    return <div className="h-100 max-md:flex justify-center items-center">
+      <EmptySessionState/>
+</div>
   }
   return (
-    <div className=" flex w-[100%] justify-center ">
+    <div className=" flex w-[100%] justify-center max-md:pb-30 ">
       <motion.div
         ref={ref}
         variants={containerVariant}
         initial="hidden"
         animate={inView ? "show" : "hidden"}
-        className="flex flex-col gap-3  w-[98%] max-md:h-[110vh]  "
+        className="flex flex-col gap-3  w-[98%]   "
       >
         {revisionSessionInfo?.map((item, index) =>
           <SessionCard
