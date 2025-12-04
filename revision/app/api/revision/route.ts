@@ -17,7 +17,7 @@ async function gerateBrif(sub: string) {
     messages: [
       {
         role: "user",
-        content: `Give me a 10-word brief about the ${sub} `,
+        content: `Summarize ${sub} in a single, impactful sentence that captures its core value.`,
       },
     ],
     model: "openai/gpt-oss-120b",
@@ -196,3 +196,6 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+
+
