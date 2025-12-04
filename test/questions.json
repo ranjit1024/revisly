@@ -1,112 +1,112 @@
 [
   {
     "id": 1,
-    "question": "What is the result of the following code snippet?",
+    "question": "Which function can be used to count cells that meet multiple criteria in different columns?",
     "options": [
-      "A) 0",
-      "B) 1",
-      "C) 2",
-      "D) 3"
+      "A) COUNTIF",
+      "B) SUMIF",
+      "C) SUMPRODUCT",
+      "D) COUNTIFS"
     ],
-    "correctAnswer": 3
+    "correctAnswer": 2
   },
   {
     "id": 2,
-    "question": "Which of the following is true about Java's serialization mechanism?",
+    "question": "What formula combination can return the 3rd largest unique value in a list?",
     "options": [
-      "A) Only transient fields are serialized",
-      "B) A static field is serialized if marked transient",
-      "C) A serializable class must define a serialVersionUID",
-      "D) An ObjectOutputStream automatically encrypts data"
+      "A) LARGE with IF",
+      "B) LARGE with NOT",
+      "C) LARGE with UNIQUE",
+      "D) LARGE with MATCH"
     ],
     "correctAnswer": 2
   },
   {
     "id": 3,
-    "question": "Consider the following method signature: public static void foo(String... args). Which statement is correct?",
+    "question": "Which Excel function extracts unique values from a range?",
     "options": [
-      "A) It accepts exactly one String argument",
-      "B) It accepts any number of String arguments",
-      "C) It cannot be invoked with no arguments",
-      "D) It is equivalent to public static void foo(String[] args)"
+      "A) FILTER",
+      "B) UNIQUE",
+      "C) SORT",
+      "D) REMOVE duplicates"
     ],
     "correctAnswer": 1
   },
   {
     "id": 4,
-    "question": "Which Java feature ensures that two threads cannot modify the same object concurrently?",
+    "question": "Which approach allows a lookup that matches on two criteria without creating a helper column?",
     "options": [
-      "A) Final keyword",
-      "B) Synchronization",
-      "C) Volatile keyword",
-      "D) Static initializer"
+      "A) VLOOKUP",
+      "B) HLOOKUP",
+      "C) INDEX+MATCH with CHOOSE",
+      "D) XLOOKUP with multiple criteria"
     ],
-    "correctAnswer": 1
+    "correctAnswer": 3
   },
   {
     "id": 5,
-    "question": "What is the output of this code?",
+    "question": "Which function is most commonly used to create a dynamic named range that expands as new data is entered?",
     "options": [
-      "A) 5",
-      "B) 10",
-      "C) 15",
-      "D) Compile-time error"
+      "A) INDEX",
+      "B) OFFSET",
+      "C) INDIRECT",
+      "D) COUNTA"
     ],
     "correctAnswer": 1
   },
   {
     "id": 6,
-    "question": "In Java, which of the following statements about interfaces is correct?",
+    "question": "What type of conditional formatting rule uses a formula that references the active cell?",
     "options": [
-      "A) An interface can contain static fields only",
-      "B) A class can implement multiple interfaces",
-      "C) All interface methods are public by default",
-      "D) Interfaces cannot extend other interfaces"
+      "A) Use Format cells",
+      "B) Use Data bars",
+      "C) Use formula rule",
+      "D) Use color scales"
     ],
-    "correctAnswer": 1
+    "correctAnswer": 2
   },
   {
     "id": 7,
-    "question": "Which exception is thrown when trying to divide an integer by zero?",
+    "question": "Which combination of functions ensures that concatenated text has no leading or trailing spaces?",
     "options": [
-      "A) NullPointerException",
-      "B) ArithmeticException",
-      "C) NumberFormatException",
-      "D) IllegalArgumentException"
+      "A) CONCATENATE",
+      "B) TEXTJOIN + TRIM",
+      "C) & operator",
+      "D) CONCAT"
     ],
     "correctAnswer": 1
   },
   {
     "id": 8,
-    "question": "What is the time complexity of HashMap's get() operation in the worst case?",
+    "question": "How can you calculate a rolling average of the last 5 weeks in a dataset?",
     "options": [
-      "A) O(1)",
-      "B) O(log n)",
-      "C) O(n)",
-      "D) O(n^2)"
+      "A) AVERAGE with SUM",
+      "B) AVERAGEIF",
+      "C) OFFSET + AVERAGE",
+      "D) SUMPRODUCT"
     ],
     "correctAnswer": 2
   },
   {
     "id": 9,
-    "question": "Which of the following is NOT a type of class loader in Java?",
+    "question": "Which function can split a text string into an array based on a delimiter without using a helper column?",
     "options": [
-      "A) Bootstrap",
-      "B) Extension",
-      "C) System",
-      "D) Application"
+      "A) LEFT",
+      "B) MID",
+      "C) TEXTSPLIT",
+      "D) SPLIT function"
     ],
-    "correctAnswer": 3
+    "correctAnswer": 2
   },
   {
     "id": 10,
-    "question": "What will be printed by the following code?",
+    "question": "What formula pair is best for returning a value located at a specific row and column intersection?",
     "options": [
-      "A) HelloWorld",
-      "B) Hello",
-      "C) World",
-      "D) Compile-time error"
+      "A) VLOOKUP",
+      "B) HLOOKUP",
+      "C) INDEX+MATCH",
+      "D) SUMPRODUCT"
     ],
-    "correctAnswer": 0
+    "correctAnswer": 2
   }
 ]

@@ -41,7 +41,7 @@ class RevionsTest {
       
         this.Store('data.json', JSON.parse(JSON.stringify(this.revisionData)));
         this.Store('questions.json', notes || "",true);
-        this.Upload([{filePath:'./index.html', key:`${this.revisionData.id}/index.html`,content_type:'text/html'},
+        await this.Upload([{filePath:'./index.html', key:`${this.revisionData.id}/index.html`,content_type:'text/html'},
 
           {filePath:'./data.json', key:`${this.revisionData.id}/data.json`,content_type:'application/json'},
           {filePath:'./questions.json', key:`${this.revisionData.id}/questions.json`,content_type:'application/json'},
