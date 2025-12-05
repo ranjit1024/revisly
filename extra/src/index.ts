@@ -171,10 +171,6 @@ app.post("/api/score/:id", async (req, res) => {
 app.listen(port, () => {
   console.log("listing on port number ", port);
 });
-// corn.schedule('0 0 * * *', async () => {
-//   await getData()
-// })
-// async function main(){
-//   await getData()
-// }
-// main()
+corn.schedule('0 0 * * *', async () => {
+  await getData()
+})
