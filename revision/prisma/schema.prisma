@@ -25,7 +25,7 @@ model Revision {
   id               String            @id @unique @default(cuid())
   sessinNumber     Int               @default(autoincrement())
   email            String
-  topic            String
+  topic            String            
   sessionsintervel DateTime[]
   sessions         Int
   days             String[]

@@ -74,12 +74,12 @@ async function getData() {
   }
 }
 
-async function isCompletd({ id }: { id: string }) {
-  let COMPLETED = false;
+async function isCompletd({ topic,id }: { topic: string,id:string }) {
+  
   let score = 0;
   const sessions = await prisma.revisionSession.findMany({
     where: {
-      id: id
+      topic:topic
     },
     select: {
       status: true,
@@ -87,39 +87,16 @@ async function isCompletd({ id }: { id: string }) {
     }
   })
   console.log(sessions)
-  sessions.filter(session => {
-    if (session.status === "MISSED") {
-      console.log("fsdf")
-      return
+  const result = sessions.every(session =>{
+    if(session.status === "COMPLETED"){
+      score += session.score;
     }
-    else if (session.status === "PENDING") {
-      console.log("dsladjfa")
-      return;
-    }
-    score += session.score;
   })
-  COMPLETED = true;
-  if (COMPLETED) {
-    const userId = await prisma.revisionSession.findFirst({
-      where: {
-        id: id,
-      },
-      select: {
-        id: true,
-        revision: true
-      }
-    });
-    await prisma.revision.update({
-      where: {
-        id: userId?.revision.id
-      },
-      data: {
-        score: score / sessions.length
-      }
-    })
-  }
-  console.log(score / sessions.length)
-
+  
+  return {
+    result,
+    score:score / sessions.length
+  };
 }
 app.post('/api/test', async (req, res) => {
   const id = req.body;
@@ -141,6 +118,8 @@ app.post("/api/score/:id", async (req, res) => {
       },
       select: {
         id: true,
+        topic:true,
+        revision:true
       }
     });
 
@@ -160,8 +139,27 @@ app.post("/api/score/:id", async (req, res) => {
         status: "COMPLETED",
       },
     });
-    const response = await isCompletd({ id: id });
-
+    const response = await isCompletd({ topic:userId?.topic|| "", id:id});
+    console.log(response.result === true)
+    if(response){
+      const setCompleted = await prisma.revision.update({
+        where:{
+          id:userId.revision.id
+        },
+        data:{
+          score:response.score,
+          status:"COMPLETED"
+        }
+      })
+      return res.json({
+        message:'done'
+      })
+    }
+    else{
+      return res.json({
+        message:'done'
+      })
+    }
   }
   catch (e) {
     res.json({
@@ -176,7 +174,7 @@ app.listen(port, () => {
 // corn.schedule('0 0 * * *', async () => {
 //   await getData()
 // })
-async function main(){
-  await getData()
-}
-main()
+// async function main(){
+//   await getData()
+// }
+// main()
