@@ -136,7 +136,7 @@ async function semdMail(to:string,subject:string,link:string) {
                             <div style="text-align: center; padding: 24px; background-color: #fffbeb; border: 1px solid #fcd34d; border-radius: 6px; margin: 24px 0;">
                                 <p style="margin: 0; color: #92400e; font-size: 15px; font-weight: 500; line-height: 1.5;">
                                     ⏱️ <strong>Duration:</strong> 10-15 minutes<br>
-                                    🎯 <strong>Reminder:</strong> Link expires in 10 minutes
+                                    🎯 <strong>Reminder:</strong> Link expires in 24 Hours
                                 </p>
                             </div>
                             
