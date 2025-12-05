@@ -30,10 +30,7 @@ class RevionsTest {
       while(1){
 
       try{
-
-      
       const reminderData = await redis.brPop("reminder", 0);
-      
       this.revisionData = JSON.parse(reminderData?.element || "");
       console.log(this.revisionData);
       if (this.revisionData) {

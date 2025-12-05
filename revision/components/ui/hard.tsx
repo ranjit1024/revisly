@@ -11,7 +11,7 @@ function findSpecificWeekdaysWithDateFns(
   endDate: string
 ): string[] {
   const myDate = new Date(startDate);
-  myDate.setDate(myDate.getDate() + 1);
+  myDate.setDate(myDate.getDate());
   const allDays: Date[] = eachDayOfInterval({
     start: new Date(myDate),
     end: new Date(endDate),

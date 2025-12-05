@@ -1,112 +1,112 @@
 [
   {
     "id": 1,
-    "question": "Which function can be used to count cells that meet multiple criteria in different columns?",
+    "question": "Which formula will return the average of the non-empty cells in the range B2:B10, ignoring zeros?",
     "options": [
-      "A) COUNTIF",
-      "B) SUMIF",
-      "C) SUMPRODUCT",
-      "D) COUNTIFS"
+      "A) =AVERAGEIF(B2:B10,\"<>0\")",
+      "B) =AVERAGEIF(B2:B10,\">0\")",
+      "C) =AVERAGEIF(B2:B10,\"<>\")",
+      "D) =AVERAGE(B2:B10,0)"
     ],
-    "correctAnswer": 2
+    "correctAnswer": 0
   },
   {
     "id": 2,
-    "question": "What formula combination can return the 3rd largest unique value in a list?",
+    "question": "What does the formula =OFFSET(A1,5,3,2,2) return?",
     "options": [
-      "A) LARGE with IF",
-      "B) LARGE with NOT",
-      "C) LARGE with UNIQUE",
-      "D) LARGE with MATCH"
+      "A) The value in cell D7",
+      "B) A reference to a 2x2 range starting at F6",
+      "C) A reference to a 2x2 range starting at D6",
+      "D) The value in cell F8"
     ],
     "correctAnswer": 2
   },
   {
     "id": 3,
-    "question": "Which Excel function extracts unique values from a range?",
-    "options": [
-      "A) FILTER",
-      "B) UNIQUE",
-      "C) SORT",
-      "D) REMOVE duplicates"
-    ],
-    "correctAnswer": 1
-  },
-  {
-    "id": 4,
-    "question": "Which approach allows a lookup that matches on two criteria without creating a helper column?",
+    "question": "Which function can be used to lookup a value in a table and return a value from a column to the left of the lookup column?",
     "options": [
       "A) VLOOKUP",
       "B) HLOOKUP",
-      "C) INDEX+MATCH with CHOOSE",
-      "D) XLOOKUP with multiple criteria"
+      "C) INDEX MATCH",
+      "D) LOOKUP"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "id": 4,
+    "question": "What is the result of the formula =SUMPRODUCT((A2:A5=\"Yes\")*(B2:B5>10),C2:C5)?",
+    "options": [
+      "A) The sum of C2:C5 where A is \"Yes\" and B > 10",
+      "B) The product of sums of A, B, and C",
+      "C) The count of rows where A is \"Yes\" and B > 10",
+      "D) #VALUE! error because of mismatched array sizes"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 5,
+    "question": "How can you return the nth largest value in a range D1:D20 while ignoring duplicates?",
+    "options": [
+      "A) =LARGE(UNIQUE(D1:D20),n)",
+      "B) =LARGE(D1:D20,COUNTIF(D1:D20,\"<>\")-n+1)",
+      "C) =INDEX(SORT(UNIQUE(D1:D20),1,TRUE),n)",
+      "D) =INDEX(UNIQUE(LARGE(D1:D20,n)),1)"
+    ],
+    "correctAnswer": 2
+  },
+  {
+    "id": 6,
+    "question": "Which formula will extract the text between the first and second commas in cell A1?",
+    "options": [
+      "A) =MID(A1,FIND(\",\",A1)+1,FIND(\",\",A1,FIND(\",\",A1)+1)-FIND(\",\",A1)-1)",
+      "B) =TRIM(MID(SUBSTITUTE(A1,\",\",REPT(\" \",LEN(A1))),LEN(A1)*2, LEN(A1)))",
+      "C) =TEXTBETWEEN(A1,\",\",\",\")",
+      "D) =RIGHT(A1,LEN(A1)-FIND(\",\",A1,FIND(\",\",A1)+1))"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 7,
+    "question": "What does the formula =FILTER(A2:B20,B2:B20>100) do?",
+    "options": [
+      "A) Returns all rows where column B > 100",
+      "B) Returns a single value from column A where column B > 100",
+      "C) Sorts the range A2:B20 by values > 100",
+      "D) Creates a pivot table of values > 100"
+    ],
+    "correctAnswer": 0
+  },
+  {
+    "id": 8,
+    "question": "Which function pair can be used to find the first empty cell in column C?",
+    "options": [
+      "A) INDEX(ROW(C:C),MATCH(0,C:C,0))",
+      "B) MATCH(TRUE,INDEX(C:C=\"\",0),0)",
+      "C) MIN(IF(C:C=\"\",ROW(C:C)))",
+      "D) LOOKUP(2,1/(C:C=\"\"),ROW(C:C))"
     ],
     "correctAnswer": 3
   },
   {
-    "id": 5,
-    "question": "Which function is most commonly used to create a dynamic named range that expands as new data is entered?",
-    "options": [
-      "A) INDEX",
-      "B) OFFSET",
-      "C) INDIRECT",
-      "D) COUNTA"
-    ],
-    "correctAnswer": 1
-  },
-  {
-    "id": 6,
-    "question": "What type of conditional formatting rule uses a formula that references the active cell?",
-    "options": [
-      "A) Use Format cells",
-      "B) Use Data bars",
-      "C) Use formula rule",
-      "D) Use color scales"
-    ],
-    "correctAnswer": 2
-  },
-  {
-    "id": 7,
-    "question": "Which combination of functions ensures that concatenated text has no leading or trailing spaces?",
-    "options": [
-      "A) CONCATENATE",
-      "B) TEXTJOIN + TRIM",
-      "C) & operator",
-      "D) CONCAT"
-    ],
-    "correctAnswer": 1
-  },
-  {
-    "id": 8,
-    "question": "How can you calculate a rolling average of the last 5 weeks in a dataset?",
-    "options": [
-      "A) AVERAGE with SUM",
-      "B) AVERAGEIF",
-      "C) OFFSET + AVERAGE",
-      "D) SUMPRODUCT"
-    ],
-    "correctAnswer": 2
-  },
-  {
     "id": 9,
-    "question": "Which function can split a text string into an array based on a delimiter without using a helper column?",
+    "question": "Which formula will combine the values in columns A and B into a single column separated by a dash, ignoring blank cells?",
     "options": [
-      "A) LEFT",
-      "B) MID",
-      "C) TEXTSPLIT",
-      "D) SPLIT function"
+      "A) =TEXTJOIN(\"-\",TRUE,A2:B2)",
+      "B) =CONCATENATE(A2,\"-\",B2)",
+      "C) =A2 & \"-\" & B2",
+      "D) =IF(A2=\"\",\"\",A2) & IF(AND(A2<>\",\",B2<>\"\"),\"-\",\"\") & IF(B2<>\",\",B2,\"\")"
     ],
-    "correctAnswer": 2
+    "correctAnswer": 0
   },
   {
     "id": 10,
-    "question": "What formula pair is best for returning a value located at a specific row and column intersection?",
+    "question": "What does the array formula {=MAX(IF(A1:A10=\"X\",B1:B10))} return?",
     "options": [
-      "A) VLOOKUP",
-      "B) HLOOKUP",
-      "C) INDEX+MATCH",
-      "D) SUMPRODUCT"
+      "A) The maximum value in B1:B10 where A1:A10 is \"X\"",
+      "B) The maximum value in A1:A10 where B1:B10 is \"X\"",
+      "C) The count of \"X\" in A1:A10",
+      "D) A #VALUE! error because IF returns a non-numeric array"
     ],
-    "correctAnswer": 2
+    "correctAnswer": 0
   }
 ]
