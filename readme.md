@@ -14,31 +14,35 @@ Real-time Analytics - "Improved since last session" metrics
 
 🛠 Tech Stack
 
-Frontend: React + TypeScript + Tailwind CSS
-Backend: Node.js + Express + Prisma + PostgreSQL
-Real-time: Redis (queues + caching)
-Storage: AWS S3 (PDFs)
-Infra: Docker + AWS EC2/RDS + Vercel
+**Frontend:** React + TypeScript + Tailwind CSS
+
+**Backend:** Node.js + Express + Prisma + PostgreSQL
+
+**Real-time:** Redis (queues + caching)
+
+**Storage:** AWS S3 (PDFs)
+
+**Infra:** Docker + AWS EC2/RDS + Vercel
 
 
 ## 🔧 Environment Variables
 
-Copy `.env.example` to `.env.local` and fill in your values:
+To run this project, you will need to add the following environment variables to your .env file
 
 Database
-DATABASE_URL="postgresql://username:password@localhost:5432/revisly?schema=public"
+`DATABASE_URL="postgresql://username:password@localhost:5432/revisly?schema=public`
 
 Redis
-REDIS_URL="redis://localhost:6379"
+`REDIS_URL="redis://localhost:6379`
 
-AWS S3 (PDF Storage)
+`AWS S3 (PDF Storage)
 AWS_ACCESS_KEY_ID="your_aws_access_key"
 AWS_SECRET_ACCESS_KEY="your_aws_secret_key"
 AWS_S3_BUCKET="revisly-pdfs"
-AWS_REGION="ap-south-1"
+AWS_REGION="ap-south-1`
 
 JWT Auth
-JWT_SECRET="your-super-secret-jwt-key-min-32-chars"
+`JWT_SECRET="your-super-secret-jwt-key-min-32-chars`
 
 App
 NEXTAUTH_URL="http://localhost:3000"
@@ -74,9 +78,8 @@ docker build -t revisly .
 📈 Progress Metrics Shown
 Study streak growth
 
-Topics mastered
+**Topics mastered**
 
-Quiz performance trends
+**Quiz performance trends**
 
-Retention rate improvements
-
+**Retention rate improvements**
