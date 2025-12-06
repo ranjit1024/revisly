@@ -4,6 +4,7 @@ import express from "express";
 import corn from "node-cron";
 import cors from "cors";
 import { createClient } from "redis";
+
 //
 dotenv.config();
 
@@ -98,10 +99,25 @@ async function isCompletd({ topic,id }: { topic: string,id:string }) {
     score:score / sessions.length
   };
 }
-app.post('/api/test', async (req, res) => {
-  const id = req.body;
 
-
+app.post('/api/check/:id', async (req, res) => {
+  const id = req.params.id;
+  const isCompletd = await prisma.revisionSession.findFirst({
+    where:{
+      id:id
+    },
+    select:{
+      status:true
+    }
+  })
+  if(isCompletd?.status === 'COMPLETED'){
+    return res.status(200).json({
+      status:true
+    });
+  }
+  return res.status(411).json({
+    status:false
+  })
 })
 
 app.post("/api/score/:id", async (req, res) => {

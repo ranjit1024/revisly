@@ -232,7 +232,7 @@
 </head>
 
 <body>
-    <div class="quiz-container">
+    <div class="quiz-container" id="quiz-container-id">
         <div class="quiz-header">
             <h1 class="quiz-title" id="title"></h1>
             <p class="quiz-subtitle">Answer all questions below</p>
@@ -280,6 +280,13 @@
         }
         let selectedAnswers = {};
         async function initializeQuiz() {
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+
+            };
             const userData = await fetch("./data.json");
             const topic = await userData.json()
             console.log(topic)
@@ -290,9 +297,23 @@
 
             const form = document.getElementById('quizForm');
             const totalQuestions = document.getElementById('totalQuestions');
+            const isCompleted = await fetch(`https://api.revisly.in/api/check/${topic.id}`, requestOptions);
+            const isCompletedRes = await isCompleted.json();
+            if (isCompletedRes.status === true) {
+               
+                const p = document.createElement("p");
 
-
-
+                p.textContent = "You alredy submited the Quiz";
+                p.style.textAlign = "center";
+                p.style.fontSize = "40px";
+                p.style.fontWeight = "600";
+                p.style.marginTop = "50px";
+                p.style.color = "#333";
+                document.body.appendChild(p);
+                document.getElementById("submitBtn").style.display = "none"
+                document.getElementById("quiz-container-id").style.display = "none"
+                return;
+            }
             quizData.forEach((question, index) => {
                 const questionCard = document.createElement('div');
                 questionCard.className = 'question-card';
@@ -387,7 +408,6 @@
 
             console.log(data)
         }
-
         function showResults(score, total) {
             const percentage = Math.round((score / total) * 100);
 
