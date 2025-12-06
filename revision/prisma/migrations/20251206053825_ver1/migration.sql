@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "Status" AS ENUM ('COMPLETED', 'PENDING');
+CREATE TYPE "Status" AS ENUM ('COMPLETED', 'PENDING', 'MISSED');
 
 -- CreateTable
 CREATE TABLE "User" (
@@ -23,7 +23,6 @@ CREATE TABLE "Revision" (
     "sessionsintervel" TIMESTAMP(3)[],
     "sessions" INTEGER NOT NULL,
     "days" TEXT[],
-    "time" TIMESTAMP(3) NOT NULL,
     "createdSession" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "startSesion" TIMESTAMP(3) NOT NULL,
     "endSession" TIMESTAMP(3) NOT NULL,
@@ -44,8 +43,8 @@ CREATE TABLE "RevisionSession" (
     "topic" TEXT NOT NULL,
     "revisionid" TEXT NOT NULL,
     "reminderDate" TIMESTAMP(3) NOT NULL,
-    "time" TIMESTAMP(3) NOT NULL,
     "status" "Status" NOT NULL,
+    "answer" JSONB,
 
     CONSTRAINT "RevisionSession_pkey" PRIMARY KEY ("id")
 );
