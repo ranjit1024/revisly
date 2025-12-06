@@ -12,7 +12,7 @@ Minimalist UI - Fast-loading dashboard with Tailwind + React
 
 Real-time Analytics - "Improved since last session" metrics
 
-🛠 Tech Stack
+## 🛠 Tech Stack
 
 **Frontend:** React + TypeScript + Tailwind CSS
 
