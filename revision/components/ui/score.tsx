@@ -20,7 +20,7 @@ const statusStyles: Record<Status, string> = {
 
   PENDING: "text-slate-600 bg-slate-50  ",
 
-  MISSED: 'text-slate-600 bg-red-50 '
+  MISSED: 'text-red-500  bg-red-50 '
 };
 
 export function RevisionCard({
@@ -54,7 +54,6 @@ export function RevisionCard({
         "group relative w-full max-w-sm overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition",
         "hover:shadow-md focus-within:ring-2 focus-within:ring-indigo-500",
         "dark:border-slate-800 dark:bg-slate-900",
-        className
       )}
       aria-label={title}
     >
@@ -88,13 +87,13 @@ export function RevisionCard({
       <div className="mt-auto">
         <button
           type="button"
-          disabled={status ==='PENDING' ? true:false}
+          disabled={status === "PENDING" ? true:false}
           onClick={()=>{
             router.push(`/revisly/report/${id}`)
           }}
 
           className={
-            ` ${status === 'PENDING'? 'inline-flex w-full items-center justify-center rounded-xl bg-slate-300 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:bg-indigo-600 dark:hover:bg-indigo-500 hover:cursor-pointer':"inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500dark:bg-indigo-600 dark:hover:bg-indigo-500 hover:cursor-pointer"}`
+            ` ${status === 'MISSED' || status === 'PENDING' ? 'inline-flex w-full items-center justify-center rounded-xl bg-slate-300 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 dark:bg-indigo-600 dark:hover:bg-indigo-500 hover:cursor-pointer':"inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500dark:bg-indigo-600 dark:hover:bg-indigo-500 hover:cursor-pointer"}`
           }
           aria-label="View report"
         >

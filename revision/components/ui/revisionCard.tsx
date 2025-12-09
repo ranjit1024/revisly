@@ -53,6 +53,7 @@ const SessionCard = (
           <span>{formatDate(startDate)} - {formatDate(endDate)}</span>
         </div>
         <div className="flex max-md:hidden items-center gap-2 text-gray-400 text-xs">
+           <span className={`bg-amber-50 text-amber-500 text-xs font-semibold px-3 py-1 rounded-md ${status === 'COMPLETED' ? 'bg-green-50 text-green-500 text-xs font-semibold px-3 py-1 rounded-md ' : null} `}>Score: {score}</span>
           <span className={`bg-amber-50 text-amber-500 text-xs font-semibold px-3 py-1 rounded-md ${status === 'COMPLETED' ? 'bg-green-50 text-green-500 text-xs font-semibold px-3 py-1 rounded-md ' : null} `}>
             {status}
           </span>
@@ -81,9 +82,7 @@ const SessionCard = (
               <p className="text-gray-500 text-sm font-medium">Session #{sessionNumber}</p>
             </div>
           </div>
-          <p className={`${score === 0 ? 'text-md font-medium text-gray-50' : 'text-md font-medium text-gray-600'}`}>
-            {score}
-          </p>
+          
         </div>
 
         {/* Description */}

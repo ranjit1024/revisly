@@ -14,7 +14,38 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 //
+async function markMiss() {
+  const data = await prisma.revisionSession.findMany({
+    where: {
+      reminderDate: {
+        lt: new Date()
+      },
+      status:{
+        in:['PENDING']
+      }
+    },
+    select: {
+      id: true
+      
+    },
+    orderBy: {
+      reminderDate: "asc",
+    },
+  });
+  console.log(data)
+  const mark = data.map(async(user) =>{
+    const mark_miss = await prisma.revisionSession.updateMany({
+      where:{
+        id:user.id
+      },
+      data:{
+        status:"MISSED"
+      }
+    })
+  })
+}
 async function getData() {
+  await markMiss();
   const today = new Date();
   const startDate = new Date(today);
   startDate.setHours(0, 0, 0, 0);
@@ -55,8 +86,6 @@ async function getData() {
       orderBy: {
         reminderDate: "asc",
       },
-
-
     });
     console.log(data);
     data.forEach(async (reminderTime) => {
@@ -75,12 +104,12 @@ async function getData() {
   }
 }
 
-async function isCompletd({ topic,id }: { topic: string,id:string }) {
-  
+async function isCompletd({ topic, id }: { topic: string, id: string }) {
+
   let score = 0;
   const sessions = await prisma.revisionSession.findMany({
     where: {
-      topic:topic
+      topic: topic
     },
     select: {
       status: true,
@@ -88,35 +117,37 @@ async function isCompletd({ topic,id }: { topic: string,id:string }) {
     }
   })
   console.log(sessions)
-  const result = sessions.every(session =>{
-    if(session.status === "COMPLETED"){
+  const result = sessions.every(session => {
+    if (session.status === "COMPLETED") {
+
       score += session.score;
+
     }
   })
-  
+  console.log()
   return {
     result,
-    score:score / sessions.length
+    score: score / sessions.length
   };
 }
 
 app.post('/api/check/:id', async (req, res) => {
   const id = req.params.id;
   const isCompletd = await prisma.revisionSession.findFirst({
-    where:{
-      id:id
+    where: {
+      id: id
     },
-    select:{
-      status:true
+    select: {
+      status: true
     }
   })
-  if(isCompletd?.status === 'COMPLETED'){
+  if (isCompletd?.status === 'COMPLETED') {
     return res.status(200).json({
-      status:true
+      status: true
     });
   }
   return res.status(411).json({
-    status:false
+    status: false
   })
 })
 
@@ -134,8 +165,8 @@ app.post("/api/score/:id", async (req, res) => {
       },
       select: {
         id: true,
-        topic:true,
-        revision:true
+        topic: true,
+        revision: true
       }
     });
 
@@ -155,25 +186,27 @@ app.post("/api/score/:id", async (req, res) => {
         status: "COMPLETED",
       },
     });
-    const response = await isCompletd({ topic:userId?.topic|| "", id:id});
-    console.log(response.result === true)
-    if(response){
+    const response = await isCompletd({ topic: userId?.topic || "", id: id });
+
+    console.log(response.result);
+    console.log(response.result)
+    if (response.result) {
       const setCompleted = await prisma.revision.update({
-        where:{
-          id:userId.revision.id
+        where: {
+          id: userId.revision.id
         },
-        data:{
-          score:response.score,
-          status:"COMPLETED"
+        data: {
+          score: response.score,
+          status: "COMPLETED"
         }
       })
       return res.json({
-        message:'done'
+        message: 'Main revision session also completed'
       })
     }
-    else{
+    else {
       return res.json({
-        message:'done'
+        message: 'main revision session is not completed'
       })
     }
   }
