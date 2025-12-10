@@ -53,7 +53,7 @@ export function MaxRangeDatePicker() {
     const dateObj = new Date();
 
     dispatch(actions.addStartTime({
-      startDate: String(date?.from)
+      startDate:date?.from ? String(subDays(date.from,-1)): ''
     }));
     dispatch(actions.addEndTime({
       endDate: date?.to ? String(subDays(date.to, 1)) : ''
