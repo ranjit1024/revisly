@@ -222,4 +222,6 @@ app.listen(port, () => {
 });
 corn.schedule('0 0 * * *', async () => {
   await getData()
+},{
+  timezone:"Asia/Kolkata"
 })

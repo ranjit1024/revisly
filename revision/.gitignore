@@ -1,4 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+ubuntu@ec2-54-221-92-102.compute-1.amazonaws.com
+ubuntu@ec2-13-217-221-135.compute-1.amazonaws.com
+ubuntu@ec2-54-242-205-20.compute-1.amazonaws.com
 
 # dependencies
 /node_modules
