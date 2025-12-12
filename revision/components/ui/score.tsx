@@ -10,7 +10,6 @@ interface RevisionCardProps {
   status?: Status;           // e.g., "Completed"
   date?: string;             // ISO or human string, e.g., "2025-08-15"
   progressText?: string;     // e.g., "1/10"
-  onViewReport?: () => void;
   className?: string;
   id:string
 }
@@ -29,8 +28,7 @@ export function RevisionCard({
   date = "2025-08-15",
   progressText = "1/10",
   id="",
-  onViewReport,
-  className,
+
 }: RevisionCardProps) {
   // Format date safely for display
   const router = useRouter()

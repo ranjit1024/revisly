@@ -49,7 +49,7 @@ export default function Page() {
                 status={data.status}
                 date={`${data.reminderDate}`}
                 progressText={`${data.score}/10`}
-                onViewReport={() => console.log("View Report clicked")}
+                
               />
             );
           })
