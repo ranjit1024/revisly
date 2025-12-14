@@ -15,10 +15,12 @@ app.use(cors());
 app.use(express.json());
 //
 async function markMiss() {
+  const startOfToday = new Date()
+  startOfToday.setHours(0, 0, 0, 0);
   const data = await prisma.revisionSession.findMany({
     where: {
       reminderDate: {
-        lt: new Date()
+        lt: startOfToday.toISOString()
       },
       status:{
         in:['PENDING']
