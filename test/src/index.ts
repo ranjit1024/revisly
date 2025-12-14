@@ -13,11 +13,11 @@ class RevionsTest {
     revision_id: string;
     id: string;
   } | null = null;
-
-
-
-  start = async () => {
-    const redis = createClient({
+  private redis: ReturnType<typeof createClient>;
+  private s3Client: S3Client;
+  private groq: Groq;
+  constructor() {
+    this.redis = createClient({
       username: "default",
       password: process.env.REDIS_PASSWORD,
       socket: {
@@ -25,46 +25,60 @@ class RevionsTest {
         port: 13429,
       },
     });
-    await redis.connect();
+    this.s3Client = new S3Client({
+      region: process.env.AWS_REGION || "us-east-1",
+      credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+      },
+    });
 
-      while(1){
+    this.groq = new Groq({
+      apiKey: process.env.GROQ_API_KEY,
+    });
+  }
+  start = async () => {
 
-      try{
-      const reminderData = await redis.brPop("reminder", 0);
-      this.revisionData = JSON.parse(reminderData?.element || "");
-      console.log(this.revisionData);
-      if (this.revisionData) {
-        const notes = await this.generateNotes(this.revisionData.topic);
-      
-        this.Store('data.json', JSON.parse(JSON.stringify(this.revisionData)));
-        this.Store('questions.json', notes || "",true);
-        await this.Upload([{filePath:'./index.html', key:`${this.revisionData.id}/index.html`,content_type:'text/html'},
 
-          {filePath:'./data.json', key:`${this.revisionData.id}/data.json`,content_type:'application/json'},
-          {filePath:'./questions.json', key:`${this.revisionData.id}/questions.json`,content_type:'application/json'},
-        ])
-        await redis.lPush("reminderTime", JSON.stringify({
-          email:this.revisionData.email,
-          id:this.revisionData.id,
-          topic:this.revisionData.topic
-        }))
+    await this.redis.connect();
+
+    while (true) {
+
+      try {
+        const reminderData = await this.redis.brPop("reminder", 0);
+        this.revisionData = JSON.parse(reminderData?.element || "");
+        console.log(this.revisionData);
+        if (this.revisionData) {
+          const notes = await this.generateNotes(this.revisionData.topic);
+
+          this.Store('data.json', JSON.parse(JSON.stringify(this.revisionData)));
+          this.Store('questions.json', notes || "", true);
+          await this.Upload([{ filePath: './index.html', key: `${this.revisionData.id}/index.html`, content_type: 'text/html' },
+            
+            { filePath: './data.json', key: `${this.revisionData.id}/data.json`, content_type: 'application/json' },
+            { filePath: './questions.json', key: `${this.revisionData.id}/questions.json`, content_type: 'application/json' },
+          ])
+          this.cleanup()
+          await this.redis.lPush("reminderTime", JSON.stringify({
+            email: this.revisionData.email,
+            id: this.revisionData.id,
+            topic: this.revisionData.topic
+          }))
+        }
+        else {
+          console.log("Not found")
+        }
+      } catch (e) {
+        console.log('something Went wrong ', e)
       }
-      else{
-        console.log("Not found")
-      }
-    }catch(e){
-      console.log('something Went wrong ', e)
-    }
     }
   }
 
   // genertaing questions
   private generateNotes = async (topic: string) => {
-    const groq = new Groq({
-      apiKey: process.env.GROQ_API_KEY,
-    });
+    
     // generatea Questions from LLM
-    const chatCompletion = await groq.chat.completions.create({
+    const chatCompletion = await this.groq.chat.completions.create({
       model: "openai/gpt-oss-20b",
       messages: [
         {
@@ -87,13 +101,13 @@ class RevionsTest {
     return chatCompletion.choices[0].message.content;
   };
   // storing in hard disk
-  private Store = (filename: string, content:string, question?:boolean) => {
+  private Store = (filename: string, content: string, question?: boolean) => {
     try {
-      if(question === true){
-              fs.writeFileSync(filename, content, "utf-8");  
-              console.log("questoin Written Successfully");      
+      if (question === true) {
+        fs.writeFileSync(filename, content, "utf-8");
+        console.log("questoin Written Successfully");
       }
-      else{
+      else {
         fs.writeFileSync(filename, JSON.stringify(content), "utf-8");
         console.log("file Written Successfully");
       }
@@ -102,38 +116,43 @@ class RevionsTest {
     }
   };
   // stoping the intervel
+  private cleanup() {
+    try {
+      fs.unlinkSync('./data.json');
+      fs.unlinkSync('./questions.json');
+    } catch (err) {
+      console.error('Cleanup error:', err);
+    }
+  }
+
   private Upload = async (
-    files:{filePath: string,
-    key: string,content_type:string}[]
+    files: {
+      filePath: string,
+      key: string, content_type: string
+    }[]
   ) => {
-    const s3Client = new S3Client({
-      region: process.env.AWS_REGION || "us-east-1",
-      credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-      },
-    });
-    const uploadPromise = files.map(file =>{
+
+    const uploadPromise = files.map(file => {
       const fileContent = fs.readFileSync(file.filePath);
       const params: PutObjectCommandInput = {
         Bucket: process.env.S3_BUCKET,
         Key: file.key,
         Body: fileContent,
-        ContentType:file.content_type
+        ContentType: file.content_type
       };
-      return s3Client.send(new PutObjectCommand(params));
+      return this.s3Client.send(new PutObjectCommand(params));
     })
-    try{
+    try {
       const results = await Promise.all(uploadPromise);
       console.log('Uploded')
       return results;
     }
-    catch(err){
+    catch (err) {
       console.error('Upload Filest', err)
     }
-  
+
   }
- 
+
 }
 const revision = new RevionsTest();
 revision.start();

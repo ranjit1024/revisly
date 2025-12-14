@@ -180,7 +180,7 @@ async function main() {
     },
   });
     redis.connect()
-  while (1) {
+  while (true) {
     try {
         const res = await redis.brPop("reminderTime", 0);
         if(res){

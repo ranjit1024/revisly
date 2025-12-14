@@ -55,10 +55,12 @@ async function  GenerateNotesPdf(filename:string, content:string):Promise<void>{
 
     // Listen for stream events to resolve/reject the Promise
     stream.on('finish', () => {
+       stream.close()
       resolve(); // File is fully written
     });
 
      stream.on('error', (err) => {
+       stream.close();
       reject(err); // Handle I/O errors
     });
   })
@@ -109,6 +111,7 @@ async function main() {
         };
         const command = new PutObjectCommand(params);
         const result = await s3Client.send(command);
+        await fs.promises.unlink('notes.pdf')
         console.log(result)
         await redis.lPush(`${revisionData.id}:status`, JSON.stringify({
           status:"completed"
