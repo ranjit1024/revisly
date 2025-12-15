@@ -15,12 +15,12 @@ app.use(cors());
 app.use(express.json());
 //
 async function markMiss() {
-  const startOfToday = new Date()
-  startOfToday.setHours(0, 0, 0, 0);
+  const sesionTime = new Date()
+  sesionTime.setHours(23, 59, 0 ,0);
   const data = await prisma.revisionSession.findMany({
     where: {
       reminderDate: {
-        lt: startOfToday.toISOString()
+        lt: sesionTime.toISOString()
       },
       status:{
         in:['PENDING']
@@ -65,8 +65,8 @@ async function getData() {
     },
   });
   try {
-    const startOfToday = new Date();
-    startOfToday.setHours(0, 0, 0, 0);
+    const sesionTime = new Date();
+    sesionTime.setHours(0, 0, 0, 0);
 
     const endOfToday = new Date();
     endOfToday.setHours(23, 59, 59, 999);
@@ -74,7 +74,7 @@ async function getData() {
     const data = await prisma.revisionSession.findMany({
       where: {
         reminderDate: {
-          gte: startOfToday.toISOString(),
+          gte: sesionTime.toISOString(),
           lte: endOfDay.toISOString()
         }
       },
