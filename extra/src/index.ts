@@ -55,7 +55,6 @@ async function getData() {
 
   const endOfDay = new Date(today);
   endOfDay.setHours(23, 59, 59, 999);
-  const endOfDayISO = endOfDay.toISOString();
   const redis = createClient({
     username: "default",
     password: process.env.REDIS_PASSWORD,
@@ -226,8 +225,8 @@ main()
 app.listen(port, () => {
   console.log("listing on port number ", port);
 });
-// corn.schedule('0 0 * * *', async () => {
-//   await getData()
-// },{
-//   timezone:"Asia/Kolkata"
-// })
+corn.schedule('0 0 * * *', async () => {
+  await getData()
+},{
+  timezone:"Asia/Kolkata"
+})
