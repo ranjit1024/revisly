@@ -214,10 +214,6 @@ app.post("/api/score/:id", async (req, res) => {
   }
 
 });
-async function  main() {
-  const res = await getData()
-}
-main()
 app.listen(port, () => {
   console.log("listing on port number ", port);
 });
