@@ -15,43 +15,39 @@ app.use(cors());
 app.use(express.json());
 //
 async function markMiss() {
-  const sesionTime = new Date()
-  sesionTime.setHours(23, 59, 0 ,0);
-  const data = await prisma.revisionSession.findMany({
+
+  const sessionTime = new Date();
+  sessionTime.setHours(23, 59, 0, 0);
+  const checkIsCompleted = await prisma.revision.updateMany({
+    where:{
+      endSession:{
+        lt:sessionTime
+      },
+      status:"PENDING"
+    },
+    data:{
+      status:"COMPLETED"
+    }
+  })
+  const result = await prisma.revisionSession.updateMany({
     where: {
       reminderDate: {
-        lt: sesionTime.toISOString()
+        lt: sessionTime,
       },
-      status:{
-        in:['PENDING']
-      }
+      status: "PENDING",
     },
-    select: {
-      id: true
-      
-    },
-    orderBy: {
-      reminderDate: "asc",
+    data: {
+      status: "COMPLETED",
     },
   });
-  console.log(data)
-  const mark = data.map(async(user) =>{
-    const mark_miss = await prisma.revisionSession.updateMany({
-      where:{
-        id:user.id
-      },
-      data:{
-        status:"MISSED"
-      }
-    })
-  })
+  const run = await Promise.all([checkIsCompleted,result]);
+  console.log(`Marked ${result.count} sessions as MISSED ${run}`);
 }
 async function getData() {
   await markMiss();
   const today = new Date();
   const startDate = new Date(today);
   startDate.setHours(0, 0, 0, 0);
-  const startDateIso = startDate.toISOString();
 
   const endOfDay = new Date(today);
   endOfDay.setHours(23, 59, 59, 999);
@@ -73,8 +69,8 @@ async function getData() {
     const data = await prisma.revisionSession.findMany({
       where: {
         reminderDate: {
-          gte: sesionTime.toISOString(),
-          lte: endOfDay.toISOString()
+          gte: sesionTime,
+          lte: endOfDay
         }
       },
       select: {
