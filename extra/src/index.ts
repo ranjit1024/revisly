@@ -18,30 +18,17 @@ async function markMiss() {
 
   const sessionTime = new Date();
   sessionTime.setHours(23, 59, 0, 0);
-  const checkIsCompleted = await prisma.revision.updateMany({
-    where:{
-      endSession:{
-        lt:sessionTime
-      },
-      status:"PENDING"
-    },
-    data:{
-      status:"COMPLETED"
-    }
+  const [checkIsCompleted, result] = await Promise.all([
+  prisma.revision.updateMany({
+    where: { endSession: { lt: sessionTime }, status: "PENDING" },
+    data: { status: "COMPLETED" }
+  }),
+  prisma.revisionSession.updateMany({
+    where: { reminderDate: { lt: sessionTime }, status: "PENDING" },
+    data: { status: "MISSED" }
   })
-  const result = await prisma.revisionSession.updateMany({
-    where: {
-      reminderDate: {
-        lt: sessionTime,
-      },
-      status: "PENDING",
-    },
-    data: {
-      status: "COMPLETED",
-    },
-  });
-  const run = await Promise.all([checkIsCompleted,result]);
-  console.log(`Marked ${result.count} sessions as MISSED ${run}`);
+]);
+console.log(checkIsCompleted, result)
 }
 async function getData() {
   await markMiss();
