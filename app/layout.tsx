@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${inter.variable} no-scrollbar  font-mona antialiased text-black bg-gray-100 h-full`}>
+        className={`${inter.className} ${inter.variable} no-scrollbar  font-mona antialiased text-black bg-gray-50 h-full`}>
         {children}
       </body>
     </html>
