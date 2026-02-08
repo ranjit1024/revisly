@@ -1,9 +1,9 @@
 import Image from "next/image";
-
-export default function Home() {
+import logo from "../public/image.png"
+export default function Page() {
   return (
-    <div className="flex text-black min-h-screen items-center justify-center bg-zinc-50 font-sans ">
-      <p>fasdfa</p>
+    <div className='bg-gray-50 min-h-screen flex items-center'>
+      <Image src={logo} width={120} height={120} alt="logo"></Image>
     </div>
   );
 }
