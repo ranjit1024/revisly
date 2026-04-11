@@ -1,7 +1,7 @@
 "use client"
 
-import Navbar from "./components/ui/header";
-import TrustBadge from "./components/ui/badge";
+import Navbar from "../components/ui/header";
+import TrustBadge from "../components/ui/badge";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
