@@ -26,7 +26,7 @@ export const TrustBadge = () => {
       </div>
 
       <span className="text-[13px] font-medium text-gray-700 tracking-tight">
-        Trusted by <span className="text-orange-600 font-semibold">10,000+</span> merchants
+        Trusted by <span className="text-orange-600 font-semibold">10</span> merchants
       </span>
 
       {/* Subtle "shimmer" shine that passes through */}
