@@ -12,7 +12,7 @@ export const TrustBadge = () => {
       transition={{ duration: 0.5, ease: "easeOut" }}
       className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full 
                  bg-gradient-to-r from-orange-50/80 to-white/80 
-                 border border-orange-100 shadow-sm shadow-orange-100/20 
+                 border border-orange-200 shadow-sm shadow-orange-100/20 
                  backdrop-blur-sm group cursor-default"
     >
       {/* Icon with a subtle pulse effect */}

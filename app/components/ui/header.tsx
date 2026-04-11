@@ -17,12 +17,13 @@ const Navbar = () => {
   ];
 
   return (
+    <div className="relative">
     <nav className="fixed top-8 left-0 right-0 z-50 flex justify-center px-6">
       <motion.div 
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1, }}
         transition={{ type: "spring", visualDuration: 0.5, bounce: 0.25 }} 
-        className="flex items-center  justify-between w-full max-w-5xl bg-white/[0.75] backdrop-blur-xl border border-gray-200 shadow-[0_8px_32px_rgba(0,0,0,0.08)] rounded-3xl px-3 py-2"
+        className="flex items-center  justify-between w-full max-w-5xl bg-white/[0.75] backdrop-blur border border-gray-200 shadow-[0_8px_32px_rgba(0,0,0,0.04)] rounded-3xl px-3 py-2"
       >
         {/* Logo Section */}
         <Link href="/" className="flex items-center gap-2.5 pl-4 group">
@@ -79,6 +80,7 @@ const Navbar = () => {
         </div>
       </motion.div>
     </nav>
+    </div>
   );
 };
 
