@@ -3,6 +3,7 @@
 import Navbar from "./components/ui/header";
 import TrustBadge from "./components/ui/badge";
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
 export default function Home() {
   return (
@@ -71,12 +72,22 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.6 }}
         >
-          <button className=" rounded-lg bg-orange-600 text-white   h-10 px-4 transition ">
+          
+              <button 
+            
+            className="group h-10 hover:cursor-pointer relative overflow-hidden bg-[#f75d11] text-white px-4  rounded-md text-sm font-semibold hover:bg-orange-500 shadow-xl shadow-gray-200"
+          >
             Get Started
           </button>
+          
 
-          <button className="rounded-lg bg-gray-50 text-gray900 border border-gray-200 h-10 px-4 transition n">
-            Learn More
+          
+              <button 
+            
+            className="group hover:cursor-pointer relative overflow-hidden bg-gray-100 hover:bg-[#f75d11] text-black border border-gray-200 px-6 py-2.5 rounded-md hover:text-white text-sm font-semibold   active:scale-95 shadow-xl shadow-gray-200"
+          >
+            <span className="relative z-10">Learn More</span>
+            
           </button>
         </motion.div>
 
