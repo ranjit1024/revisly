@@ -4,16 +4,22 @@ import Navbar from "../components/ui/header";
 import TrustBadge from "../components/ui/badge";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Dashboard from "@/components/ui/landingPageDashbord";
+
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900 font-sans">
 
       {/* Navbar */}
+      <div className="">
+
       <Navbar />
+      </div>
 
       {/* Hero Section */}
-      <main className="flex flex-col items-center justify-center flex-1 px-6">
+      <main className="flex flex-col items-center justify-center flex-1  px-6">
 
         {/* Badge */}
         <div className="mb-6">
@@ -73,24 +79,12 @@ export default function Home() {
           transition={{ delay: 0.6, duration: 0.6 }}
         >
           
-              <button 
-            
-            className="group h-10 hover:cursor-pointer relative overflow-hidden bg-[#f75d11] text-white px-4  rounded-md text-sm font-semibold hover:bg-orange-500 shadow-xl shadow-gray-200"
-          >
-            Get Started
-          </button>
-          
-
-          
-              <button 
-            
-            className="group hover:cursor-pointer relative overflow-hidden bg-gray-100 hover:bg-[#f75d11] text-black border border-gray-200 px-6 py-2.5 rounded-md hover:text-white text-sm font-semibold   active:scale-95 shadow-xl shadow-gray-200"
-          >
-            <span className="relative z-10">Learn More</span>
-            
-          </button>
+              <Button className={"h-10 px-4 font-medium "} size={"lg"}>Get Started</Button>
+              <Button className={"h-10 px-4 font-medium"} variant={'outline'} >Learn More</Button>
         </motion.div>
-
+        <div>
+          
+        </div>
       </main>
     </div>
   );
