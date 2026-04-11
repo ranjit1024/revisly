@@ -5,15 +5,15 @@ import TrustBadge from "../components/ui/badge";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Dashboard from "@/components/ui/landingPageDashbord";
-
+import Image from "next/image";
+import Dashboard from "../public/Dashborad.png";
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 text-gray-900 font-sans">
 
       {/* Navbar */}
-      <div className="">
+      <div className="mb-40">
 
       <Navbar />
       </div>
@@ -82,8 +82,8 @@ export default function Home() {
               <Button className={"h-10 px-4 font-medium "} size={"lg"}>Get Started</Button>
               <Button className={"h-10 px-4 font-medium"} variant={'outline'} >Learn More</Button>
         </motion.div>
-        <div>
-          
+        <div className="bg-transparent mt-12">
+          <Image src={Dashboard} height={120} width={1000} alt="dash"/>
         </div>
       </main>
     </div>
