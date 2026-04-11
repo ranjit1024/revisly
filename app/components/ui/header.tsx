@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ChevronDown } from 'lucide-react';
-
+import Logo from "../../../public/logo.png"
+import Image from 'next/image';
 const Navbar = () => {
   const [hoveredPath, setHoveredPath] = useState("");
 
@@ -26,11 +27,10 @@ const Navbar = () => {
         {/* Logo Section */}
         <Link href="/" className="flex items-center gap-2.5 pl-4 group">
           <div className="relative flex items-center justify-center">
-             <div className="w-8 h-8 bg-orange-500 rounded-xl rotate-12 group-hover:rotate-0 transition-transform duration-300 shadow-lg shadow-orange-200" />
-             <div className="absolute inset-0 flex items-center justify-center text-white font-bold text-xs">e</div>
+             <Image src={Logo} height={30} width={30} alt='revlisy'/>
           </div>
           <span className="text-[17px] font-bold bg-clip-text text-transparent bg-gradient-to-br from-gray-900 to-gray-500 tracking-tight">
-            Earnify
+            Revisly
           </span>
         </Link>
 
