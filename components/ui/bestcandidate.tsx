@@ -55,7 +55,7 @@ const DashboardWidgetLight = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
-            className="bg-slate-50 rounded-xl border border-orange-200/60 p-4 md:p-5 flex flex-col md:flex-row gap-5 shadow-sm relative overflow-hidden"
+            className="bg-linear-330 to-[FF6D24] from-orange-50  rounded-xl border border-orange-200/40 p-4 md:p-5 flex flex-col md:flex-row gap-5 relative overflow-hidden"
           >
             {/* Subtle background glow */}
             <div className="absolute top-0 right-0 w-48 h-48 bg-orange-500/5 blur-[50px] rounded-full pointer-events-none" />
@@ -90,7 +90,7 @@ const DashboardWidgetLight = () => {
         </AnimatePresence>
 
         {/* Runner-Ups Selection Row */}
-        <div className="mt-6">
+        <div className="mt-">
           <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-2 block">
             Compare other candidates
           </span>
