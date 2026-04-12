@@ -38,27 +38,52 @@ const steps = [
 const LandingPageShowcase = () => {
   const [activeStep, setActiveStep] = useState(1);
 
+  // Animation variants for the whole section
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2
+      }
+    }
+  } as const;
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] } 
+    } 
+  } as const;
+
   return (
-    <section className="py-24 px-6 bg-[#FAFAFA] font-sans text-slate-900  border-slate-200/60">
+    <motion.section 
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={containerVariants}
+      className="py-24 px-6 bg-[#FAFAFA] font-sans text-slate-900 border-slate-200/60"
+    >
       <div className="max-w-7xl mx-auto">
         
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
-       
+        <motion.div variants={itemVariants} className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-slate-900 mb-4">
             From Policy to Assessment in Minutes
           </h2>
           <p className="text-base text-slate-500 leading-relaxed">
             Automate your compliance workflow. Upload your governance documents and let our system handle the generation and distribution.
           </p>
-        </div>
+        </motion.div>
 
         {/* Main Showcase Grid */}
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
           
           {/* Left Side: Interactive Steps List */}
-          <div className="lg:col-span-5 space-y-1 relative">
-            {/* Subtle connecting background line */}
+          <motion.div variants={itemVariants} className="lg:col-span-5 space-y-1 relative">
             <div className="absolute left-[31px] top-8 bottom-8 w-[1px] bg-slate-200 z-0 hidden lg:block" />
 
             {steps.map((step, index) => {
@@ -92,13 +117,12 @@ const LandingPageShowcase = () => {
                 </div>
               );
             })}
-          </div>
+          </motion.div>
 
           {/* Right Side: The Minimalist App Preview */}
-          <div className="lg:col-span-7">
+          <motion.div variants={itemVariants} className="lg:col-span-7">
             <div className="relative w-full aspect-[4/3] bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-200/80 overflow-hidden flex flex-col">
               
-              {/* Minimalist Browser/App Header */}
               <div className="h-10 bg-[#FCFCFC] border-b border-slate-100 flex items-center px-4 gap-2 shrink-0">
                 <div className="flex gap-1.5">
                   <div className="w-2.5 h-2.5 rounded-full bg-slate-300" />
@@ -107,7 +131,6 @@ const LandingPageShowcase = () => {
                 </div>
               </div>
 
-              {/* Dynamic App Content */}
               <div className="flex-1 relative bg-slate-50/50 flex items-center justify-center p-8 overflow-hidden">
                 <AnimatePresence mode="wait">
                   
@@ -199,15 +222,14 @@ const LandingPageShowcase = () => {
                 </AnimatePresence>
               </div>
             </div>
-          </div>
+          </motion.div>
 
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 
-// Reusable wrapper for smooth fade/slide transitions
 const PreviewScreen = ({ children }:any) => (
   <motion.div 
     initial={{ opacity: 0, y: 10 }}
