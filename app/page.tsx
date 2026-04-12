@@ -7,6 +7,8 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Dashboard from "../public/Dashborad.png";
+import {PolicyScoreCard} from "@/components/ui/candidate";
+import { BulkEmailCard } from "@/components/ui/realtimecomponent";
 
 
 const cinematicEase = [0.22, 1, 0.36, 1] as const;
@@ -134,6 +136,10 @@ export default function Home() {
       <div className="flex justify-center  flex-col items-center " >
         <h1 className="text-5xl font-medium text-black mb-4">Prove policy understanding</h1>
         <h1 className="max-w-lg text-gray-700 font-normal text-center">Stop tracking completion. Gain clear insight into who actually understands your policies and who doesn’t</h1>
+      </div>
+      <div className="grid grid-cols-2 items-center justify-center">
+        <BulkEmailCard/>
+        <PolicyScoreCard/>
       </div>
     </div>
   );
