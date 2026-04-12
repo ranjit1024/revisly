@@ -32,7 +32,7 @@ const WideEvaluationDashboard = () => {
 
         {/* Top Text Content - Full Width */}
         <motion.div variants={fadeSlide} className="mb-12 max-w-3xl">
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl font-medium tracking-tight text-gray-900 mb-4">
             Per Candidate Score Evaluation
           </h2>
           <p className="text-base text-neutral-400 leading-relaxed">

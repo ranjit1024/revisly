@@ -45,7 +45,7 @@ const LandingPageShowcase = () => {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
        
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 mb-4">
+          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-slate-900 mb-4">
             From Policy to Assessment in Minutes
           </h2>
           <p className="text-base text-slate-500 leading-relaxed">

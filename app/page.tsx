@@ -11,7 +11,7 @@ import EvaluationDashboard from "@/components/ui/EvalutraionComp";
 import { BulkEmailCard } from "@/components/ui/BulkEmail";
 import PolicyAlignmentSelector from "@/components/ui/bestcandidate";
 import StepTrackerWidget from "@/components/ui/steps";
-
+import Fotter from "@/components/ui/fotter"
 
 const cinematicEase = [0.22, 1, 0.36, 1] as const;
 
@@ -136,7 +136,7 @@ export default function Home() {
         </div>
       </main>
       <div className="flex justify-center  flex-col items-center " >
-        <h1 className="text-5xl font-medium text-black mb-4">Prove policy understanding</h1>
+        <h1 className="text-5xl font-medium text-black mb-4">Measure real understanding</h1>
         <h1 className="max-w-lg text-gray-700 font-normal text-center">Stop tracking completion. Gain clear insight into who actually understands your policies and who doesn’t</h1>
       </div>
       <div className="px-20  mt-10">
@@ -153,7 +153,21 @@ export default function Home() {
             
              <StepTrackerWidget/>
       </div>
-      
+      <section className="flex flex-col items-center justify-center px-4  mx-auto max-w-3xl  border-gray-100">
+  <h2 className="mb-3 text-4xl font-semibold tracking-tight text-center text-black md:text-4xl">
+    Turn policies into assessments.
+  </h2>
+  
+  <p className="max-w-xl mb-7 text-sm leading-relaxed text-center text-gray-500">
+    Evaluate real understanding. Instead of relying on completion metrics, discover how well your candidates grasp what actually matters.
+  </p>
+  
+  {/* Consider making this an outline button or a softer color if it's still too loud */}
+  <Button className="px-6 py-2.5 text-sm font-medium transition-colors rounded-md shadow-sm h-10">
+    Start Now
+  </Button>
+</section>
+<Fotter/>
     </div>
   );
 }
