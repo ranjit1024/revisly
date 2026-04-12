@@ -102,9 +102,9 @@ export default function Home() {
 
           {/* Buttons */}
           <motion.div className="mt-10 flex flex-wrap justify-center gap-4" variants={itemVariants}>
-            <Button className="h-11 px-6 font-medium text-base rounded-full shadow-sm hover:shadow-md transition-shadow group" size="lg">
+            <Button className="h-11 px-6 font-medium text-base rounded-full shadow-sm hover:shadow-md" size="lg">
               Get Started
-              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              
             </Button>
             <Button className="h-11 px-6 font-medium text-base rounded-full" variant="outline">
               Learn More
@@ -127,7 +127,7 @@ export default function Home() {
           {/* Ultra-slow, subtle breathing animation */}
           
         </motion.div>
-        <div className="mb-30">
+        <div className="mb-28 opacity-80">
           <Image src={Dashboard} width={900} height={120} alt="DAshbarod"/>
         </div>
       </main>
