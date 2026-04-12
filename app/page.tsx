@@ -10,6 +10,7 @@ import Dashboard from "../public/Dashborad.png";
 import EvaluationDashboard from "@/components/ui/EvalutraionComp";
 import { BulkEmailCard } from "@/components/ui/BulkEmail";
 import PolicyAlignmentSelector from "@/components/ui/bestcandidate";
+import StepTrackerWidget from "@/components/ui/steps";
 
 
 const cinematicEase = [0.22, 1, 0.36, 1] as const;
@@ -147,6 +148,10 @@ export default function Home() {
 
         <BulkEmailCard/>
         
+      </div>
+      <div className="mt-15 px-20">
+            
+             <StepTrackerWidget/>
       </div>
       
     </div>
