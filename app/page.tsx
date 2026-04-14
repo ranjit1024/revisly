@@ -12,6 +12,7 @@ import PolicyAlignmentSelector from "@/components/ui/bestcandidate";
 import StepTrackerWidget from "@/components/ui/steps";
 import Fotter from "@/components/ui/fotter"
 import SignIn from "@/components/ui/singin";
+import { MobileLandingPageShowcase } from "@/components/ui/mobileTracker";
 
 const cinematicEase = [0.22, 1, 0.36, 1]  as const;
 
@@ -46,9 +47,9 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <main className="flex flex-col items-center justify-center flex-1 px-6">
+      <main className="flex flex-col items-center justify-center flex-1 px-6  max-md:px-2">
         <motion.div
-          className="flex flex-col items-center w-full max-w-4xl text-center"
+          className="flex flex-col items-center w-full max-w-4xl max-md:w-full text-center"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
@@ -58,12 +59,13 @@ export default function Home() {
             <TrustBadge />
           </motion.div>
 
-          <motion.div className="flex flex-col gap-2" variants={itemVariants}>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-[1.1]">
-              Upload policies. Generate tests.
+          <motion.div className="flex flex-col gap-2  max-md:gap-2 px-1" variants={itemVariants}>
+            <h1 className="text-[30px] sm:text-5xl  md:text-4xl  font-semibold tracking-tight leading-[1.1]">
+              Upload policies  Generate 
             </h1>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight leading-[1.1] text-gray-800">
-              Measure understanding.
+            
+            <h1 className="text-[28px] sm:text-5xl  md:text-4xl  font-semibold tracking-tight leading-[1.1]">
+              Test Measure understanding
             </h1>
           </motion.div>
 
@@ -102,17 +104,17 @@ export default function Home() {
         viewport={{ once: true, amount: 0.5 }}
         variants={containerVariants}
       >
-        <motion.h1 className="text-5xl font-medium text-black mb-4" variants={itemVariants}>
+        <motion.h1 className="text-5xl font-medium max-md:p-2 max-md:hidden text-black mb-4" variants={itemVariants}>
           Measure real understanding
         </motion.h1>
-        <motion.h1 className="max-w-lg text-gray-700 font-normal text-center" variants={itemVariants}>
+        <motion.h1 className="max-w-lg text-gray-700 max-md:hidden  max-md:p-2 max-md:text-start font-normal text-center" variants={itemVariants}>
           Stop tracking completion. Gain clear insight into who actually understands your policies and who doesn’t
         </motion.h1>
       </motion.div>
 
       {/* Components */}
       <motion.div 
-        className="px-20 mt-10"
+        className="px-20 mt-10 max-md:px-2"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -122,7 +124,7 @@ export default function Home() {
       </motion.div>
 
       <motion.div 
-        className="grid grid-cols-[60%_40%] px-22 pt-5 gap-4"
+        className="grid grid-cols-[60%_40%] px-22 pt-5 gap-4 max-md:flex max-md:flex-col max-md:px-2"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
@@ -133,13 +135,13 @@ export default function Home() {
       </motion.div>
 
       <motion.div 
-        className="mt-15 px-20"
+        className="mt-15 px-20 max-md:px-2"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 1 }}
       >
-        <StepTrackerWidget/>
+        <MobileLandingPageShowcase/>
       </motion.div>
 
       {/* CTA Section */}
@@ -166,7 +168,7 @@ export default function Home() {
       </motion.section>
 
       <Fotter/>
-      <SignIn/>
+      
     </div>
   );
 }

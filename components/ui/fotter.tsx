@@ -5,7 +5,7 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-white px-6 pb-8 mt-20">
+    <footer className="w-full bg-white px-6 pb-8 mt-20 max-md:px-2 ">
       {/* The thin divider line from your image */}
       <div className="w-full border-t border-gray-200 mb-6" />
 

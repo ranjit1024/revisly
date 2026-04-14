@@ -42,7 +42,7 @@ const WideEvaluationDashboard = () => {
         // once: true ensures it doesn't re-animate every time you scroll up/down
         // amount: 0.2 means trigger when 20% of the component is visible
         viewport={{ once: true, amount: 0.2 }}
-        className="max-w-[1500px] w-full bg-neutral-100 rounded-[2rem] p-8 md:p-12 border border-neutral-700/50 overflow-hidden"
+        className="max-w-[1500px] max-md:p-2 w-full bg-neutral-100 rounded-[2rem] max-md:rounded-lg  p-8 md:p-12 border border-neutral-700/50 overflow-hidden"
       >
 
         {/* Top Text Content - Full Width */}
