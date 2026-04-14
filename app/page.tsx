@@ -60,11 +60,11 @@ export default function Home() {
           </motion.div>
 
           <motion.div className="flex flex-col gap-2  max-md:gap-2 px-1" variants={itemVariants}>
-            <h1 className="text-[30px] sm:text-5xl  md:text-4xl  font-semibold tracking-tight leading-[1.1]">
+            <h1 className=" md:text-5xl max-md:text-[30px] font-semibold tracking-tight leading-[1.1]">
               Upload policies  Generate 
             </h1>
             
-            <h1 className="text-[28px] sm:text-5xl  md:text-4xl  font-semibold tracking-tight leading-[1.1]">
+            <h1 className=" sm:text-5xl  md:text-5xl max-md:text-[26px] font-semibold tracking-tight leading-[1.1]">
               Test Measure understanding
             </h1>
           </motion.div>
@@ -141,7 +141,12 @@ export default function Home() {
         viewport={{ once: true }}
         transition={{ duration: 1 }}
       >
+        <div className="block lg:hidden">
         <MobileLandingPageShowcase/>
+        </div>
+        <div className="hidden lg:block">
+        <StepTrackerWidget/>
+        </div>
       </motion.div>
 
       {/* CTA Section */}
