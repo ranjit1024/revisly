@@ -11,6 +11,7 @@ import { BulkEmailCard } from "@/components/ui/BulkEmail";
 import PolicyAlignmentSelector from "@/components/ui/bestcandidate";
 import StepTrackerWidget from "@/components/ui/steps";
 import Fotter from "@/components/ui/fotter"
+import SignIn from "@/components/ui/singin";
 
 const cinematicEase = [0.22, 1, 0.36, 1]  as const;
 
@@ -165,6 +166,7 @@ export default function Home() {
       </motion.section>
 
       <Fotter/>
+      <SignIn/>
     </div>
   );
 }
