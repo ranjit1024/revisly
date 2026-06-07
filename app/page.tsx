@@ -225,7 +225,7 @@ export default function Home() {
             </div>
             <div className="bg-[#f2f0ec] rounded-xl p-3 md:p-4 relative ">
               <div className="text-[12px] font-medium mb-2.5 ">Score distribution</div>
-              <div className="flex items-end gap-1.5 h-40 absolute bottom-0 w-80">
+              <div className="flex items-end gap-1.5 h-40 md:absolute bottom-0 w-full md:w-84">
                 {bars.map(b => (
                   <div key={b.label} className="flex flex-col items-center flex-1 h-full">
                     <div className={`w-full mt-auto rounded-t-sm ${b.h} ${b.accent ? "bg-[#2d6647]" : "bg-black/[0.18]"}`} />
