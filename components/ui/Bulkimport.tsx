@@ -90,7 +90,7 @@ const features = [
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
-} as const;
+}
 
 const staggerContainer = {
   hidden: { opacity: 0 },
@@ -98,7 +98,7 @@ const staggerContainer = {
     opacity: 1,
     transition: { staggerChildren: 0.1 }
   }
-} 
+}
 
 // ── Component ────────────────────────────────────────────────────────────────
 
@@ -120,7 +120,7 @@ export default function Home() {
     >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
-        * 
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         .serif { font-family: 'Instrument Serif', serif; }
       `}</style>
 
@@ -548,114 +548,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </div>
-      </motion.div>
-
-      {/* ── AUTOPILOT & INTEGRATIONS SECTION ── */}
-      <motion.div 
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        className="max-w-[760px] lg:max-w-5xl mx-auto w-full px-6 pb-28"
-      >
-        <div className="flex flex-col items-center text-center mb-10">
-          <div className="inline-flex items-center gap-2 text-[12px] font-semibold tracking-[.08em] uppercase px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse" />
-            Put compliance on autopilot
-          </div>
-          <h2 className="serif font-normal text-[clamp(2rem,4vw,2.8rem)] tracking-tight leading-[1.1] mb-4 text-white">
-            Never chase an employee again.
-          </h2>
-          <p className="text-[16px] text-[#a1a1aa] max-w-[540px]">
-            CompliQ syncs with your HR software to automatically assign quizzes to new hires, and pings them in chat when they forget to take them.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
-          {/* HRIS Sync Box */}
-          <div className="bg-[#18181b] border border-white/10 rounded-2xl p-8 flex flex-col justify-between hover:border-white/20 transition-colors group">
-            <div>
-              <h3 className="text-[18px] font-semibold text-white mb-2">Native HRIS Sync</h3>
-              <p className="text-[14px] text-[#a1a1aa] leading-relaxed mb-8">
-                Connect your directory once. When an employee's role or status changes in your HR system, their compliance requirements update instantly.
-              </p>
-            </div>
-
-            {/* Faux Integration Graphic */}
-            <div className="relative h-[120px] bg-[#121214] border border-white/5 rounded-xl flex items-center justify-center gap-4 lg:gap-8 overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
-              <motion.div 
-                whileHover={{ scale: 1.05 }}
-                className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[11px] font-bold text-[#a1a1aa] shadow-lg relative z-10"
-              >
-                HRIS
-              </motion.div>
-
-              {/* Animated Connecting Line */}
-              <div className="h-[2px] w-12 lg:w-20 bg-white/10 relative overflow-hidden">
-                <motion.div 
-                  className="absolute top-0 left-0 h-full w-[40%] bg-emerald-500 shadow-[0_0_10px_rgba(52,211,153,0.8)]"
-                  animate={{ left: ["-50%", "150%"] }}
-                  transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
-                />
-              </div>
-
-              <motion.div 
-                whileHover={{ scale: 1.05 }}
-                className="w-14 h-14 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shadow-lg relative z-10"
-              >
-                <span className="serif text-2xl text-white">C<span className="text-emerald-400">Q</span></span>
-              </motion.div>
-            </div>
-          </div>
-
-          {/* Chat Nudge Box */}
-          <div className="bg-[#18181b] border border-white/10 rounded-2xl p-8 flex flex-col justify-between hover:border-white/20 transition-colors">
-            <div className="mb-8">
-              <h3 className="text-[18px] font-semibold text-white mb-2">Automated Chat Nudges</h3>
-              <p className="text-[14px] text-[#a1a1aa] leading-relaxed">
-                Stop sending emails that get ignored. CompliQ automatically follows up with pending employees via direct messages in Slack or MS Teams.
-              </p>
-            </div>
-
-            {/* Faux Slack Message */}
-            <motion.div 
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 100 }}
-              className="bg-[#121214] border border-white/10 p-5 rounded-xl shadow-2xl relative overflow-hidden"
-            >
-              <div className="absolute left-0 top-0 bottom-0 w-1 bg-emerald-500" />
-              <div className="flex gap-4">
-                <div className="w-10 h-10 shrink-0 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-                <div>
-                  <div className="flex items-baseline gap-2 mb-1">
-                    <span className="text-white font-bold text-[14px]">CompliQ</span>
-                    <span className="text-[10px] font-bold tracking-widest bg-white/10 px-1.5 py-0.5 rounded text-[#a1a1aa]">APP</span>
-                    <span className="text-[#71717a] text-[12px] font-medium">10:42 AM</span>
-                  </div>
-                  <p className="text-[#a1a1aa] text-[14px] leading-relaxed mb-3">
-                    Hey Arjun! 👋 Just a quick reminder that your <strong className="text-white font-semibold">Q4 Leave Policy</strong> quiz is due tomorrow. 
-                  </p>
-                  <motion.button 
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 px-4 py-2 rounded-lg text-[13px] font-semibold transition-colors"
-                  >
-                    Take Quiz (2 mins)
-                  </motion.button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-
         </div>
       </motion.div>
 
